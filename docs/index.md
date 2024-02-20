@@ -14,8 +14,6 @@ Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
 
 ![](/img/geoman-docs.png)
 
-<!-- ![](https://camo.githubusercontent.com/1e709d3f9fdaea3c6ba56667c40bd3f32b4d6a86cf00c57f3ce52a81fe3612cf/68747470733a2f2f66696c652d7864656f796b6c7768772e6e6f772e73682f) -->
-
 Supports Markers, CircleMarkers, Polylines, Polygons, Circles, Rectangles, ImageOverlays, LayerGroups, GeoJSON, MultiLineStrings and MultiPolygons
 
 Features _not_ available in the free version are marked with a star (⭐).

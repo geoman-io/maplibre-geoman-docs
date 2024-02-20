@@ -12,7 +12,7 @@ Add the following content to `.npmrc` in your project root
 ```
 
 Replace `<YOUR LICENSE KEY>` with your license key.  
-_Don't have a license key yet? [Purchase one here](/#pricing)._
+_Don't have a license key yet? [Purchase one here](https://geoman.io/#pricing)._
 
 #### Install via npm
 
