@@ -53,7 +53,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/geoman-social-card.jpg',
     navbar: {
-      title: 'Leaflet-Geoman Documentation',
+      title: 'Leaflet-Geoman',
       logo: {
         alt: 'Geoman Leaflet',
         src: 'img/geoman-logo.svg',
