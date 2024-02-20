@@ -39,7 +39,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/geoman-io/geoman-docs/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/geoman-io/geoman-docs/tree/master/',
         },
         blog: false,
         theme: {
@@ -60,10 +60,19 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
-          position: 'left',
-          label: 'Documentation',
+          href: 'https://geoman.io/blog',
+          label: 'Blog',
+          position: 'right',
+        },
+        {
+          href: 'https://geoman.io/#pricing',
+          label: 'Pricing',
+          position: 'right',
+        },
+        {
+          href: 'https://geoman.io/demo',
+          label: 'Demo',
+          position: 'right',
         },
         {
           href: 'https://github.com/geoman-io/leaflet-geoman',
