@@ -28,7 +28,15 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
+  scripts: [
+    {
+      src: 'https://plausible.io/js/script.js',
+      'data-domain': 'geoman.io',
+      type: 'text/javascript',
+      defer: true,
+      async: true,
+    },
+  ],
   presets: [
     [
       'classic',
