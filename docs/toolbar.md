@@ -55,7 +55,8 @@ See the available options in the table below.
 | splitMode          | `true`      | Adds a button to toggle the Split Mode for all layers ⭐.                                         |  
 | scaleMode          | `true`      | Adds a button to toggle the Scale Mode for all layers ⭐.                                         |  
 | autoTracingOption  | `false`     | Adds a button to toggle the Auto Tracing Option ⭐.                                               |  
-  
+| snapGuidesOption  | `true`     | Adds a button to toggle the SnapGuides Option ⭐.                                               |  
+
 To pass options to the buttons you have two ways:
 ```js
 // make polygon not snappable during draw  
