@@ -2,6 +2,13 @@
 title: Leaflet-Geoman Pro ⭐
 ---
 
+## v2.12.0: Added Union and Difference Modes
+
+- Add [Union feature](/docs/modes/9.union-mode.md) that merges two layers into one
+- Add [Difference feature](/docs/modes/10.difference-mode.md) that subtracts one layer from another and returns the difference as a new layer
+- Various bug fixes and improvements
+- Merged all updates from [Leaflet-Geoman Free 2.17.0](https://github.com/geoman-io/leaflet-geoman/releases/tag/v2.17.0)
+
 ## v2.11.0: Added SnapGuides
 
 ### Features

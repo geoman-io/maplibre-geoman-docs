@@ -2,6 +2,26 @@
 title: Leaflet-Geoman Free
 ---
 
+## v2.17.0
+
+* Updates esbuild to 8.56, prettier to 3.2.4 and fixes lint config (1444) and swap to esbuild by @mscno in https://github.com/geoman-io/leaflet-geoman/pull/1445
+* Add translation of "rotateButton" in languages that lack translation of "rotateButton" by @xiyuvi in https://github.com/geoman-io/leaflet-geoman/pull/1442
+* Add Kyrgyz language support by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1448
+* After disabling & enabling of button, don't call disable on the draw layer.  by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1424
+* fix global keyboard and window listeners are not removed after the map is destroyed by @plainheart in https://github.com/geoman-io/leaflet-geoman/pull/1434
+* Improve esbuild bundle script to watch css changes and output sourcemaps by @mscno in https://github.com/geoman-io/leaflet-geoman/pull/1451
+* Snap by priority to all shapes in a radius of 5px instead of to the nearest by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1454
+* Minor: Force rotateEnabled() to always return a boolean. by @strfx in https://github.com/geoman-io/leaflet-geoman/pull/1455
+* Additional Custom Control Methods by @TurtIeSocks in https://github.com/geoman-io/leaflet-geoman/pull/1295
+* Prevent drawing of rectangle where all corners have the same position by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1470
+* Update translations pt_br and add translations pt_pt by @leoneljdias in https://github.com/geoman-io/leaflet-geoman/pull/1466
+* Add fallback to english for translations by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1461
+* Prevent opening popup on ignored layers while drawing by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1471
+* Add sourcemaps to dist (#1480) by @mscno in https://github.com/geoman-io/leaflet-geoman/pull/1483
+* Remove CSS :focus of marker-icon style to fix jumping while zooming by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1488
+* Backport Pro changes into OSS by @Falke-Design in https://github.com/geoman-io/leaflet-geoman/pull/1490
+
+
 ## v2.16.0
 
 ### !! Breaking Changes !!
