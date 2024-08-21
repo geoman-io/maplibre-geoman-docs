@@ -3,20 +3,20 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Documentation for Leaflet-Geoman',
-  tagline: 'A library to edit geometries in Leaflet',
+  title: 'Documentation for MapLibre-Geoman',
+  tagline: 'A library to edit geometries in MapLibre',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
   url: 'https://geoman.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docs',
+  baseUrl: '/docs/maplibre',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'geoman-io', // Usually your GitHub org/user name.
-  projectName: 'geoman-docs', // Usually your repo name.
+  projectName: 'maplibre-geoman-docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -47,7 +47,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/geoman-io/geoman-docs/tree/master/',
+            'https://github.com/geoman-io/maplibre-geoman-docs/tree/master/',
         },
         blog: false,
         theme: {
@@ -61,9 +61,9 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/geoman-social-card.jpg',
     navbar: {
-      title: 'Leaflet-Geoman',
+      title: 'MapLibre-Geoman',
       logo: {
-        alt: 'Geoman Leaflet',
+        alt: 'Geoman MapLibre',
         src: 'img/geoman-logo.svg',
       },
       items: [
@@ -83,7 +83,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://github.com/geoman-io/leaflet-geoman',
+          href: 'https://github.com/geoman-io/maplibre-geoman',
           label: 'GitHub',
           position: 'right',
         },
