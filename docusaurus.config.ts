@@ -68,6 +68,11 @@ const config: Config = {
       },
       items: [
         {
+          href: 'https://geoman.io/docs',
+          label: 'Leaflet Docs',
+          position: 'right',
+        },
+        {
           href: 'https://geoman.io/blog',
           label: 'Blog',
           position: 'right',
