@@ -68,22 +68,22 @@ const config: Config = {
       },
       items: [
         {
-          href: 'https://geoman.io/docs',
+          href: '/docs/leaflet',
           label: 'Leaflet Docs',
           position: 'right',
         },
         {
-          href: 'https://geoman.io/blog',
+          href: '/blog',
           label: 'Blog',
           position: 'right',
         },
         {
-          href: 'https://geoman.io/#pricing',
+          href: '/pricing',
           label: 'Pricing',
           position: 'right',
         },
         {
-          href: 'https://geoman.io/demo',
+          href: '/demo/maplibre',
           label: 'Demo',
           position: 'right',
         },
