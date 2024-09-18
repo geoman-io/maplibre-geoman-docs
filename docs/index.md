@@ -20,10 +20,10 @@ Features _not_ available in the free version are marked with a star (⭐).
 
 **Get Started**
 
-- [🆓 Install Free Version](/docs/getting-started/free-version)
-- [⭐ Install Pro Version](/docs/getting-started/pro-version)
+- [🆓 Install Free Version](/getting-started/free-version)
+- [⭐ Install Pro Version](/getting-started/pro-version)
 
 **Configuration and Setup**
 
-- Check out the different [configuration options](/docs/options/index)
-- Explore the many different [editing modes](/docs/modes/index)
+- Check out the different [configuration options](/options/index)
+- Explore the many different [editing modes](/modes/index)

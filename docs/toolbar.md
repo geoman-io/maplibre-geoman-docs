@@ -73,4 +73,4 @@ All available options for drawing and editing are specified in the sections belo
 
 #### Customization
 
-To customize the toolbar, please look at [the customization page](/docs/customize/toolbar)
+To customize the toolbar, please look at [the customization page](/customize/toolbar)
