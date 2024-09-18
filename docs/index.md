@@ -1,15 +1,15 @@
 ---
 sidebar_position: 1
 title: "Introduction"
-description: "Explore Leaflet-Geoman documentation: your guide to mastering this powerful geo-editing tool. Dive into tutorials, code snippets, API references and more."
+description: "Explore MapLibre-Geoman documentation: your guide to mastering this powerful geo-editing tool. Dive into tutorials, code snippets, API references and more."
 slug: "/"
 ---
 
 # Documentation
 
-### For Leaflet-Geoman (Free & ⭐ Pro)
+### For MapLibre-Geoman (Free & ⭐ Pro)
 
-A Leaflet Plugin For Creating And Editing Geometry Layers
+A MapLibre Plugin For Creating And Editing Geometry Layers
 Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
 
 ![](/img/geoman-docs.png)
