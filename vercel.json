@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/docs/maplibre/",
+      "destination": "/docs/maplibre",
+      "permanent": true
+    }
+  ],  
   "rewrites": [
     {
       "source": "/docs/maplibre",
