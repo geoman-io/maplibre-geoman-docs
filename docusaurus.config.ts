@@ -11,8 +11,8 @@ const config: Config = {
   url: 'https://geoman.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
-
+  baseUrl: '/docs/maplibre',
+  trailingSlash: false,
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'geoman-io', // Usually your GitHub org/user name.
