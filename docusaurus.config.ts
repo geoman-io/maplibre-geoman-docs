@@ -30,12 +30,11 @@ const config: Config = {
   },
   scripts: [
     {
-      src: 'https://plausible.io/js/script.js',
-      'data-domain': 'geoman.io',
-      type: 'text/javascript',
+      src: 'https://umami.parap.ly/script.js',
+      'data-website-id': 'bc78fba3-4928-4efa-9923-03048345048e',
       defer: true,
       async: true,
-    },
+    }
   ],
   presets: [
     [
