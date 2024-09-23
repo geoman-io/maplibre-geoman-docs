@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/docs/maplibre",
+      "destination": "/"
+    },
+    {
       "source": "/docs/maplibre/:path*",
       "destination": "/:path*"
     }
