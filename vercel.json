@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/docs/maplibre/:path*",
+      "destination": "/:path*"
+    }
+  ]
+}
