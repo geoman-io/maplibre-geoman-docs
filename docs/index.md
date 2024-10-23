@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 0
 title: "Introduction"
 description: "Explore MapLibre-Geoman documentation: your guide to mastering this powerful geo-editing tool. Dive into tutorials, code snippets, API references and more."
 slug: "/"
