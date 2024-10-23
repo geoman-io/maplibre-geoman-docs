@@ -1,16 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import mapLibreStyle from '@site/src/components/map/map-libre-style';
 import ml from 'maplibre-gl';
-import { Geoman } from '@geoman-io/maplibre-geoman-free';
+import { Geoman, type GmOptionsData } from '@geoman-io/maplibre-geoman-pro';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import '@geoman-io/maplibre-geoman-free/dist/maplibre-geoman.css';
+import '@geoman-io/maplibre-geoman-pro/dist/maplibre-geoman.css';
 import defaultOptions from '@site/src/components/map/default-options';
 import { cloneDeep, merge } from 'lodash-es';
 import type { PartialDeep } from 'type-fest';
 
-
 interface ComponentProps {
-  gmOptions?: PartialDeep<typeof defaultOptions>;
+  gmOptions?: PartialDeep<GmOptionsData>;
 }
 
 const Component: React.FC<ComponentProps> = ({ gmOptions: gmOptionsOverride }) => {

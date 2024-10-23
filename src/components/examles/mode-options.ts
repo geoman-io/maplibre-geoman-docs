@@ -1,4 +1,8 @@
-export const drawMarkerOptions = {
+import type { PartialDeep } from 'type-fest';
+import type { GmOptionsData } from '@geoman-io/maplibre-geoman-pro';
+
+
+export const drawMarkerOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       marker: {
@@ -9,7 +13,7 @@ export const drawMarkerOptions = {
   },
 };
 
-export const drawCircleMarkerOptions = {
+export const drawCircleMarkerOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       circle_marker: {
@@ -20,7 +24,7 @@ export const drawCircleMarkerOptions = {
   },
 };
 
-export const drawTextMarkerOptions = {
+export const drawTextMarkerOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       text_marker: {
@@ -31,7 +35,7 @@ export const drawTextMarkerOptions = {
   },
 };
 
-export const drawCircleOptions = {
+export const drawCircleOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       circle: {
@@ -42,7 +46,7 @@ export const drawCircleOptions = {
   },
 };
 
-export const drawLineOptions = {
+export const drawLineOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       line: {
@@ -53,7 +57,7 @@ export const drawLineOptions = {
   },
 };
 
-export const drawRectangleOptions = {
+export const drawRectangleOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       rectangle: {
@@ -64,7 +68,7 @@ export const drawRectangleOptions = {
   },
 };
 
-export const drawPolygonOptions = {
+export const drawPolygonOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       polygon: {
@@ -81,7 +85,7 @@ export const drawPolygonOptions = {
   },
 };
 
-export const editDragOptions = {
+export const editDragOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       drag: {
@@ -92,7 +96,7 @@ export const editDragOptions = {
   },
 };
 
-export const editChangeOptions = {
+export const editChangeOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       change: {
@@ -103,7 +107,7 @@ export const editChangeOptions = {
   },
 };
 
-export const editRotateOptions = {
+export const editRotateOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       rotate: {
@@ -114,7 +118,7 @@ export const editRotateOptions = {
   },
 };
 
-export const editScaleOptions = {
+export const editScaleOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       scale: {
@@ -125,7 +129,7 @@ export const editScaleOptions = {
   },
 };
 
-export const editCopyOptions = {
+export const editCopyOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       copy: {
@@ -136,7 +140,7 @@ export const editCopyOptions = {
   },
 };
 
-export const editCutOptions = {
+export const editCutOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       cut: {
@@ -147,7 +151,7 @@ export const editCutOptions = {
   },
 };
 
-export const editSplitOptions = {
+export const editSplitOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       split: {
@@ -158,10 +162,10 @@ export const editSplitOptions = {
   },
 };
 
-export const editUnionOptions = {
+export const editUnionOptions: PartialDeep<GmOptionsData> = {
   controls: {
-    union: {
-      drag: {
+    edit: {
+      union: {
         uiEnabled: true,
         active: true,
       },
@@ -169,7 +173,7 @@ export const editUnionOptions = {
   },
 };
 
-export const editDifferenceOptions = {
+export const editDifferenceOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       difference: {
@@ -180,7 +184,7 @@ export const editDifferenceOptions = {
   },
 };
 
-export const editLineSimplificationOptions = {
+export const editLineSimplificationOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       line_simplification: {
@@ -191,7 +195,7 @@ export const editLineSimplificationOptions = {
   },
 };
 
-export const editLassoOptions = {
+export const editLassoOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       lasso: {
@@ -202,7 +206,7 @@ export const editLassoOptions = {
   },
 };
 
-export const editDeleteOptions = {
+export const editDeleteOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {
       delete: {
@@ -213,7 +217,7 @@ export const editDeleteOptions = {
   },
 };
 
-export const helperSnappingOptions = {
+export const helperSnappingOptions: PartialDeep<GmOptionsData> = {
   controls: {
     helper: {
       snapping: {
@@ -224,7 +228,7 @@ export const helperSnappingOptions = {
   },
 };
 
-export const helperSnapGuidesOptions = {
+export const helperSnapGuidesOptions: PartialDeep<GmOptionsData> = {
   controls: {
     helper: {
       snap_guides: {
@@ -235,7 +239,7 @@ export const helperSnapGuidesOptions = {
   },
 };
 
-export const helperMeasurementsOptions = {
+export const helperMeasurementsOptions: PartialDeep<GmOptionsData> = {
   controls: {
     helper: {
       measurements: {
@@ -246,7 +250,7 @@ export const helperMeasurementsOptions = {
   },
 };
 
-export const helperPinOptions = {
+export const helperPinOptions: PartialDeep<GmOptionsData> = {
   controls: {
     helper: {
       pin: {
@@ -257,7 +261,7 @@ export const helperPinOptions = {
   },
 };
 
-export const helperAutoTraceOptions = {
+export const helperAutoTraceOptions: PartialDeep<GmOptionsData> = {
   controls: {
     helper: {
       auto_trace: {
@@ -268,7 +272,7 @@ export const helperAutoTraceOptions = {
   },
 };
 
-export const helperZoomToFeaturesOptions = {
+export const helperZoomToFeaturesOptions: PartialDeep<GmOptionsData> = {
   controls: {
     helper: {
       zoom_to_features: {

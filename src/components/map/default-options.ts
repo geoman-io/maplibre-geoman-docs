@@ -1,4 +1,8 @@
-const defaultOptions = {
+import type { PartialDeep } from 'type-fest';
+import type { GmOptionsData } from '@geoman-io/maplibre-geoman-pro';
+
+
+const defaultOptions: PartialDeep<GmOptionsData> = {
   settings: {
     eventPrefix: 'pm',
     throttlingDelay: 10,
