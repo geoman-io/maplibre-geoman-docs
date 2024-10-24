@@ -1,19 +1,55 @@
 ---
-title: "Change"
+title: "Edit"
 ---
 
-## Change Mode
+## Edit Mode
 
-You can enable Change Mode on your map to allow users to change geometries.
+You can enable Edit Mode for all layers on a map like this:
 
-<!-- Add detailed documentation and code examples for Change Mode here -->
+```js
+// Enable Edit Mode like this:
+map.gm.enableGlobalEditMode();
 
-## Live Change Example
+// Or like this:
+map.gm.options.enableMode('edit', 'change');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalEditMode()`  | -         | Enables global Edit Mode.                                             |
+| `disableGlobalEditMode()` | -         | Disables global Edit Mode.                                            |
+| `toggleGlobalEditMode()`  | -         | Toggles global Edit Mode.                                             |
+| `globalEditModeEnabled()` | `Boolean` | Returns `true` if global Edit Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event                    | Params | Description                                  | Output                    |
+|:-------------------------| :----- | :------------------------------------------- | :-------------------------|
+| `gm:editstart`           | `event`| Fired when a layer starts being changed.     | `map`, `feature`, `shape` |
+| `gm:edit`                | `event`| Fired when a layer is being changed.         | `map`, `feature`, `shape` |
+| `gm:editend`             | `event`| Fired when a layer stops being changed.      | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globaleditmodetoggled` | `event`  | Fired when Edit Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Edit Mode events on the map instance like this:
+
+```js
+map.on('gm:globaleditmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Live Edit Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editChangeOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editChangeOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editChangeOptions}
   features={features} />
-

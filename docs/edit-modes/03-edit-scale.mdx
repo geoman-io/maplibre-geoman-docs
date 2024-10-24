@@ -4,14 +4,61 @@ title: "Scale"
 
 ## Scale Mode
 
-You can enable Scale Mode on your map to allow users to scale geometries.
+You can enable Scale Mode for all layers on a map like this:
 
-<!-- Add detailed documentation and code examples for Scale Mode here -->
+```js
+// Enable Scale Mode like this:
+map.gm.enableGlobalScaleMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'scale');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalScaleMode()`  | -         | Enables global Scale Mode.                                             |
+| `disableGlobalScaleMode()` | -         | Disables global Scale Mode.                                            |
+| `toggleGlobalScaleMode()`  | -         | Toggles global Scale Mode.                                             |
+| `globalScaleModeEnabled()` | `Boolean` | Returns `true` if global Scale Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event            | Params | Description                                  | Output                    |
+| :--------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:scalestart`  | `event`| Fired when a layer starts being scaled.      | `map`, `feature`, `shape` |
+| `gm:scale`       | `event`| Fired when a layer is being scaled.          | `map`, `feature`, `shape` |
+| `gm:scaleend`    | `event`| Fired when a layer stops being scaled.       | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globalscalemodetoggled` | `event`  | Fired when Scale Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Scale Mode events on the map instance like this:
+
+```js
+map.on('gm:globalscalemodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Supported Features
+
+Scale mode supports the following feature types:
+- Polygons
+- Rectangles
+- Lines
+- Circles
+
+When scaling, the feature will maintain its proportions relative to its centroid point. For rectangles, the scaling operation preserves the rectangular shape while adjusting its size.
 
 ## Live Scale Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editScaleOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editScaleOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editScaleOptions}

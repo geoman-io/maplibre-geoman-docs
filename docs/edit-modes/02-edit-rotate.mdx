@@ -4,14 +4,51 @@ title: "Rotate"
 
 ## Rotate Mode
 
-You can enable Rotate Mode on your map to allow users to rotate geometries.
+You can enable Rotate Mode for all layers on a map like this:
 
-<!-- Add detailed documentation and code examples for Rotate Mode here -->
+```js
+// Enable Rotate Mode like this:
+map.gm.enableGlobalRotateMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'rotate');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalRotateMode()`  | -         | Enables global Rotate Mode.                                             |
+| `disableGlobalRotateMode()` | -         | Disables global Rotate Mode.                                            |
+| `toggleGlobalRotateMode()`  | -         | Toggles global Rotate Mode.                                             |
+| `globalRotateModeEnabled()` | `Boolean` | Returns `true` if global Rotate Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event            | Params | Description                                  | Output                    |
+| :--------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:rotatestart` | `event`| Fired when a layer starts being rotated.     | `map`, `feature`, `shape` |
+| `gm:rotate`      | `event`| Fired when a layer is being rotated.         | `map`, `feature`, `shape` |
+| `gm:rotateend`   | `event`| Fired when a layer stops being rotated.      | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globalrotatemodetoggled` | `event`  | Fired when Rotate Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Rotate Mode events on the map instance like this:
+
+```js
+map.on('gm:globalrotatemodetoggled', (event) => {
+  console.log(event);
+});
+```
 
 ## Live Rotate Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editRotateOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editRotateOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editRotateOptions}

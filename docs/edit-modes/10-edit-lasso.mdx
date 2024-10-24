@@ -4,14 +4,62 @@ title: "Lasso"
 
 ## Lasso Mode
 
-You can enable Lasso Mode on your map to allow users to lasso geometries.
+Lasso Mode allows you to select multiple features by drawing a polygon around them. The selection behavior can be configured to either select features that intersect with or are contained within the lasso polygon.
 
-<!-- Add detailed documentation and code examples for Lasso Mode here -->
+You can enable Lasso Mode for all layers on a map like this:
+
+```js
+// Enable Lasso Mode like this:
+map.gm.enableGlobalLassoMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'lasso');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalLassoMode()`  | -         | Enables global Lasso Mode.                                             |
+| `disableGlobalLassoMode()` | -         | Disables global Lasso Mode.                                            |
+| `toggleGlobalLassoMode()`  | -         | Toggles global Lasso Mode.                                             |
+| `globalLassoModeEnabled()` | `Boolean` | Returns `true` if global Lasso Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                  | Output              |
+| :-------------- | :----- | :------------------------------------------- | :-------------------|
+| `gm:lasso`      | `event`| Fired during lasso selection.                | `map`, `features`   |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globallassomodetoggled` | `event`  | Fired when Lasso Mode is toggled.  | `enabled`, `map`     |
+
+You can also listen to specific Lasso Mode events on the map instance like this:
+
+```js
+map.on('gm:globallassomodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Lasso mode operates in three selection modes:
+- **Append**: Add selected features to the current selection
+- **Subtract**: Remove selected features from the current selection
+- **Reset**: Clear current selection and create a new selection
+
+The selection type can be configured to either:
+- **Intersects**: Select features that intersect with the lasso polygon
+- **Contains**: Select only features that are completely contained within the lasso polygon
 
 ## Live Lasso Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editLassoOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editLassoOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editLassoOptions}

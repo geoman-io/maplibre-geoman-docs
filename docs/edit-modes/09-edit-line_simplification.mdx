@@ -4,14 +4,64 @@ title: "Line Simplification"
 
 ## Line Simplification Mode
 
-You can enable Line Simplification Mode on your map to allow users to line simplification geometries.
+Line Simplification Mode allows you to simplify line geometry by removing vertices. This is useful for smoothing complex lines or reducing the number of points in a line.
 
-<!-- Add detailed documentation and code examples for Line Simplification Mode here -->
+You can enable Line Simplification Mode for all layers on a map like this:
+
+```js
+// Enable Line Simplification Mode like this:
+map.gm.enableGlobalLineSimplificationMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'line_simplification');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalLineSimplificationMode()`  | -         | Enables global Line Simplification Mode.                                             |
+| `disableGlobalLineSimplificationMode()` | -         | Disables global Line Simplification Mode.                                            |
+| `toggleGlobalLineSimplificationMode()`  | -         | Toggles global Line Simplification Mode.                                             |
+| `globalLineSimplificationModeEnabled()` | `Boolean` | Returns `true` if global Line Simplification Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event                      | Params | Description                                  | Output                    |
+| :------------------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:line_simplification`   | `event`| Fired during simplification.                 | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                                  | Params  | Description                                    | Output                 |
+| :------------------------------------- | :------ | :--------------------------------------------- | :--------------------- |
+| `gm:globallinesimplificationmodetoggled` | `event`  | Fired when Line Simplification Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Line Simplification Mode events on the map instance like this:
+
+```js
+map.on('gm:globalline_simplificationmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Line Simplification mode operates by:
+1. Selecting a line feature to simplify
+2. Clicking on vertices you want to remove from the line
+3. The line geometry will be updated with the selected vertices removed
+
+### Supported Shapes
+
+Line Simplification mode supports the following feature types:
+- Lines
+- Polygons
 
 ## Live Line Simplification Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editLineSimplificationOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editLineSimplificationOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editLineSimplificationOptions}

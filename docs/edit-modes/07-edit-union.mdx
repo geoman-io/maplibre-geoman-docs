@@ -4,14 +4,66 @@ title: "Union"
 
 ## Union Mode
 
-You can enable Union Mode on your map to allow users to union geometries.
+Union Mode allows you to merge multiple polygons into a single polygon. The original features will be replaced with the resulting union feature.
 
-<!-- Add detailed documentation and code examples for Union Mode here -->
+You can enable Union Mode for all layers on a map like this:
+
+```js
+// Enable Union Mode like this:
+map.gm.enableGlobalUnionMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'union');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalUnionMode()`  | -         | Enables global Union Mode.                                             |
+| `disableGlobalUnionMode()` | -         | Disables global Union Mode.                                            |
+| `toggleGlobalUnionMode()`  | -         | Toggles global Union Mode.                                             |
+| `globalUnionModeEnabled()` | `Boolean` | Returns `true` if global Union Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                  | Output                                     |
+| :-------------- | :----- | :------------------------------------------- | :------------------------------------------|
+| `gm:union`      | `event`| Fired during the union operation.            | `map`, `originalFeatures`, `feature`       |
+| `gm:create`     | `event`| Fired during the union operation.            | `map`, `feature`, `shape`                  |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globalunionmodetoggled` | `event`  | Fired when Union Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Union Mode events on the map instance like this:
+
+```js
+map.on('gm:globalunionmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Union mode operates by:
+1. Selecting multiple polygons to merge
+2. The selected polygons will be combined into a single polygon
+3. Original features are replaced with the resulting union feature
+
+### Supported Shapes
+
+Union mode supports the following feature types:
+- Polygons
+- Rectangles
+- Circles
 
 ## Live Union Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editUnionOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/olverlapped-features.json';
+import { editUnionOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/olverlapped-features.json';
 
 <BrowserOnlyGmMap
   gmOptions={editUnionOptions}

@@ -4,14 +4,58 @@ title: "Cut"
 
 ## Cut Mode
 
-You can enable Cut Mode on your map to allow users to cut geometries.
+Cut mode allows you to cut holes in existing shapes or remove parts of them. You can enable Cut Mode for all layers on a map like this:
 
-<!-- Add detailed documentation and code examples for Cut Mode here -->
+```js
+// Enable Cut Mode like this:
+map.gm.enableGlobalCutMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'cut');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalCutMode()`  | -         | Enables global Cut Mode.                                             |
+| `disableGlobalCutMode()` | -         | Disables global Cut Mode.                                            |
+| `toggleGlobalCutMode()`  | -         | Toggles global Cut Mode.                                             |
+| `globalCutModeEnabled()` | `Boolean` | Returns `true` if global Cut Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event          | Params | Description                                  | Output                    |
+| :------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:cutstart`  | `event`| Fired when a cut operation starts.           | `map`, `feature`, `shape` |
+| `gm:cut`       | `event`| Fired during the cut operation.              | `map`, `feature`, `shape` |
+| `gm:cutend`    | `event`| Fired when a cut operation is completed.     | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                    | Params | Description                      | Output                 |
+| :----------------------- | :----- | :------------------------------- | :--------------------- |
+| `gm:globalcutmodetoggled` | `event`  | Fired when Cut Mode is toggled. | `enabled`, `map`       |
+
+You can also listen to specific Cut Mode events on the map instance like this:
+
+```js
+map.on('gm:globalcutmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+The Cut Mode operates by:
+1. Selecting a target shape to cut
+2. Drawing a polygon that defines the area to be removed
+3. The intersection of the drawn polygon with the target shape will be removed
 
 ## Live Cut Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editCutOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editCutOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editCutOptions}

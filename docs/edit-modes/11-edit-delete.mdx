@@ -1,17 +1,61 @@
 ---
-title: "Delete"
+title: "Remove"
 ---
 
-## Delete Mode
+## Remove Mode
 
-You can enable Delete Mode on your map to allow users to delete geometries.
+Remove Mode allows you to delete features from the map by clicking on them.
 
-<!-- Add detailed documentation and code examples for Delete Mode here -->
+You can enable Remove Mode for all layers on a map like this:
 
-## Live Delete Example
+```js
+// Enable Remove Mode like this:
+map.gm.enableGlobalRemovalMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'delete');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalRemovalMode()`  | -         | Enables global Remove Mode.                                             |
+| `disableGlobalRemovalMode()` | -         | Disables global Remove Mode.                                            |
+| `toggleGlobalRemovalMode()`  | -         | Toggles global Remove Mode.                                             |
+| `globalRemovalModeEnabled()` | `Boolean` | Returns `true` if global Remove Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event          | Params | Description                                  | Output                    |
+| :------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:remove`    | `event`| Fired when a feature is removed.             | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globalremovalmodetoggled` | `event`  | Fired when Remove Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Remove Mode events on the map instance like this:
+
+```js
+map.on('gm:globalremovalmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Remove mode operates by:
+1. Clicking on a feature to remove it from the map
+2. The feature and all its associated markers will be deleted immediately
+3. The removal cannot be undone
+
+## Live Remove Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editDeleteOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editDeleteOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editDeleteOptions}

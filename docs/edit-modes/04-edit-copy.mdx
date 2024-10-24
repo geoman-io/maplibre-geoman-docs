@@ -4,14 +4,58 @@ title: "Copy"
 
 ## Copy Mode
 
-You can enable Copy Mode on your map to allow users to copy geometries.
+You can enable Copy Mode for all layers on a map like this:
 
-<!-- Add detailed documentation and code examples for Copy Mode here -->
+```js
+// Enable Copy Mode like this:
+map.gm.enableGlobalCopyMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'copy');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalCopyMode()`  | -         | Enables global Copy Mode.                                             |
+| `disableGlobalCopyMode()` | -         | Disables global Copy Mode.                                            |
+| `toggleGlobalCopyMode()`  | -         | Toggles global Copy Mode.                                             |
+| `globalCopyModeEnabled()` | `Boolean` | Returns `true` if global Copy Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event          | Params | Description                                  | Output                    |
+| :------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:copystart` | `event`| Fired when a layer starts being copied.      | `map`, `feature`, `shape` |
+| `gm:copy`      | `event`| Fired when a layer is being copied.          | `map`, `feature`, `shape` |
+| `gm:copyend`   | `event`| Fired when a layer is copied.                | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globalcopymodetoggled` | `event`  | Fired when Copy Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Copy Mode events on the map instance like this:
+
+```js
+map.on('gm:globalcopymodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Copy mode operates in two ways:
+
+1. **Sticky Mode Enabled**: A shape can be selected once and then copied multiple times on each subsequent click.
+2. **Sticky Mode Disabled**: A shape is copied when a user drags it to a new location.
 
 ## Live Copy Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editCopyOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editCopyOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editCopyOptions}

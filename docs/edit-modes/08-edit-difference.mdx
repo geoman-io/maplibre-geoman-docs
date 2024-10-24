@@ -4,14 +4,66 @@ title: "Difference"
 
 ## Difference Mode
 
-You can enable Difference Mode on your map to allow users to difference geometries.
+Difference Mode allows you to subtract one polygon from another. The original feature will be replaced with the resulting difference feature.
 
-<!-- Add detailed documentation and code examples for Difference Mode here -->
+You can enable Difference Mode for all layers on a map like this:
+
+```js
+// Enable Difference Mode like this:
+map.gm.enableGlobalDifferenceMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'difference');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalDifferenceMode()`  | -         | Enables global Difference Mode.                                             |
+| `disableGlobalDifferenceMode()` | -         | Disables global Difference Mode.                                            |
+| `toggleGlobalDifferenceMode()`  | -         | Toggles global Difference Mode.                                             |
+| `globalDifferenceModeEnabled()` | `Boolean` | Returns `true` if global Difference Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event               | Params | Description                                  | Output                                                    |
+| :----------------- | :----- | :------------------------------------------- | :----------------------------------------------------- |
+| `gm:difference` | `event`| Fired during the difference operation.  | `map`, `originalFeatures`, `feature`                               |
+| `gm:create`     | `event`| Fired during the difference operation.       | `map`, `feature`, `shape`                  |
+
+The following events are available on a map instance:
+
+| Event                          | Params  | Description                            | Output                 |
+| :---------------------------- | :------ | :------------------------------------- | :--------------------- |
+| `gm:globaldifferencemodetoggled` | `event`  | Fired when Difference Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Difference Mode events on the map instance like this:
+
+```js
+map.on('gm:globaldifferencemodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Difference mode operates by:
+1. Selecting a target polygon (the one to subtract from)
+2. Drawing or selecting another polygon that will be subtracted from the target
+3. The original feature is replaced with the resulting difference feature
+
+### Supported Shapes
+
+Difference mode supports the following feature types:
+- Polygons
+- Rectangles
+- Circles
 
 ## Live Difference Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editDifferenceOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/olverlapped-features.json';
+import { editDifferenceOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/olverlapped-features.json';
 
 <BrowserOnlyGmMap
   gmOptions={editDifferenceOptions}

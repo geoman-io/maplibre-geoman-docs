@@ -4,14 +4,59 @@ title: "Split"
 
 ## Split Mode
 
-You can enable Split Mode on your map to allow users to split geometries.
+Split Mode allows you to draw a line that splits all underlying Polygons and Lines. When a feature is split, the original feature will be replaced with the resulting split features.
 
-<!-- Add detailed documentation and code examples for Split Mode here -->
+You can enable Split Mode for all layers on a map like this:
+
+```js
+// Enable Split Mode like this:
+map.gm.enableGlobalSplitMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'split');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                     |
+|:------------------------------------------------------------------| :-------- | :-------------------------------|
+| `enableGlobalSplitMode()`  | -         | Enables global Split Mode.                                             |
+| `disableGlobalSplitMode()` | -         | Disables global Split Mode.                                            |
+| `toggleGlobalSplitMode()`  | -         | Toggles global Split Mode.                                             |
+| `globalSplitModeEnabled()` | `Boolean` | Returns `true` if global Split Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                  | Output                                     |
+| :-------------- | :----- | :------------------------------------------- | :------------------------------------------|
+| `gm:split`      | `event`| Fired during the split operation.            | `map`, `originalFeature`, `features`       |
+| `gm:create`     | `event`| Fired during the split operation.            | `map`, `feature`, `shape`                  |
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                        | Output                 |
+| :------------------------- | :------ | :--------------------------------- | :--------------------- |
+| `gm:globalsplitmodetoggled` | `event`  | Fired when Split Mode is toggled.  | `enabled`, `map`       |
+
+You can also listen to specific Split Mode events on the map instance like this:
+
+```js
+map.on('gm:globalsplitmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Split mode operates by:
+1. Drawing a line across features you want to split
+2. The line will split any intersecting polygons or lines into separate features
+3. Original features are replaced with the resulting split features
 
 ## Live Split Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editSplitOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editSplitOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editSplitOptions}

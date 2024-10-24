@@ -4,14 +4,52 @@ title: "Drag"
 
 ## Drag Mode
 
-You can enable Drag Mode on your map to allow users to drag geometries.
+You can enable Drag Mode for all layers on a map like this:
 
-<!-- Add detailed documentation and code examples for Drag Mode here -->
+```js
+// Enable Drag Mode like this:
+map.gm.enableGlobalDragMode();
+
+// Or like this:
+map.gm.options.enableMode('edit', 'drag');
+```
+
+
+The following methods are available on `map.gm`:
+
+| Method                                                            | Returns   | Description                   |
+|:------------------------------------------------------------------| :-------- | :-----------------------------|
+| `enableGlobalDragMode()`  | -         | Enables global Drag Mode.                                             |
+| `disableGlobalDragMode()` | -         | Disables global Drag Mode.                                            |
+| `toggleGlobalDragMode()`  | -         | Toggles global Drag Mode.                                             |
+| `globalDragModeEnabled()` | `Boolean` | Returns `true` if global Drag Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event          | Params | Description                                  | Output                    |
+| :------------- | :----- | :------------------------------------------- | :-------------------------|
+| `gm:dragstart` | `event`| Fired when a layer starts being dragged.     | `map`, `feature`, `shape` |
+| `gm:drag`      | `event`| Fired when a layer is dragged.               | `map`, `feature`, `shape` |
+| `gm:dragend`   | `event`| Fired when a layer stops being dragged.      | `map`, `feature`, `shape` |
+
+The following events are available on a map instance:
+
+| Event                    | Params | Description                      | Output                 |
+| :----------------------- | :----- | :------------------------------- | :--------------------- |
+| `gm:globaldragmodetoggled` | `event`    | Fired when Drag Mode is toggled. | `enabled`, `map` |
+
+You can also listen to specific Drag Mode events on the map instance like this:
+
+```js
+map.on('gm:globaldragmodetoggled', (event) => {
+  console.log(event);
+});
+```
 
 ## Live Drag Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { editDragOptions } from '../../src/components/examles/mode-options';
-import features from '../../src/components/examles/geojson/basic-edit.json';
+import { editDragOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
 <BrowserOnlyGmMap
   gmOptions={editDragOptions}
