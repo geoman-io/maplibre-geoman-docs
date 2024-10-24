@@ -11,5 +11,8 @@ You can enable Line Simplification Mode on your map to allow users to line simpl
 ## Live Line Simplification Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editLineSimplificationOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editLineSimplificationOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editLineSimplificationOptions}
+  features={features} />

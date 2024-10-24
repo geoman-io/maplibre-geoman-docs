@@ -11,5 +11,8 @@ You can enable Delete Mode on your map to allow users to delete geometries.
 ## Live Delete Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editDeleteOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editDeleteOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editDeleteOptions}
+  features={features} />

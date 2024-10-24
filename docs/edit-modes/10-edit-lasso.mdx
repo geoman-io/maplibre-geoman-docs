@@ -11,5 +11,8 @@ You can enable Lasso Mode on your map to allow users to lasso geometries.
 ## Live Lasso Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editLassoOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editLassoOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editLassoOptions}
+  features={features} />

@@ -17,7 +17,7 @@
   "dependencies": {
     "@docusaurus/core": "^3.5.2",
     "@docusaurus/preset-classic": "^3.5.2",
-    "@geoman-io/maplibre-geoman-pro": "^0.0.13",
+    "@geoman-io/maplibre-geoman-pro": "^0.0.14",
     "@mdx-js/react": "^3.0.0",
     "maplibre-gl": "^4.5.2",
     "lodash-es": "^4.17.21",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
+    "@types/geojson": "^7946.0.14",
     "@docusaurus/module-type-aliases": "^3.5.2",
     "@docusaurus/tsconfig": "^3.5.2",
     "@docusaurus/types": "^3.5.2",

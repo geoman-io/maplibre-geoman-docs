@@ -11,5 +11,8 @@ You can enable Cut Mode on your map to allow users to cut geometries.
 ## Live Cut Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editCutOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editCutOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editCutOptions}
+  features={features} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import mapLibreStyle from '@site/src/components/map/map-libre-style';
-import ml from 'maplibre-gl';
-import { Geoman, type GmOptionsData } from '@geoman-io/maplibre-geoman-pro';
+import ml, { type MapOptions } from 'maplibre-gl';
+import { type GeoJsonShapeFeature, Geoman, type ImportGeoJsonProperties } from '@geoman-io/maplibre-geoman-pro';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@geoman-io/maplibre-geoman-pro/dist/maplibre-geoman.css';
 import defaultOptions from '@site/src/components/map/default-options';
@@ -9,30 +9,40 @@ import { cloneDeep, merge } from 'lodash-es';
 import type { PartialDeep } from 'type-fest';
 
 interface ComponentProps {
-  gmOptions?: PartialDeep<GmOptionsData>;
+  gmOptions?: PartialDeep<typeof defaultOptions>;
+  features?: Array<GeoJsonShapeFeature<ImportGeoJsonProperties>>;
 }
 
-const Component: React.FC<ComponentProps> = ({ gmOptions: gmOptionsOverride }) => {
+
+const Component: React.FC<ComponentProps> = ({
+  gmOptions: gmOptionsOverride,
+  features,
+}) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<ml.Map & { gm: Geoman } | null>(null);
 
   useEffect(() => {
     if (mapContainerRef.current && !mapRef.current) {
-      const map = new ml.Map({
+      const mapOptions: MapOptions = {
         container: mapContainerRef.current,
         style: mapLibreStyle,
         center: [0, 51],
-        zoom: 5,
+        zoom: 6,
         fadeDuration: 50,
-      }) as ml.Map & { gm: Geoman };
+      };
+
+      const map = new ml.Map(mapOptions) as ml.Map & { gm: Geoman };
 
       const gmOptions = cloneDeep(defaultOptions);
       merge(gmOptions, gmOptionsOverride);
-
       const geoman = new Geoman(gmOptions);
       map.gm = geoman;
+
       geoman.addControl(map).then(() => {
-        // console.log('Controls added');
+        console.log('Controls added');
+        features?.forEach((feature) => {
+          geoman.features.addGeoJsonFeature({ shapeGeoJson: feature });
+        });
       });
 
       mapRef.current = map;

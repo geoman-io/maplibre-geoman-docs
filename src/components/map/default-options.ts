@@ -101,7 +101,7 @@ const defaultOptions: PartialDeep<GmOptionsData> = {
       },
       snapping: {
         uiEnabled: false,
-        active: false,
+        active: true,
       },
       pin: {
         uiEnabled: false,

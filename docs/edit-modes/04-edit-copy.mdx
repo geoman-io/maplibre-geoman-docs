@@ -11,5 +11,8 @@ You can enable Copy Mode on your map to allow users to copy geometries.
 ## Live Copy Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editCopyOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editCopyOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editCopyOptions}
+  features={features} />

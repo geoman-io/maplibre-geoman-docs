@@ -11,5 +11,8 @@ You can enable Union Mode on your map to allow users to union geometries.
 ## Live Union Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editUnionOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/olverlapped-features.json';
 
-<BrowserOnlyGmMap gmOptions={editUnionOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editUnionOptions}
+  features={features} />

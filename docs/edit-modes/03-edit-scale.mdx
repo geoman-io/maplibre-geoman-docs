@@ -11,5 +11,8 @@ You can enable Scale Mode on your map to allow users to scale geometries.
 ## Live Scale Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editScaleOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editScaleOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editScaleOptions}
+  features={features} />

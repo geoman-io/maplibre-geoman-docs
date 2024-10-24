@@ -11,5 +11,8 @@ You can enable Split Mode on your map to allow users to split geometries.
 ## Live Split Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editSplitOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editSplitOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editSplitOptions}
+  features={features} />

@@ -11,5 +11,8 @@ You can enable Rotate Mode on your map to allow users to rotate geometries.
 ## Live Rotate Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { editRotateOptions } from '../../src/components/examles/mode-options';
+import features from '../../src/components/examles/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={editRotateOptions} />
+<BrowserOnlyGmMap
+  gmOptions={editRotateOptions}
+  features={features} />
