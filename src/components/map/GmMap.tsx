@@ -1,7 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import mapLibreStyle from '@site/src/components/map/map-libre-style';
 import ml, { type MapOptions } from 'maplibre-gl';
-import { type GeoJsonShapeFeature, Geoman, type ImportGeoJsonProperties } from '@geoman-io/maplibre-geoman-pro';
+import {
+  type GeoJsonShapeFeature,
+  Geoman,
+  type GmOptionsData,
+  type ImportGeoJsonProperties,
+} from '@geoman-io/maplibre-geoman-pro';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@geoman-io/maplibre-geoman-pro/dist/maplibre-geoman.css';
 import defaultOptions from '@site/src/components/map/default-options';
@@ -9,7 +14,7 @@ import { cloneDeep, merge } from 'lodash-es';
 import type { PartialDeep } from 'type-fest';
 
 interface ComponentProps {
-  gmOptions?: PartialDeep<typeof defaultOptions>;
+  gmOptions?: PartialDeep<GmOptionsData>;
   features?: Array<GeoJsonShapeFeature<ImportGeoJsonProperties>>;
 }
 
