@@ -25,4 +25,7 @@ map.gm.setGlobalEventsListener((event: GlobalEventsListenerParemeters) => {
     console.log('System event', event);
   }
 });
+
+// you can disable the global events listener when you don't need it anymore
+map.gm.setGlobalEventsListener(null);
 ```
