@@ -2,9 +2,10 @@
 title: "Events"
 ---
 
-# Events listening
+# Event Listening
 
-Events listening is avaiable the same way as for Maplibre. You can listen to all events that are fired by Geoman. 
+Event listening works the same way as in Maplibre. You can listen to all events fired by Geoman.
+
 ```typescript
 // example of listening to the create event
 map.on('gm:create', (event: GMEvent) => {
@@ -12,7 +13,8 @@ map.on('gm:create', (event: GMEvent) => {
 });
 ```
 
-To debug all events you can use the following code. This way you can see all events that are fired by Geoman in the browser console.
+To debug all events, you can use the following code. This will display all Geoman events in the browser console.
+
 ```typescript
 import { type GlobalEventsListenerParemeters } from '@geoman-io/maplibre-geoman-pro';
 
@@ -23,5 +25,4 @@ map.gm.setGlobalEventsListener((event: GlobalEventsListenerParemeters) => {
     console.log('System event', event);
   }
 });
-
 ```
