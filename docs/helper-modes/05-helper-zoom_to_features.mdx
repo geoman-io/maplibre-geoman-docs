@@ -1,12 +1,41 @@
 ---
-title: "Zoom To Features"
+title: "Zoom to Features Helper"
 ---
 
-## Zoom To Features Mode
+## Zoom to Features Helper Mode
 
-You can enable Zoom To Features Mode on your map to allow users to have zoom to features on geometries.
+The Zoom to Features Helper Mode allows users to zoom the map to fit all displayed features within the viewport, making it easier to locate and view all active map features at once.
 
-<!-- Add detailed documentation and code examples for Zoom To Features Mode here -->
+You can enable Zoom to Features Helper Mode with the following method:
+
+```js
+// Enable Zoom to Features Mode like this:
+map.gm.options.enableMode('helper', 'zoom_to_features');
+```
+
+### Events for Zoom to Features Helper Mode
+
+The following events are available on a map instance:
+
+| Event                                  | Params  | Description                                  | Output            |
+|:---------------------------------------| :-------| :------------------------------------------- | :-----------------|
+| `gm:globalzoom_to_featuresmodetoggled` | `event` | Fired when Zoom to Features Mode is toggled. | `enabled`, `map`  |
+
+### Example Usage
+
+You can listen for specific Zoom to Features Helper Mode events on the map instance like this:
+
+```js
+map.on('gm:globalzoom_to_featuresmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+When Zoom to Features Mode is activated:
+1. **Map Adjustment**: Automatically calculates the bounding box to encompass all visible features.
+2. **Padding**: Adds a 20-pixel padding around the features to ensure they fit well within the view.
 
 ## Live Zoom to Features Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';

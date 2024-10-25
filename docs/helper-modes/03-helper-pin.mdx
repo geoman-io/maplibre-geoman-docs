@@ -1,15 +1,47 @@
 ---
-title: "Pin"
+title: "Pin Helper"
 ---
 
-## Pin Mode
+## Pin Helper Mode
 
-You can enable Pin Mode on your map to allow users to have pin on geometries.
+The Pin Helper Mode allows you to "pin" markers or vertices together, enabling synchronized movement of all connected points when any one of them is dragged. This mode is useful for maintaining alignment across features that share the same coordinates.
 
-<!-- Add detailed documentation and code examples for Pin Mode here -->
+You can enable Pin Helper Mode with the following methods:
 
-## Live Pin Example
+```js
+// Enable Pin Mode like this:
+map.gm.options.enableMode('helper', 'pin');
+```
+
+### Events for Pin Helper Mode
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                            | Output                        |
+|:---------------------------| :-------| :------------------------------------- | :-----------------------------|
+| `gm:globalpinmodetoggled`  | `event` | Fired when Pin Helper Mode is toggled. | `enabled`, `map`              |
+
+### Example Usage
+
+You can listen for specific Pin Helper Mode events on the map instance like this:
+
+```js
+map.on('gm:globalpinmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+When Pin Mode is enabled:
+1. **Synchronized Movement**: Dragging a marker or vertex will move all other markers/vertices with the same coordinates (`latLng`) in sync.
+2. **Automatic Pinning**: This functionality is applied to any markers or vertices at identical coordinates, automatically linking them.
+
+## Live Pinning Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { helperPinOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
 
-<BrowserOnlyGmMap gmOptions={helperPinOptions} />
+<BrowserOnlyGmMap
+  gmOptions={helperPinOptions}
+  features={features} />

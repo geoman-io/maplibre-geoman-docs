@@ -1,12 +1,69 @@
 ---
-title: "Snapping"
+title: "Snapping Helper"
 ---
 
-## Snapping Mode
+## Snapping Helper Mode
 
-You can enable Snapping Mode on your map to allow users to have snapping on geometries.
+The Snapping Helper Mode enables alignment of features by "snapping" them to nearby elements on the map. This mode provides tools to control, activate, or deactivate snapping for layers or shapes during editing.
 
-<!-- Add detailed documentation and code examples for Snapping Mode here -->
+You can enable Snapping Helper Mode with the following methods:
+
+```js
+// Enable Snapping Mode like this:
+map.gm.options.enableMode('helper', 'snapping');
+```
+
+### Events for Snapping Helper Mode
+
+The following events are available on a map instance:
+
+| Event                      | Params  | Description                            | Output                        |
+|:---------------------------| :-------| :------------------------------------- | :-----------------------------|
+| `gm:globalsnappingmodetoggled` | `event` | Fired when Snapping Helper Mode is toggled. | `enabled`, `map`     |
+
+### Example Usage
+
+You can listen for specific Snapping Helper Mode events on the map instance like this:
+
+```js
+map.on('gm:globalsnappingmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Snapping works with the following shape types:
+- Markers
+- Circle markers
+- Text markers
+- Lines
+- Rectangles
+- Polygons
+- Circles
+- Guide lines
+
+The snapping helper:
+1. Calculates distances to nearby vertices and lines
+2. Snaps to the closest point within tolerance
+3. Prioritizes vertex snapping over line snapping
+4. Uses a default tolerance of 18 pixels[1]
+
+## Configuration
+
+```js
+// Enable snapping
+map.gm.markerPointer.setSnapping(true);
+
+// Disable snapping
+map.gm.markerPointer.setSnapping(false);
+
+// Pause snapping temporarily
+map.gm.markerPointer.pauseSnapping();
+
+// Resume snapping
+map.gm.markerPointer.resumeSnapping();
+```
 
 ## Live Snapping Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';

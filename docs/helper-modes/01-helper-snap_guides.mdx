@@ -1,18 +1,56 @@
 ---
-title: "Snap Guides"
+title: "Snap Guides Helper"
 ---
 
-## Snap Guides Mode
+## Snap Guides Helper Mode
 
-You can enable Snap Guides Mode on your map to allow users to have snap guides on geometries.
+The Snap Guides Helper Mode adds visual guidelines that assist in snapping features to specific angles or points during map editing. This mode is useful when precise alignment is necessary while creating or modifying shapes.
 
-<!-- Add detailed documentation and code examples for Snap Guides Mode here -->
+You can enable Snap Guides Helper Mode with the following methods:
+
+```js
+// Enable Snap Guides Mode like this:
+map.gm.options.enableMode('helper', 'snap_guides');
+```
+
+### Events for Snap Guides Helper Mode
+
+The following events are available on a map instance:
+
+| Event                          | Params  | Description                            | Output                        |
+|:-------------------------------| :-------| :------------------------------------- | :-----------------------------|
+| `gm:globalsnappingmodetoggled` | `event` | Fired when Snap Guides Helper Mode is toggled. | `enabled`, `map`      |
+
+### Example Usage
+
+You can listen for specific Snap Guides Helper Mode events on the map instance like this:
+
+```js
+map.on('gm:globalsnappingmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Snap guides work with the following shape types:
+- Lines
+- Polygons
+- Rectangles
+- Circles
+- Multi-polygons
+
+The Snap Guides helper:
+1. Calculates and displays guidelines at specific angles or along existing features.
+2. Helps users to snap to key points like intersections or perpendicular lines.
+3. Snaps features to the closest guide point, with priority given to perpendicular or aligned snapping guides.
+4. Custom snapping tolerance can be configured for guides.
+
 
 ## Live Snap Guides Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { helperSnapGuidesOptions } from '../../src/components/examples/mode-options';
 import features from '../../src/components/examples/geojson/basic-edit.json';
-
 
 <BrowserOnlyGmMap
   gmOptions={helperSnapGuidesOptions}

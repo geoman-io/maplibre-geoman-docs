@@ -1,12 +1,47 @@
 ---
-title: "Auto Trace"
+title: "Auto Trace Helper"
 ---
 
-## Auto Trace Mode
+## Auto Trace Helper Mode
 
-You can enable Auto Trace Mode on your map to allow users to have auto trace on geometries.
+The Auto Trace Helper Mode assists users in drawing and connecting shapes by automatically tracing the shortest path between selected points. This mode can be applied to create or complete shapes like lines and polygons by tracing along existing paths.
 
-<!-- Add detailed documentation and code examples for Auto Trace Mode here -->
+You can enable Auto Trace Helper Mode with the following method:
+
+```js
+// Enable Auto Trace Mode like this:
+map.gm.options.enableMode('helper', 'auto_trace');
+```
+
+### Events for Auto Trace Helper Mode
+
+The following events are available on a map instance:
+
+| Event                         | Params  | Description                            | Output                  |
+|:------------------------------| :-------| :------------------------------------- | :-----------------------|
+| `gm:globalauto_tracemodetoggled` | `event` | Fired when Auto Trace Mode is toggled. | `enabled`, `map`      |
+
+### Example Usage
+
+You can listen for specific Auto Trace Helper Mode events on the map instance like this:
+
+```js
+map.on('gm:globalauto_tracemodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Auto tracing works with the following shape types:
+- Lines
+- Polygons
+- Rectangles
+- Circles
+
+The Auto Trace Helper:
+1. Calculates the shortest path between two specified points.
+2. Adds intermediate points along the traced path if needed to maintain shape accuracy.
 
 ## Live Auto Trace Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';

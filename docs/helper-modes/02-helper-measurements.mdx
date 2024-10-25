@@ -1,12 +1,49 @@
 ---
-title: "Measurements"
+title: "Measurements Helper"
 ---
 
-## Measurements Mode
+## Measurements Helper Mode
 
-You can enable Measurements Mode on your map to allow users to have measurements on geometries.
+The Measurements Helper Mode provides tools to display live measurements such as distance, area, and perimeter for various shapes during map editing. This mode works with different shape types to dynamically calculate and display measurements as users draw or modify features.
 
-<!-- Add detailed documentation and code examples for Measurements Mode here -->
+You can enable Measurements Helper Mode with the following method:
+
+```js
+// Enable Measurements Mode like this:
+map.gm.options.enableMode('helper', 'measurements');
+```
+
+### Events for Measurements Helper Mode
+
+The following events are available on a map instance:
+
+| Event                             | Params  | Description                            | Output                    |
+|:----------------------------------| :-------| :------------------------------------- | :-------------------------|
+| `gm:globalmeasurementmodetoggled` | `event` | Fired when Measurements Helper Mode is toggled. | `enabled`, `map` |
+
+### Example Usage
+
+You can listen for specific Measurements Helper Mode events on the map instance like this:
+
+```js
+map.on('gm:globalmeasurementmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+Measurements can be calculated for the following shape types:
+- Markers
+- Lines
+- Rectangles
+- Polygons
+- Circles
+
+The helper dynamically:
+1. Calculates distances, areas, and perimeters for shapes.
+2. Updates these measurements in real-time as the shape is drawn or modified.
+3. Displays the information in an interactive popup.
 
 ## Live Measurements Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
