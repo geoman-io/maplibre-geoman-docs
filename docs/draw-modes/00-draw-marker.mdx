@@ -1,15 +1,39 @@
 ---
-title: "Marker"
+title: "Draw Marker"
 ---
 
-## Marker Mode
+## Draw Marker Mode
 
-You can enable Marker Mode on your map to allow users to draw marker geometries.
+Draw Marker Mode allows you to add markers to the map by clicking on desired locations.
 
-<!-- Add detailed documentation and code examples for Marker Mode here -->
+You can enable Draw Marker Mode like this:
 
-## Live Marker Example
+```js
+// Enable Draw Marker Mode like this:
+map.gm.enableDraw('marker');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'marker');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                | Output                    |
+| :-------------- | :----- | :----------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired during marker drawing operations.    | `map`, `shape`            |
+| `gm:create`     | `event`| Fired during marker drawing operations.    | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired during marker drawing operations.    | `map`, `shape`            |
+
+
+## Behavior
+
+Marker drawing operates by:
+1. Clicking on the map to place a marker
+2. The marker is immediately placed at the clicked location
+
+## Live Draw Marker Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawMarkerOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawMarkerOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawMarkerOptions} />

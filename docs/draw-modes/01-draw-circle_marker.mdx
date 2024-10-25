@@ -1,15 +1,39 @@
 ---
-title: "Circle Marker"
+title: "Draw Circle Marker"
 ---
 
-## Circle Marker Mode
+## Draw Circle Marker Mode
 
-You can enable Circle Marker Mode on your map to allow users to draw circle marker geometries.
+Draw Circle Marker Mode allows you to add circle markers to the map. Circle markers are circles with a fixed radius in pixels that maintain their screen size regardless of zoom level.
 
-<!-- Add detailed documentation and code examples for Circle Marker Mode here -->
+You can enable Draw Circle Marker Mode like this:
 
-## Live Circle Marker Example
+```js
+// Enable Circle Marker Mode like this:
+map.gm.enableDraw('circle_marker');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'circle_marker');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired when circle marker drawing starts.         | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a circle marker is created.           | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when circle marker drawing is completed.   | `map`, `shape`            |
+
+## Behavior
+
+Circle marker drawing operates by:
+1. Clicking on the map to place the circle marker center
+2. The circle marker is created with a default radius
+3. The circle marker maintains its pixel size regardless of zoom level
+
+## Live Draw Circle Marker Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawCircleMarkerOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawCircleMarkerOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawCircleMarkerOptions} />

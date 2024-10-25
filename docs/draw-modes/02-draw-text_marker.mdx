@@ -1,15 +1,41 @@
 ---
-title: "Text Marker"
+title: "Draw Text Marker"
 ---
 
-## Text Marker Mode
+## Draw Text Marker Mode
 
-You can enable Text Marker Mode on your map to allow users to draw text marker geometries.
+Draw Text Marker Mode allows you to add text labels to the map by clicking on desired locations and entering custom text.
 
-<!-- Add detailed documentation and code examples for Text Marker Mode here -->
+You can enable Draw Text Marker Mode like this:
 
-## Live Text Marker Example
+```js
+// Enable Text Marker Mode like this:
+map.gm.enableDraw('text_marker');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'text_marker');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired when text marker drawing starts.           | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a text marker is created.             | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when text marker drawing is completed.     | `map`, `shape`            |
+
+
+## Behavior
+
+Text marker drawing operates by:
+1. Clicking on the map to place the text marker
+2. A text input field appears where you can enter your text
+3. Click outside the text field to complete the marker
+4. The text marker is placed at the clicked location with the entered text
+
+## Live Draw Text Marker Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawTextMarkerOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawTextMarkerOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawTextMarkerOptions} />

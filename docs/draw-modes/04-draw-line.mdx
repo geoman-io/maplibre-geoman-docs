@@ -1,15 +1,40 @@
 ---
-title: "Line"
+title: "Draw Line"
 ---
 
-## Line Mode
+## Draw Line Mode
 
-You can enable Line Mode on your map to allow users to draw line geometries.
+Draw Line Mode allows you to create lines on the map by clicking to add vertices.
 
-<!-- Add detailed documentation and code examples for Line Mode here -->
+You can enable Draw Line Mode like this:
 
-## Live Line Example
+```js
+// Enable Line Mode like this:
+map.gm.enableDraw('line');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'line');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired when line drawing starts.                  | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a line is created.                    | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when line drawing is completed.            | `map`, `shape`            |
+
+## Behavior
+
+Line drawing operates by:
+1. Clicking on the map to place the first vertex
+2. Moving the mouse to see a preview of the line segment
+3. Clicking again to add additional vertices
+4. Double-clicking or clicking on the first vertex to complete the line
+
+## Live Draw Line Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawLineOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawLineOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawLineOptions} />

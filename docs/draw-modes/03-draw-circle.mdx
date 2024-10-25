@@ -1,15 +1,41 @@
 ---
-title: "Circle"
+title: "Draw Circle"
 ---
 
-## Circle Mode
+## Draw Circle Mode
 
-You can enable Circle Mode on your map to allow users to draw circle geometries.
+Draw Circle Mode allows you to add circles to the map by defining a center point and radius.
 
-<!-- Add detailed documentation and code examples for Circle Mode here -->
+You can enable Draw Circle Mode like this:
 
-## Live Circle Example
+```js
+// Enable Circle Mode like this:
+map.gm.enableDraw('circle');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'circle');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired when circle drawing starts.                | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a circle is created.                  | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when circle drawing is completed.          | `map`, `shape`            |
+
+## Behavior
+
+Circle drawing operates by:
+1. Clicking on the map to place the circle center
+2. Moving the mouse to adjust the radius
+3. Clicking again to finalize the circle
+
+The circle is represented as a GeoJSON polygon with 80 steps by default for smooth rendering.
+
+## Live Draw Circle Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawCircleOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawCircleOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawCircleOptions} />

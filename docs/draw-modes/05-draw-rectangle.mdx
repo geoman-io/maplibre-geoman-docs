@@ -1,15 +1,39 @@
 ---
-title: "Rectangle"
+title: "Draw Rectangle"
 ---
 
-## Rectangle Mode
+## Draw Rectangle Mode
 
-You can enable Rectangle Mode on your map to allow users to draw rectangle geometries.
+Draw Rectangle Mode allows you to create rectangles on the map by clicking and dragging to define opposite corners.
 
-<!-- Add detailed documentation and code examples for Rectangle Mode here -->
+You can enable Draw Rectangle Mode like this:
 
-## Live Rectangle Example
+```js
+// Enable Rectangle Mode like this:
+map.gm.enableDraw('rectangle');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'rectangle');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired when rectangle drawing starts.             | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a rectangle is created.               | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when rectangle drawing is completed.       | `map`, `shape`            |
+
+## Behavior
+
+Rectangle drawing operates by:
+1. Clicking and holding on the map to set the first corner
+2. Dragging to define the rectangle dimensions
+3. Releasing the mouse button to complete the rectangle
+
+## Live Draw Rectangle Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawRectangleOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawRectangleOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawRectangleOptions} />

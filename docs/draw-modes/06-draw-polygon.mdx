@@ -1,15 +1,40 @@
 ---
-title: "Polygon"
+title: "Draw Polygon"
 ---
 
-## Polygon Mode
+## Draw Polygon Mode
 
-You can enable Polygon Mode on your map to allow users to draw polygon geometries.
+Draw Polygon Mode allows you to create polygons on the map by clicking to add vertices and closing the shape.
 
-<!-- Add detailed documentation and code examples for Polygon Mode here -->
+You can enable Draw Polygon Mode like this:
 
-## Live Polygon Example
+```js
+// Enable Polygon Mode like this:
+map.gm.enableDraw('polygon');
+
+// Or like this:
+map.gm.options.enableMode('draw', 'polygon');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
+| `gm:drawstart`  | `event`| Fired when polygon drawing starts.               | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a polygon is created.                 | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when polygon drawing is completed.         | `map`, `shape`            |
+
+## Behavior
+
+Polygon drawing operates by:
+1. Clicking on the map to place the first vertex
+2. Moving the mouse to see a preview of the polygon segment
+3. Clicking to add additional vertices
+4. Closing the polygon by clicking on the first vertex
+
+## Live Draw Polygon Example
 import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
 import { drawPolygonOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap gmOptions={drawPolygonOptions} />
+<BrowserOnlyGmMap
+  gmOptions={drawPolygonOptions} />
