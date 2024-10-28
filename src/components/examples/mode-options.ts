@@ -6,8 +6,14 @@ export const drawMarkerOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       marker: {
-        active: false,
+        active: true,
         uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
       },
     },
   },
@@ -17,8 +23,14 @@ export const drawCircleMarkerOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       circle_marker: {
-        active: false,
+        active: true,
         uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
       },
     },
   },
@@ -28,8 +40,14 @@ export const drawTextMarkerOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       text_marker: {
-        active: false,
+        active: true,
         uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
       },
     },
   },
@@ -39,8 +57,14 @@ export const drawCircleOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       circle: {
-        active: false,
+        active: true,
         uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
       },
     },
   },
@@ -50,8 +74,14 @@ export const drawLineOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       line: {
-        active: false,
+        active: true,
         uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
       },
     },
   },
@@ -61,8 +91,14 @@ export const drawRectangleOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       rectangle: {
-        active: false,
+        active: true,
         uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
       },
     },
   },
@@ -72,14 +108,14 @@ export const drawPolygonOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       polygon: {
-        active: false,
+        active: true,
         uiEnabled: true,
       },
     },
     helper: {
       snapping: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -90,7 +126,7 @@ export const editDragOptions: PartialDeep<GmOptionsData> = {
     edit: {
       drag: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -101,7 +137,7 @@ export const editChangeOptions: PartialDeep<GmOptionsData> = {
     edit: {
       change: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -112,7 +148,7 @@ export const editRotateOptions: PartialDeep<GmOptionsData> = {
     edit: {
       rotate: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -123,7 +159,7 @@ export const editScaleOptions: PartialDeep<GmOptionsData> = {
     edit: {
       scale: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -134,7 +170,7 @@ export const editCopyOptions: PartialDeep<GmOptionsData> = {
     edit: {
       copy: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -149,7 +185,7 @@ export const editCutOptions: PartialDeep<GmOptionsData> = {
     edit: {
       cut: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -164,7 +200,7 @@ export const editSplitOptions: PartialDeep<GmOptionsData> = {
     edit: {
       split: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -179,7 +215,7 @@ export const editUnionOptions: PartialDeep<GmOptionsData> = {
     edit: {
       union: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -194,7 +230,7 @@ export const editDifferenceOptions: PartialDeep<GmOptionsData> = {
     edit: {
       difference: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -209,7 +245,7 @@ export const editLineSimplificationOptions: PartialDeep<GmOptionsData> = {
     edit: {
       line_simplification: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -224,7 +260,7 @@ export const editLassoOptions: PartialDeep<GmOptionsData> = {
     edit: {
       lasso: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       drag: {
         uiEnabled: true,
@@ -239,7 +275,7 @@ export const editDeleteOptions: PartialDeep<GmOptionsData> = {
     edit: {
       delete: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -260,13 +296,13 @@ export const helperSnappingOptions: PartialDeep<GmOptionsData> = {
     edit: {
       change: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
     helper: {
       snapping: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -289,11 +325,11 @@ export const helperSnapGuidesOptions: PartialDeep<GmOptionsData> = {
     helper: {
       snap_guides: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       snapping: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -304,7 +340,7 @@ export const helperMeasurementsOptions: PartialDeep<GmOptionsData> = {
     draw: {
       marker: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       line: {
         uiEnabled: true,
@@ -324,7 +360,7 @@ export const helperMeasurementsOptions: PartialDeep<GmOptionsData> = {
     helper: {
       measurements: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -351,11 +387,11 @@ export const helperPinOptions: PartialDeep<GmOptionsData> = {
     helper: {
       pin: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       snapping: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },
@@ -382,11 +418,11 @@ export const helperAutoTraceOptions: PartialDeep<GmOptionsData> = {
     helper: {
       auto_trace: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
       snapping: {
         uiEnabled: true,
-        active: false,
+        active: true,
       },
     },
   },

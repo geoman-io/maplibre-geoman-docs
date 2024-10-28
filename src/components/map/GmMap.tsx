@@ -40,11 +40,9 @@ const Component: React.FC<ComponentProps> = ({
 
       const gmOptions = cloneDeep(defaultOptions);
       merge(gmOptions, gmOptionsOverride);
-      const geoman = new Geoman(gmOptions);
-      map.gm = geoman;
 
-      geoman.addControl(map).then(() => {
-        console.log('Controls added');
+      const geoman = new Geoman(map, gmOptions);
+      map.on(`${gmOptions.settings?.eventPrefix || 'gm'}:loaded`, () => {
         features?.forEach((feature) => {
           geoman.features.addGeoJsonFeature({ shapeGeoJson: feature });
         });

@@ -6,7 +6,6 @@ const defaultOptions: PartialDeep<GmOptionsData> = {
   settings: {
     eventPrefix: 'pm',
     throttlingDelay: 10,
-    debugEvents: false,
     controlsPosition: 'top-left',
   },
   controls: {

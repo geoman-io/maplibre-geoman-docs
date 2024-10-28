@@ -77,9 +77,16 @@ const gmOptions: GmOptionsPartial = {
   // geoman options here
 };
 
-const geoman = new Geoman(gmOptions);
-geoman.addControl(map).then(() => {
-  // geoman is available here as: "geoman" or "map.gm"  
-  console.log('Geoman Controls added');
+const geoman = new Geoman(map, gmOptions);
+
+map.on('gm:loaded', () => {
+  console.log('Geoman fully loaded');
+
+  // Here you can add your geojson shapes for example
+  const shapeGeoJson = {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [0, 51] },
+  };
+  map.gm.features.addGeoJsonFeature({ shapeGeoJson });
 });
 ```
