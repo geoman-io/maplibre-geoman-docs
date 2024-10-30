@@ -4,16 +4,21 @@ title: "Draw Line"
 
 # Draw Line Mode
 
-Draw Line Mode allows you to create lines on the map by clicking to add vertices.
+Line Mode allows you to create lines on the map by clicking to add vertices.
 
 You can enable Draw Line Mode like this:
 
 ```js
-// Enable Line Mode like this:
 map.gm.enableDraw('line');
+map.gm.disableDraw();
+map.gm.toggleDraw('line');
+map.gm.drawEnabled('line');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'line');
+map.gm.enableMode('draw', 'line');
+map.gm.disableMode('draw', 'line');
+map.gm.toggleMode('draw', 'line');
+map.gm.isModeEnabled('draw', 'line');
 ```
 
 The following events are available on a map instance:

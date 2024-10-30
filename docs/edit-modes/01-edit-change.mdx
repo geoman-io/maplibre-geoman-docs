@@ -4,14 +4,19 @@ title: "Edit"
 
 # Edit Mode
 
-You can enable Edit Mode for all layers on a map like this:
+You can handle Edit Mode for all layers on a map like this:
 
 ```js
-// Enable Edit Mode like this:
 map.gm.enableGlobalEditMode();
+map.gm.disableGlobalEditMode();
+map.gm.toggleGlobalEditMode();
+map.gm.globalEditModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'change');
+map.gm.enableMode('edit', 'change');
+map.gm.disableMode('edit', 'change');
+map.gm.toggleMode('edit', 'change');
+map.gm.isModeEnabled('edit', 'change');
 ```
 
 The following methods are available on `map.gm`:

@@ -1,0 +1,47 @@
+---
+title: "Draw Freehand"
+---
+
+# Draw Freehand Mode
+
+Freehand Mode allows you to create freehand lines or shapes on the map by continuously dragging the mouse or touch input. This mode is ideal for drawing natural, flowing lines without the need to click for each vertex.
+
+You can handle Draw Freehand Mode like this:
+
+```js
+map.gm.enableDraw('freehand');
+map.gm.disableDraw();
+map.gm.toggleDraw('freehand');
+map.gm.drawEnabled('freehand');
+
+// Or like this:
+map.gm.enableMode('draw', 'freehand');
+map.gm.disableMode('draw', 'freehand');
+map.gm.toggleMode('draw', 'freehand');
+map.gm.isModeEnabled('draw', 'freehand');
+```
+
+The following events are available on a map instance:
+
+| Event        | Params | Description                                     | Output                    |
+| :----------- | :----- | :---------------------------------------------- | :------------------------ |
+| `gm:drawstart` | `event` | Fired when freehand drawing starts.            | `map`, `shape`            |
+| `gm:create`    | `event` | Fired when a freehand shape is created.         | `map`, `shape`, `feature` |
+| `gm:drawend`   | `event` | Fired when freehand drawing is completed.       | `map`, `shape`            |
+
+## Behavior
+
+Freehand drawing operates by:
+
+1. **Initiating Drawing**: Click and hold the mouse button to start drawing.
+2. **Drawing**: Move the cursor to draw a continuous line or shape. The path is dynamically rendered as you move.
+3. **Completing Drawing**: Release the mouse button to finalize the shape.
+
+## Live Draw Freehand Example
+
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { drawFreehandOptions } from '../../src/components/examples/mode-options.ts';
+
+<BrowserOnlyGmMap
+  gmOptions={drawFreehandOptions} />

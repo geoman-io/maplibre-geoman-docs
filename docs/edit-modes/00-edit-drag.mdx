@@ -4,14 +4,19 @@ title: "Drag"
 
 # Drag Mode
 
-You can enable Drag Mode for all layers on a map like this:
+You can handle Drag Mode for all layers on a map like this:
 
 ```js
-// Enable Drag Mode like this:
 map.gm.enableGlobalDragMode();
+map.gm.disableGlobalDragMode();
+map.gm.toggleGlobalDragMode();
+map.gm.globalDragModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'drag');
+map.gm.enableMode('edit', 'drag');
+map.gm.disableMode('edit', 'drag');
+map.gm.toggleMode('edit', 'drag');
+map.gm.isModeEnabled('edit', 'drag');
 ```
 
 

@@ -9,8 +9,10 @@ The Zoom to Features Helper Mode allows users to zoom the map to fit all display
 You can enable Zoom to Features Helper Mode with the following method:
 
 ```js
-// Enable Zoom to Features Mode like this:
-map.gm.options.enableMode('helper', 'zoom_to_features');
+map.gm.enableMode('helper', 'zoom_to_features');
+map.gm.disableMode('helper', 'zoom_to_features');
+map.gm.toggleMode('helper', 'zoom_to_features');
+map.gm.isModeEnabled('helper', 'zoom_to_features');
 ```
 
 ### Events for Zoom to Features Helper Mode

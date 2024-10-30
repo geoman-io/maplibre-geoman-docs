@@ -6,14 +6,19 @@ title: "Lasso ⭐"
 
 Lasso Mode allows you to select multiple features by drawing a polygon around them. The selection behavior can be configured to either select features that intersect with or are contained within the lasso polygon.
 
-You can enable Lasso Mode for all layers on a map like this:
+You can handle Lasso Mode for all layers on a map like this:
 
 ```js
-// Enable Lasso Mode like this:
 map.gm.enableGlobalLassoMode();
+map.gm.disableGlobalLassoMode();
+map.gm.toggleGlobalLassoMode();
+map.gm.globalLassoModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'lasso');
+map.gm.enableMode('edit', 'lasso');
+map.gm.disableMode('edit', 'lasso');
+map.gm.toggleMode('edit', 'lasso');
+map.gm.isModeEnabled('edit', 'lasso');
 ```
 
 The following methods are available on `map.gm`:

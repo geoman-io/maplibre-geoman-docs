@@ -4,16 +4,21 @@ title: "Draw Circle"
 
 # Draw Circle Mode
 
-Draw Circle Mode allows you to add circles to the map by defining a center point and radius.
+Circle Mode allows you to add circles to the map by defining a center point and radius.
 
 You can enable Draw Circle Mode like this:
 
 ```js
-// Enable Circle Mode like this:
 map.gm.enableDraw('circle');
+map.gm.disableDraw();
+map.gm.toggleDraw('circle');
+map.gm.drawEnabled('circle');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'circle');
+map.gm.enableMode('draw', 'circle');
+map.gm.disableMode('draw', 'circle');
+map.gm.toggleMode('draw', 'circle');
+map.gm.isModeEnabled('draw', 'circle');
 ```
 
 The following events are available on a map instance:

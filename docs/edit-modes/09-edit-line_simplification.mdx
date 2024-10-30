@@ -6,14 +6,19 @@ title: "Line Simplification ⭐"
 
 Line Simplification Mode allows you to simplify line geometry by removing vertices. This is useful for smoothing complex lines or reducing the number of points in a line.
 
-You can enable Line Simplification Mode for all layers on a map like this:
+You can handle Line Simplification Mode for all layers on a map like this:
 
 ```js
-// Enable Line Simplification Mode like this:
 map.gm.enableGlobalLineSimplificationMode();
+map.gm.disableGlobalLineSimplificationMode();
+map.gm.toggleGlobalLineSimplificationMode();
+map.gm.globalLineSimplificationModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'line_simplification');
+map.gm.enableMode('edit', 'line_simplification');
+map.gm.disableMode('edit', 'line_simplification');
+map.gm.toggleMode('edit', 'line_simplification');
+map.gm.isModeEnabled('edit', 'line_simplification');
 ```
 
 The following methods are available on `map.gm`:

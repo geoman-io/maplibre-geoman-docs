@@ -4,14 +4,19 @@ title: "Copy ⭐"
 
 # Copy Mode
 
-You can enable Copy Mode for all layers on a map like this:
+You can handle Copy Mode for all layers on a map like this:
 
 ```js
-// Enable Copy Mode like this:
 map.gm.enableGlobalCopyMode();
+map.gm.disableGlobalCopyMode();
+map.gm.toggleGlobalCopyMode();
+map.gm.globalCopyModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'copy');
+map.gm.enableMode('edit', 'copy');
+map.gm.disableMode('edit', 'copy');
+map.gm.toggleMode('edit', 'copy');
+map.gm.isModeEnabled('edit', 'copy');
 ```
 
 The following methods are available on `map.gm`:

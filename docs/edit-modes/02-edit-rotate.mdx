@@ -4,14 +4,19 @@ title: "Rotate"
 
 # Rotate Mode
 
-You can enable Rotate Mode for all layers on a map like this:
+You can handle Rotate Mode for all layers on a map like this:
 
 ```js
-// Enable Rotate Mode like this:
 map.gm.enableGlobalRotateMode();
+map.gm.disableGlobalRotateMode();
+map.gm.toggleGlobalRotateMode();
+map.gm.globalRotateModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'rotate');
+map.gm.enableMode('edit', 'rotate');
+map.gm.disableMode('edit', 'rotate');
+map.gm.toggleMode('edit', 'rotate');
+map.gm.isModeEnabled('edit', 'rotate');
 ```
 
 The following methods are available on `map.gm`:

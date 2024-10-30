@@ -6,14 +6,19 @@ title: "Remove"
 
 Remove Mode allows you to delete features from the map by clicking on them.
 
-You can enable Remove Mode for all layers on a map like this:
+You can handle Remove Mode for all layers on a map like this:
 
 ```js
-// Enable Remove Mode like this:
 map.gm.enableGlobalRemovalMode();
+map.gm.disableGlobalRemovalMode();
+map.gm.toggleGlobalRemovalMode();
+map.gm.globalRemovalModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'delete');
+map.gm.enableMode('edit', 'delete');
+map.gm.disableMode('edit', 'delete');
+map.gm.toggleMode('edit', 'delete');
+map.gm.isModeEnabled('edit', 'delete');
 ```
 
 The following methods are available on `map.gm`:

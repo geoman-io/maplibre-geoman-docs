@@ -4,14 +4,19 @@ title: "Cut"
 
 # Cut Mode
 
-Cut mode allows you to cut holes in existing shapes or remove parts of them. You can enable Cut Mode for all layers on a map like this:
+Cut mode allows you to cut holes in existing shapes or remove parts of them. You can handle Cut Mode for all layers on a map like this:
 
 ```js
-// Enable Cut Mode like this:
 map.gm.enableGlobalCutMode();
+map.gm.disableGlobalCutMode();
+map.gm.toggleGlobalCutMode();
+map.gm.globalCutModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'cut');
+map.gm.enableMode('edit', 'cut');
+map.gm.disableMode('edit', 'cut');
+map.gm.toggleMode('edit', 'cut');
+map.gm.isModeEnabled('edit', 'cut');
 ```
 
 The following methods are available on `map.gm`:

@@ -4,16 +4,21 @@ title: "Draw Text Marker"
 
 # Draw Text Marker Mode
 
-Draw Text Marker Mode allows you to add text labels to the map by clicking on desired locations and entering custom text.
+Text Marker Mode allows you to add text labels to the map by clicking on desired locations and entering custom text.
 
 You can enable Draw Text Marker Mode like this:
 
 ```js
-// Enable Text Marker Mode like this:
 map.gm.enableDraw('text_marker');
+map.gm.disableDraw();
+map.gm.toggleDraw('text_marker');
+map.gm.drawEnabled('text_marker');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'text_marker');
+map.gm.enableMode('draw', 'text_marker');
+map.gm.disableMode('draw', 'text_marker');
+map.gm.toggleMode('draw', 'text_marker');
+map.gm.isModeEnabled('draw', 'text_marker');
 ```
 
 The following events are available on a map instance:

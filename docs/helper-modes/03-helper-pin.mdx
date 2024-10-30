@@ -9,8 +9,10 @@ The Pin Helper Mode allows you to "pin" markers or vertices together, enabling s
 You can enable Pin Helper Mode with the following methods:
 
 ```js
-// Enable Pin Mode like this:
-map.gm.options.enableMode('helper', 'pin');
+map.gm.enableMode('helper', 'pin');
+map.gm.disableMode('helper', 'pin');
+map.gm.toggleMode('helper', 'pin');
+map.gm.isModeEnabled('helper', 'pin');
 ```
 
 ### Events for Pin Helper Mode

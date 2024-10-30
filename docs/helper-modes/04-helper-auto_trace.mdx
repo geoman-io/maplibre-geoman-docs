@@ -9,8 +9,10 @@ The Auto Trace Helper Mode assists users in drawing and connecting shapes by aut
 You can enable Auto Trace Helper Mode with the following method:
 
 ```js
-// Enable Auto Trace Mode like this:
-map.gm.options.enableMode('helper', 'auto_trace');
+map.gm.enableMode('helper', 'auto_trace');
+map.gm.disableMode('helper', 'auto_trace');
+map.gm.toggleMode('helper', 'auto_trace');
+map.gm.isModeEnabled('helper', 'auto_trace');
 ```
 
 ### Events for Auto Trace Helper Mode

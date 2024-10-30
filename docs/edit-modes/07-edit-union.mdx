@@ -6,14 +6,19 @@ title: "Union ⭐"
 
 Union Mode allows you to merge multiple polygons into a single polygon. The original features will be replaced with the resulting union feature.
 
-You can enable Union Mode for all layers on a map like this:
+You can handle Union Mode for all layers on a map like this:
 
 ```js
-// Enable Union Mode like this:
 map.gm.enableGlobalUnionMode();
+map.gm.disableGlobalUnionMode();
+map.gm.toggleGlobalUnionMode();
+map.gm.globalUnionModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'union');
+map.gm.enableMode('edit', 'union');
+map.gm.disableMode('edit', 'union');
+map.gm.toggleMode('edit', 'union');
+map.gm.isModeEnabled('edit', 'union');
 ```
 
 The following methods are available on `map.gm`:

@@ -4,16 +4,21 @@ title: "Draw Circle Marker"
 
 # Draw Circle Marker Mode
 
-Draw Circle Marker Mode allows you to add circle markers to the map. Circle markers are circles with a fixed radius in pixels that maintain their screen size regardless of zoom level.
+Circle Marker Mode allows you to add circle markers to the map. Circle markers are circles with a fixed radius in pixels that maintain their screen size regardless of zoom level.
 
 You can enable Draw Circle Marker Mode like this:
 
 ```js
-// Enable Circle Marker Mode like this:
 map.gm.enableDraw('circle_marker');
+map.gm.disableDraw();
+map.gm.toggleDraw('circle_marker');
+map.gm.drawEnabled('circle_marker');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'circle_marker');
+map.gm.enableMode('draw', 'circle_marker');
+map.gm.disableMode('draw', 'circle_marker');
+map.gm.toggleMode('draw', 'circle_marker');
+map.gm.isModeEnabled('draw', 'circle_marker');
 ```
 
 The following events are available on a map instance:

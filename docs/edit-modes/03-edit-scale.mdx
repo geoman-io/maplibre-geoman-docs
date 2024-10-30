@@ -4,14 +4,19 @@ title: "Scale ⭐"
 
 # Scale Mode
 
-You can enable Scale Mode for all layers on a map like this:
+You can handle Scale Mode for all layers on a map like this:
 
 ```js
-// Enable Scale Mode like this:
 map.gm.enableGlobalScaleMode();
+map.gm.disableGlobalScaleMode();
+map.gm.toggleGlobalScaleMode();
+map.gm.globalScaleModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'scale');
+map.gm.enableMode('edit', 'scale');
+map.gm.disableMode('edit', 'scale');
+map.gm.toggleMode('edit', 'scale');
+map.gm.isModeEnabled('edit', 'scale');
 ```
 
 The following methods are available on `map.gm`:

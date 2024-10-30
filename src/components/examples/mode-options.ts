@@ -121,6 +121,40 @@ export const drawPolygonOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
+export const drawFreehandOptions: PartialDeep<GmOptionsData> = {
+  controls: {
+    draw: {
+      freehand: {
+        active: true,
+        uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
+      },
+    },
+  },
+};
+
+export const drawCustomShapeOptions: PartialDeep<GmOptionsData> = {
+  controls: {
+    draw: {
+      custom_shape: {
+        active: false,
+        uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
+      },
+    },
+  },
+};
+
 export const editDragOptions: PartialDeep<GmOptionsData> = {
   controls: {
     edit: {

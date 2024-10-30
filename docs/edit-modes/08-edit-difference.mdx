@@ -6,14 +6,19 @@ title: "Difference ⭐"
 
 Difference Mode allows you to subtract one polygon from another. The original feature will be replaced with the resulting difference feature.
 
-You can enable Difference Mode for all layers on a map like this:
+You can handle Difference Mode for all layers on a map like this:
 
 ```js
-// Enable Difference Mode like this:
 map.gm.enableGlobalDifferenceMode();
+map.gm.disableGlobalDifferenceMode();
+map.gm.toggleGlobalDifferenceMode();
+map.gm.globalDifferenceModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'difference');
+map.gm.enableMode('edit', 'difference');
+map.gm.disableMode('edit', 'difference');
+map.gm.toggleMode('edit', 'difference');
+map.gm.isModeEnabled('edit', 'difference');
 ```
 
 The following methods are available on `map.gm`:

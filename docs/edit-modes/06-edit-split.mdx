@@ -6,14 +6,19 @@ title: "Split ⭐"
 
 Split Mode allows you to draw a line that splits all underlying Polygons and Lines. When a feature is split, the original feature will be replaced with the resulting split features.
 
-You can enable Split Mode for all layers on a map like this:
+You can handle Split Mode for all layers on a map like this:
 
 ```js
-// Enable Split Mode like this:
 map.gm.enableGlobalSplitMode();
+map.gm.disableGlobalSplitMode();
+map.gm.toggleGlobalSplitMode();
+map.gm.globalSplitModeEnabled();
 
 // Or like this:
-map.gm.options.enableMode('edit', 'split');
+map.gm.enableMode('edit', 'split');
+map.gm.disableMode('edit', 'split');
+map.gm.toggleMode('edit', 'split');
+map.gm.isModeEnabled('edit', 'split');
 ```
 
 The following methods are available on `map.gm`:

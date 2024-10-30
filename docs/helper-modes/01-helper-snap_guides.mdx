@@ -9,8 +9,10 @@ The Snap Guides Helper Mode adds visual guidelines that assist in snapping featu
 You can enable Snap Guides Helper Mode with the following methods:
 
 ```js
-// Enable Snap Guides Mode like this:
-map.gm.options.enableMode('helper', 'snap_guides');
+map.gm.enableMode('helper', 'snap_guides');
+map.gm.disableMode('helper', 'snap_guides');
+map.gm.toggleMode('helper', 'snap_guides');
+map.gm.isModeEnabled('helper', 'snap_guides');
 ```
 
 ### Events for Snap Guides Helper Mode

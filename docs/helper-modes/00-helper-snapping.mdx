@@ -6,11 +6,13 @@ title: "Snapping"
 
 The Snapping Helper Mode enables alignment of features by "snapping" them to nearby elements on the map. This mode provides tools to control, activate, or deactivate snapping for layers or shapes during editing.
 
-You can enable Snapping Helper Mode with the following methods:
+You can handle Snapping Helper Mode with the following methods:
 
 ```js
-// Enable Snapping Mode like this:
-map.gm.options.enableMode('helper', 'snapping');
+map.gm.enableMode('helper', 'snapping');
+map.gm.disableMode('helper', 'snapping');
+map.gm.toggleMode('helper', 'snapping');
+map.gm.isModeEnabled('helper', 'snapping');
 ```
 
 ### Events for Snapping Helper Mode

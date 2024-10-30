@@ -1,0 +1,97 @@
+---
+title: "Draw Custom Shape"
+---
+
+# Draw Custom Shape Mode
+
+Custom Shape Mode allows you to create predefined shapes on the map by selecting from available options. This mode is ideal for adding consistent and reusable shapes without the need to manually define each vertex.
+
+You can handle Draw Custom Shape Mode like this:
+
+```js
+map.gm.enableDraw('custom_shape');
+map.gm.disableDraw();
+map.gm.toggleDraw('custom_shape');
+map.gm.drawEnabled('custom_shape');
+
+// Or like this:
+map.gm.enableMode('draw', 'custom_shape');
+map.gm.disableMode('draw', 'custom_shape');
+map.gm.toggleMode('draw', 'custom_shape');
+map.gm.isModeEnabled('draw', 'custom_shape');
+```
+
+The following events are available on a map instance:
+
+| Event           | Params | Description                                      | Output                    |
+| :-------------- | :----- | :----------------------------------------------- | :------------------------ |
+| `gm:drawstart`  | `event`| Fired when custom shape drawing starts.          | `map`, `shape`            |
+| `gm:create`     | `event`| Fired when a custom shape is created.            | `map`, `shape`, `feature` |
+| `gm:drawend`    | `event`| Fired when custom shape drawing is completed.    | `map`, `shape`            |
+
+## Customizing Custom Shape Behavior
+
+You can customize the custom shape drawing behavior by defining the available shapes and their configurations. This allows you to offer different predefined shapes that users can select and draw on the map.
+
+Example configuration:
+
+```js
+
+const customShapeTriangle = {
+  type: 'Feature',
+  properties: {
+    shape: 'triangle'
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [4.0, 51.2],
+        [5.4, 52.4],
+        [6.8, 51.2],
+        [4.0, 51.2]
+      ]
+    ]
+  }
+};
+
+const customShapeRectangle = {
+  type: 'Feature',
+  properties: {
+    shape: 'rectangle'
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [-0.47, 51.67],
+        [1.43, 51.67],
+        [1.43, 53.32],
+        [-0.47, 53.32],
+        [-0.47, 51.67]
+      ]
+    ]
+  }
+};
+
+map.gm.options.controls.draw.custom_shape.options = [
+  {
+    type: 'select',
+    label: 'Shape',
+    name: 'shape',
+    value: { title: 'Triangle', value: JSON.stringify(customShapeTriangle) },
+    choices: [
+      { title: 'Triangle', value: JSON.stringify(customShapeTriangle) },
+      { title: 'Rectangle', value: JSON.stringify(customShapeRectangle) }
+    ]
+  }
+];
+```
+
+## Live Draw Custom Shape Example
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { drawCustomShapeOptions } from '../../src/components/examples/mode-options';
+
+<BrowserOnlyGmMap
+  gmOptions={drawCustomShapeOptions} />

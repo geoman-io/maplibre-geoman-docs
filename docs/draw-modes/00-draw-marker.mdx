@@ -4,16 +4,21 @@ title: "Draw Marker"
 
 # Draw Marker Mode
 
-Draw Marker Mode allows you to add markers to the map by clicking on desired locations.
+Marker Mode allows you to add markers to the map by clicking on desired locations.
 
 You can enable Draw Marker Mode like this:
 
 ```js
-// Enable Draw Marker Mode like this:
 map.gm.enableDraw('marker');
+map.gm.disableDraw();
+map.gm.toggleDraw('marker');
+map.gm.drawEnabled('marker');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'marker');
+map.gm.enableMode('draw', 'marker');
+map.gm.disableMode('draw', 'marker');
+map.gm.toggleMode('draw', 'marker');
+map.gm.isModeEnabled('draw', 'marker');
 ```
 
 The following events are available on a map instance:

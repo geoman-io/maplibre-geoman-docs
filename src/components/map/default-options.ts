@@ -42,6 +42,10 @@ const defaultOptions: PartialDeep<GmOptionsData> = {
         uiEnabled: false,
         active: false,
       },
+      custom_shape: {
+        uiEnabled: false,
+        active: false,
+      },
     },
     edit: {
       drag: {

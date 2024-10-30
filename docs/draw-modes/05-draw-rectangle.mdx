@@ -4,16 +4,21 @@ title: "Draw Rectangle"
 
 # Draw Rectangle Mode
 
-Draw Rectangle Mode allows you to create rectangles on the map by clicking and dragging to define opposite corners.
+Rectangle Mode allows you to create rectangles on the map by clicking and dragging to define opposite corners.
 
 You can enable Draw Rectangle Mode like this:
 
 ```js
-// Enable Rectangle Mode like this:
 map.gm.enableDraw('rectangle');
+map.gm.disableDraw();
+map.gm.toggleDraw('rectangle');
+map.gm.drawEnabled('rectangle');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'rectangle');
+map.gm.enableMode('draw', 'rectangle');
+map.gm.disableMode('draw', 'rectangle');
+map.gm.toggleMode('draw', 'rectangle');
+map.gm.isModeEnabled('draw', 'rectangle');
 ```
 
 The following events are available on a map instance:

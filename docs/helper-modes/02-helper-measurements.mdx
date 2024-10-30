@@ -9,8 +9,10 @@ The Measurements Helper Mode provides tools to display live measurements such as
 You can enable Measurements Helper Mode with the following method:
 
 ```js
-// Enable Measurements Mode like this:
-map.gm.options.enableMode('helper', 'measurements');
+map.gm.enableMode('helper', 'measurements');
+map.gm.disableMode('helper', 'measurements');
+map.gm.toggleMode('helper', 'measurements');
+map.gm.isModeEnabled('helper', 'measurements');
 ```
 
 ### Events for Measurements Helper Mode

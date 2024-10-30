@@ -4,16 +4,21 @@ title: "Draw Polygon"
 
 # Draw Polygon Mode
 
-Draw Polygon Mode allows you to create polygons on the map by clicking to add vertices and closing the shape.
+Polygon Mode allows you to create polygons on the map by clicking to add vertices and closing the shape.
 
 You can enable Draw Polygon Mode like this:
 
 ```js
-// Enable Polygon Mode like this:
 map.gm.enableDraw('polygon');
+map.gm.disableDraw();
+map.gm.toggleDraw('polygon');
+map.gm.drawEnabled('polygon');
 
 // Or like this:
-map.gm.options.enableMode('draw', 'polygon');
+map.gm.enableMode('draw', 'polygon');
+map.gm.disableMode('draw', 'polygon');
+map.gm.toggleMode('draw', 'polygon');
+map.gm.isModeEnabled('draw', 'polygon');
 ```
 
 The following events are available on a map instance:
