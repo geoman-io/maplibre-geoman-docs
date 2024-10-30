@@ -142,7 +142,7 @@ export const drawCustomShapeOptions: PartialDeep<GmOptionsData> = {
   controls: {
     draw: {
       custom_shape: {
-        active: false,
+        active: true,
         uiEnabled: true,
       },
     },

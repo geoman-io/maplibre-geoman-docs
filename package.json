@@ -17,7 +17,7 @@
   "dependencies": {
     "@docusaurus/core": "^3.5.2",
     "@docusaurus/preset-classic": "^3.5.2",
-    "@geoman-io/maplibre-geoman-pro": "^0.0.21",
+    "@geoman-io/maplibre-geoman-pro": "^0.0.22",
     "@mdx-js/react": "^3.0.0",
     "maplibre-gl": "^4.5.2",
     "lodash-es": "^4.17.21",
