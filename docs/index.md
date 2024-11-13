@@ -17,7 +17,3 @@ Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
 Supports Markers, CircleMarkers, Polylines, Polygons, Circles, Rectangles, ImageOverlays, LayerGroups, GeoJSON, MultiLineStrings and MultiPolygons
 
 Features _not_ available in the free version are marked with a star (⭐).
-
-## **Launching Soon**
-
-The Free and Pro version of MapLibre-Geoman will be available soon. It will include additional features and premium support. Stay tuned!
