@@ -17,10 +17,10 @@ Add the following content to .npmrc in your project root
 
 ```shell
 @geoman-io:registry=https://npm.geoman.io/
-//npm.geoman.io/:_authToken="<YOUR LICENSE KEY>"
+//npm.geoman.io/:_authToken="&#96;&lt;YOUR LICENSE KEY&gt;&#96;"
 ```
 
-Replace <YOUR LICENSE KEY> with your license key.
+Replace `<YOUR LICENSE KEY>` with your license key.
 Don't have a license key yet? [Purchase one here](https://geoman.io/pricing).
 
 ### Free Version
