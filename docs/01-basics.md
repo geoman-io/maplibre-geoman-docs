@@ -36,6 +36,7 @@ Don't have a license key yet? [Purchase one here](https://geoman.io/pricing).
 
 
 ## Expected HTML Structure
+
 ```html
 <!-- index.html -->
 <html lang="en_US">
@@ -55,15 +56,16 @@ Don't have a license key yet? [Purchase one here](https://geoman.io/pricing).
 ```
 
 ## Maplibre and Geoman initialization
+
 ```typescript
-import ml from 'maplibre-gl';
-import { type GmOptionsPartial } from '@geoman-io/maplibre-geoman-pro';
-
 import 'maplibre-gl/dist/maplibre-gl.css';
-import '@geoman-io/maplibre-geoman-pro/dist/maplibre-geoman.css';
+import '@geoman-io/maplibre-geoman-free/dist/maplibre-geoman.css';
+
+import ml from 'maplibre-gl';
+import { Geoman, type GmOptionsPartial } from '@geoman-io/maplibre-geoman-free';
 
 
-const mapStyle: ml.StyleSpecification = {
+const mapLibreStyle: ml.StyleSpecification = {
   version: 8,
   glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
   sources: {
@@ -98,8 +100,10 @@ const gmOptions: GmOptionsPartial = {
   // geoman options here
 };
 
+// create a new geoman instance
 const geoman = new Geoman(map, gmOptions);
 
+// callback when geoman is fully loaded
 map.on('gm:loaded', () => {
   console.log('Geoman fully loaded');
 
@@ -107,7 +111,19 @@ map.on('gm:loaded', () => {
   const shapeGeoJson = {
     type: 'Feature',
     geometry: { type: 'Point', coordinates: [0, 51] },
+    properties: {},
   };
-  map.gm.features.addGeoJsonFeature({ shapeGeoJson });
+  // add a geojson shape to the map
+  geoman.features.addGeoJsonFeature({ shapeGeoJson });
+
+
+  const shapeGeoJson2 = {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [3, 52] },
+    properties: {},
+  };
+  // geoman instance is also available on the map object
+  map.gm?.features.addGeoJsonFeature({ shapeGeoJson: shapeGeoJson2 });
+
 });
 ```
