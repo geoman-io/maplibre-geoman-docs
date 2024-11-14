@@ -6,29 +6,34 @@ title: "Basic Usage"
 
 ## Installation
 
-### Pro Version
-
-```shell
-# install pro version
-npm install @geoman-io/maplibre-geoman-pro
-```
-
-Add the following content to .npmrc in your project root
-
-```shell
-@geoman-io:registry=https://npm.geoman.io/
-//npm.geoman.io/:_authToken="&#96;&lt;YOUR LICENSE KEY&gt;&#96;"
-```
-
-Replace `<YOUR LICENSE KEY>` with your license key.
-Don't have a license key yet? [Purchase one here](https://geoman.io/pricing).
-
 ### Free Version
 
 ```shell
 # install free version
 npm install @geoman-io/maplibre-geoman-free
 ```
+
+The Free version can also be downloaded directly from [https://www.npmjs.com/package/@geoman-io/maplibre-geoman-free](https://www.npmjs.com/package/@geoman-io/maplibre-geoman-free).
+
+### Pro Version
+
+Add the following content to .npmrc in your project root
+
+```shell
+#.npmrc
+@geoman-io:registry=https://npm.geoman.io/
+//npm.geoman.io/:_authToken="<YOUR LICENSE KEY>"
+```
+
+Replace `<YOUR LICENSE KEY>` with your license key.
+
+```shell
+# install pro version
+npm install @geoman-io/maplibre-geoman-pro
+```
+
+Don't have a license key yet? [Purchase one here](https://geoman.io/pricing).
+
 
 ## Expected HTML Structure
 ```html

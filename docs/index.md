@@ -12,12 +12,20 @@ slug: "/"
 A MapLibre Plugin For Creating And Editing Geometry Layers
 Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
 
-![](/img/geoman-maplibre-demo.png)
+![demo](/img/geoman-maplibre-demo.png)
 
 Supports Markers, CircleMarkers, Polylines, Polygons, Circles, Rectangles, ImageOverlays, LayerGroups, GeoJSON, MultiLineStrings and MultiPolygons
 
 Features _not_ available in the free version are marked with a star (⭐).
 
-## **Launching Soon**
+## Installation
 
-The Free and Pro version of MapLibre-Geoman will be available soon. It will include additional features and premium support. Stay tuned!
+The Free and Pro version of MapLibre-Geoman are now available.
+
+See below for installation instructions for each version.
+
+## **Get Started**
+
+- [Installation](/docs/01-basics)
+- [Events](/docs/02-events)
+- [Modes](/docs/03-mode-switching)
