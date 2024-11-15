@@ -26,6 +26,6 @@ See below for installation instructions for each version.
 
 ## **Get Started**
 
-- [Installation](/docs/basics)
-- [Events](/docs/events)
-- [Modes](/docs/mode-switching)
+- [Installation](/basics)
+- [Events](/events)
+- [Modes](/mode-switching)
