@@ -9,10 +9,11 @@ Often you will want to import existing Geojson data into your map. This can be d
 For FeatureCollections, you can use the `gm.features.importGeoJson` method. This will add all features in the collection to the Geoman instance and to the map.
 
 ## Example usage
-In this case we have hardcoded a Geojson feature in the `demoFeatures` array. This could be fetched from an API or a file or a database.
+In this case we have hardcoded a Geojson feature in the `export const demoFeature: Array<GeoJsonImportFeature> = [
+` const. This could be fetched from an API or a file or a database.
 
 ```js
-export const demoFeatures: Array<GeoJsonImportFeature> = [
+export const demoFeature: GeoJsonImportFeature = 
   {
     type: 'Feature',
     properties: {
@@ -34,21 +35,18 @@ export const demoFeatures: Array<GeoJsonImportFeature> = [
     }
   }
   // ... more features
-]
+
 ```
 
-The `gm.features.importGeoJsonFeature` method is then called for each feature in the array.
-
+The `gm.features.importGeoJsonFeature` method is then called to add the feature to the map:
 
 ```js
-    demoFeatures.forEach((shapeGeoJson) => {
-      gm.features.importGeoJsonFeature({ shapeGeoJson });
-    });
+      gm.features.importGeoJsonFeature(demoFeature);
 ```
 
 ### Adding a Geojson FeatureCollection
 
-If your data was formatted as a FeatureCollection, you need to extract the individual features and call `importGeoJsonFeature` on each feature:
+If your data was formatted as a FeatureCollection, you need either import the entire collection using `importGeoJson`, or you need to extract the individual features and call `importGeoJsonFeature` on each feature:
 
 ```js
 const fc = {
@@ -80,7 +78,7 @@ const fc = {
 
 // Add each feature from the collection
 fc.features.forEach((shapeGeoJson) => {
-  gm.features.importGeoJsonFeature({ shapeGeoJson });
+  gm.features.importGeoJsonFeature(shapeGeoJson);
 });
 
 // Add the entire collection
