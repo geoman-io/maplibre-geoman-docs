@@ -28,7 +28,9 @@ You can provide a partial configuration using `GmOptionsPartial`, which allows y
 Here's a basic example of configuring Geoman:
 
 ```typescript
-import { Geoman, GmOptionsPartial } from '@geoman-io/geoman-js';
+import { Geoman, GmOptionsPartial } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro'
+
+
 
 const gmOptions: GmOptionsPartial = {
   settings: {
