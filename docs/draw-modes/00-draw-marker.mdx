@@ -9,36 +9,34 @@ Marker Mode allows you to add markers to the map by clicking on desired location
 You can enable Draw Marker Mode like this:
 
 ```js
-map.gm.enableDraw('marker');
+map.gm.enableDraw("marker");
 map.gm.disableDraw();
-map.gm.toggleDraw('marker');
-map.gm.drawEnabled('marker');
+map.gm.toggleDraw("marker");
+map.gm.drawEnabled("marker");
 
 // Or like this:
-map.gm.enableMode('draw', 'marker');
-map.gm.disableMode('draw', 'marker');
-map.gm.toggleMode('draw', 'marker');
-map.gm.isModeEnabled('draw', 'marker');
+map.gm.enableMode("draw", "marker");
+map.gm.disableMode("draw", "marker");
+map.gm.toggleMode("draw", "marker");
+map.gm.isModeEnabled("draw", "marker");
 ```
 
 The following events are available on a map instance:
 
-| Event           | Params | Description                                | Output                    |
-| :-------------- | :----- | :----------------------------------------- |:--------------------------|
-| `gm:drawstart`  | `event`| Fired during marker drawing operations.    | `map`, `shape`            |
-| `gm:create`     | `event`| Fired during marker drawing operations.    | `map`, `shape`, `feature` |
-| `gm:drawend`    | `event`| Fired during marker drawing operations.    | `map`, `shape`            |
-
+| Event       | Params  | Description                             | Output                    |
+| :---------- | :------ | :-------------------------------------- | :------------------------ |
+| `gm:create` | `event` | Fired during marker drawing operations. | `map`, `shape`, `feature` |
 
 ## Behavior
 
 Marker drawing operates by:
+
 1. Clicking on the map to place a marker
 2. The marker is immediately placed at the clicked location
 
 ## Live Draw Marker Example
-import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { drawMarkerOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap
-  gmOptions={drawMarkerOptions} />
+import BrowserOnlyGmMap from "../../src/components/map/BrowserOnlyGmMap";
+import { drawMarkerOptions } from "../../src/components/examples/mode-options";
+
+<BrowserOnlyGmMap gmOptions={drawMarkerOptions} />

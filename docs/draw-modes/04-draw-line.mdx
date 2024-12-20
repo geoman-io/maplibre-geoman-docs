@@ -9,37 +9,37 @@ Line Mode allows you to create lines on the map by clicking to add vertices.
 You can enable Draw Line Mode like this:
 
 ```js
-map.gm.enableDraw('line');
+map.gm.enableDraw("line");
 map.gm.disableDraw();
-map.gm.toggleDraw('line');
-map.gm.drawEnabled('line');
+map.gm.toggleDraw("line");
+map.gm.drawEnabled("line");
 
 // Or like this:
-map.gm.enableMode('draw', 'line');
-map.gm.disableMode('draw', 'line');
-map.gm.toggleMode('draw', 'line');
-map.gm.isModeEnabled('draw', 'line');
+map.gm.enableMode("draw", "line");
+map.gm.disableMode("draw", "line");
+map.gm.toggleMode("draw", "line");
+map.gm.isModeEnabled("draw", "line");
 ```
 
 The following events are available on a map instance:
 
-| Event           | Params | Description                                      | Output                    |
-| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
-| `gm:drawstart`  | `event`| Fired when line drawing starts.                  | `map`, `shape`            |
-| `gm:create`     | `event`| Fired when a line is created.                    | `map`, `shape`, `feature` |
-| `gm:drawend`    | `event`| Fired when line drawing is completed.            | `map`, `shape`            |
+| Event          | Params  | Description                     | Output                    |
+| :------------- | :------ | :------------------------------ | :------------------------ |
+| `gm:drawstart` | `event` | Fired when line drawing starts. | `map`, `shape`            |
+| `gm:create`    | `event` | Fired when a line is created.   | `map`, `shape`, `feature` |
 
 ## Behavior
 
 Line drawing operates by:
+
 1. Clicking on the map to place the first vertex
 2. Moving the mouse to see a preview of the line segment
 3. Clicking again to add additional vertices
 4. Double-clicking or clicking on the first vertex to complete the line
 
 ## Live Draw Line Example
-import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { drawLineOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap
-  gmOptions={drawLineOptions} />
+import BrowserOnlyGmMap from "../../src/components/map/BrowserOnlyGmMap";
+import { drawLineOptions } from "../../src/components/examples/mode-options";
+
+<BrowserOnlyGmMap gmOptions={drawLineOptions} />

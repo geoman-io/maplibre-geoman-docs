@@ -9,36 +9,36 @@ Circle Marker Mode allows you to add circle markers to the map. Circle markers a
 You can enable Draw Circle Marker Mode like this:
 
 ```js
-map.gm.enableDraw('circle_marker');
+map.gm.enableDraw("circle_marker");
 map.gm.disableDraw();
-map.gm.toggleDraw('circle_marker');
-map.gm.drawEnabled('circle_marker');
+map.gm.toggleDraw("circle_marker");
+map.gm.drawEnabled("circle_marker");
 
 // Or like this:
-map.gm.enableMode('draw', 'circle_marker');
-map.gm.disableMode('draw', 'circle_marker');
-map.gm.toggleMode('draw', 'circle_marker');
-map.gm.isModeEnabled('draw', 'circle_marker');
+map.gm.enableMode("draw", "circle_marker");
+map.gm.disableMode("draw", "circle_marker");
+map.gm.toggleMode("draw", "circle_marker");
+map.gm.isModeEnabled("draw", "circle_marker");
 ```
 
 The following events are available on a map instance:
 
-| Event           | Params | Description                                      | Output                    |
-| :-------------- | :----- | :----------------------------------------------- |:--------------------------|
-| `gm:drawstart`  | `event`| Fired when circle marker drawing starts.         | `map`, `shape`            |
-| `gm:create`     | `event`| Fired when a circle marker is created.           | `map`, `shape`, `feature` |
-| `gm:drawend`    | `event`| Fired when circle marker drawing is completed.   | `map`, `shape`            |
+| Event          | Params  | Description                              | Output                    |
+| :------------- | :------ | :--------------------------------------- | :------------------------ |
+| `gm:drawstart` | `event` | Fired when circle marker drawing starts. | `map`, `shape`            |
+| `gm:create`    | `event` | Fired when a circle marker is created.   | `map`, `shape`, `feature` |
 
 ## Behavior
 
 Circle marker drawing operates by:
+
 1. Clicking on the map to place the circle marker center
 2. The circle marker is created with a default radius
 3. The circle marker maintains its pixel size regardless of zoom level
 
 ## Live Draw Circle Marker Example
-import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
-import { drawCircleMarkerOptions } from '../../src/components/examples/mode-options';
 
-<BrowserOnlyGmMap
-  gmOptions={drawCircleMarkerOptions} />
+import BrowserOnlyGmMap from "../../src/components/map/BrowserOnlyGmMap";
+import { drawCircleMarkerOptions } from "../../src/components/examples/mode-options";
+
+<BrowserOnlyGmMap gmOptions={drawCircleMarkerOptions} />

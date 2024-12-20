@@ -22,3 +22,5 @@ map.gm.options.isModeEnabled('edit', 'drag');
 ```
 
 TypeScript support is available, so you can see all available options for each method in Geoman.
+
+See also the [Geoman Instance API](/geoman-instance-api) page for more information on the available methods.
