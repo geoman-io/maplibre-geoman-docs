@@ -368,6 +368,7 @@ const gmOptions: GmOptionsPartial = {
           },
         },
       ],
+      // Here we override the temporary style for polygons used during editing
       gm_temporary: [
         {
           type: "fill",
