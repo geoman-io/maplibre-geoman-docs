@@ -1,14 +1,12 @@
-import React from 'react';
-import GmMap from '@site/src/components/map/GmMap';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import type { PartialDeep } from 'type-fest';
-import defaultOptions from '@site/src/components/map/default-options';
-import type { GeoJsonShapeFeature, ImportGeoJsonProperties } from '@geoman-io/maplibre-geoman-pro';
+import type { GeoJsonImportFeature, GmOptionsPartial } from '@geoman-io/maplibre-geoman-pro';
+import GmMap from '@site/src/components/map/GmMap';
+import React from 'react';
 
 
 interface ComponentProps {
-  gmOptions?: PartialDeep<typeof defaultOptions>;
-  features?: Array<GeoJsonShapeFeature<ImportGeoJsonProperties>>;
+  gmOptions?: GmOptionsPartial;
+  features?: Array<GeoJsonImportFeature>;
 }
 
 const Component: React.FC<ComponentProps> = ({

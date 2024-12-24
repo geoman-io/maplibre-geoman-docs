@@ -1,8 +1,7 @@
-import type { PartialDeep } from 'type-fest';
-import type { GmOptionsData } from '@geoman-io/maplibre-geoman-pro';
+import type { GmOptionsPartial } from '@geoman-io/maplibre-geoman-pro';
 
 
-export const drawMarkerOptions: PartialDeep<GmOptionsData> = {
+export const drawMarkerOptions: GmOptionsPartial = {
   controls: {
     draw: {
       marker: {
@@ -19,7 +18,7 @@ export const drawMarkerOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawCircleMarkerOptions: PartialDeep<GmOptionsData> = {
+export const drawCircleMarkerOptions: GmOptionsPartial = {
   controls: {
     draw: {
       circle_marker: {
@@ -36,7 +35,7 @@ export const drawCircleMarkerOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawTextMarkerOptions: PartialDeep<GmOptionsData> = {
+export const drawTextMarkerOptions: GmOptionsPartial = {
   controls: {
     draw: {
       text_marker: {
@@ -53,7 +52,7 @@ export const drawTextMarkerOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawCircleOptions: PartialDeep<GmOptionsData> = {
+export const drawCircleOptions: GmOptionsPartial = {
   controls: {
     draw: {
       circle: {
@@ -70,7 +69,7 @@ export const drawCircleOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawLineOptions: PartialDeep<GmOptionsData> = {
+export const drawLineOptions: GmOptionsPartial = {
   controls: {
     draw: {
       line: {
@@ -87,7 +86,7 @@ export const drawLineOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawRectangleOptions: PartialDeep<GmOptionsData> = {
+export const drawRectangleOptions: GmOptionsPartial = {
   controls: {
     draw: {
       rectangle: {
@@ -104,7 +103,7 @@ export const drawRectangleOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawPolygonOptions: PartialDeep<GmOptionsData> = {
+export const drawPolygonOptions: GmOptionsPartial = {
   controls: {
     draw: {
       polygon: {
@@ -121,7 +120,7 @@ export const drawPolygonOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawFreehandOptions: PartialDeep<GmOptionsData> = {
+export const drawFreehandOptions: GmOptionsPartial = {
   controls: {
     draw: {
       freehand: {
@@ -138,7 +137,7 @@ export const drawFreehandOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const drawCustomShapeOptions: PartialDeep<GmOptionsData> = {
+export const drawCustomShapeOptions: GmOptionsPartial = {
   controls: {
     draw: {
       custom_shape: {
@@ -155,7 +154,7 @@ export const drawCustomShapeOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editDragOptions: PartialDeep<GmOptionsData> = {
+export const editDragOptions: GmOptionsPartial = {
   controls: {
     edit: {
       drag: {
@@ -166,7 +165,7 @@ export const editDragOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editChangeOptions: PartialDeep<GmOptionsData> = {
+export const editChangeOptions: GmOptionsPartial = {
   controls: {
     edit: {
       change: {
@@ -177,7 +176,7 @@ export const editChangeOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editRotateOptions: PartialDeep<GmOptionsData> = {
+export const editRotateOptions: GmOptionsPartial = {
   controls: {
     edit: {
       rotate: {
@@ -188,7 +187,7 @@ export const editRotateOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editScaleOptions: PartialDeep<GmOptionsData> = {
+export const editScaleOptions: GmOptionsPartial = {
   controls: {
     edit: {
       scale: {
@@ -199,7 +198,7 @@ export const editScaleOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editCopyOptions: PartialDeep<GmOptionsData> = {
+export const editCopyOptions: GmOptionsPartial = {
   controls: {
     edit: {
       copy: {
@@ -214,7 +213,7 @@ export const editCopyOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editCutOptions: PartialDeep<GmOptionsData> = {
+export const editCutOptions: GmOptionsPartial = {
   controls: {
     edit: {
       cut: {
@@ -229,7 +228,7 @@ export const editCutOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editSplitOptions: PartialDeep<GmOptionsData> = {
+export const editSplitOptions: GmOptionsPartial = {
   controls: {
     edit: {
       split: {
@@ -244,7 +243,7 @@ export const editSplitOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editUnionOptions: PartialDeep<GmOptionsData> = {
+export const editUnionOptions: GmOptionsPartial = {
   controls: {
     edit: {
       union: {
@@ -259,7 +258,7 @@ export const editUnionOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editDifferenceOptions: PartialDeep<GmOptionsData> = {
+export const editDifferenceOptions: GmOptionsPartial = {
   controls: {
     edit: {
       difference: {
@@ -274,7 +273,7 @@ export const editDifferenceOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editLineSimplificationOptions: PartialDeep<GmOptionsData> = {
+export const editLineSimplificationOptions: GmOptionsPartial = {
   controls: {
     edit: {
       line_simplification: {
@@ -289,7 +288,7 @@ export const editLineSimplificationOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editLassoOptions: PartialDeep<GmOptionsData> = {
+export const editLassoOptions: GmOptionsPartial = {
   controls: {
     edit: {
       lasso: {
@@ -304,7 +303,7 @@ export const editLassoOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const editDeleteOptions: PartialDeep<GmOptionsData> = {
+export const editDeleteOptions: GmOptionsPartial = {
   controls: {
     edit: {
       delete: {
@@ -315,7 +314,7 @@ export const editDeleteOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const helperSnappingOptions: PartialDeep<GmOptionsData> = {
+export const helperSnappingOptions: GmOptionsPartial = {
   controls: {
     draw: {
       line: {
@@ -342,7 +341,7 @@ export const helperSnappingOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const helperSnapGuidesOptions: PartialDeep<GmOptionsData> = {
+export const helperSnapGuidesOptions: GmOptionsPartial = {
   controls: {
     draw: {
       line: {
@@ -369,7 +368,7 @@ export const helperSnapGuidesOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const helperMeasurementsOptions: PartialDeep<GmOptionsData> = {
+export const helperMeasurementsOptions: GmOptionsPartial = {
   controls: {
     draw: {
       marker: {
@@ -400,7 +399,7 @@ export const helperMeasurementsOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const helperPinOptions: PartialDeep<GmOptionsData> = {
+export const helperPinOptions: GmOptionsPartial = {
   controls: {
     draw: {
       line: {
@@ -431,7 +430,7 @@ export const helperPinOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const helperAutoTraceOptions: PartialDeep<GmOptionsData> = {
+export const helperAutoTraceOptions: GmOptionsPartial = {
   controls: {
     draw: {
       line: {
@@ -462,7 +461,7 @@ export const helperAutoTraceOptions: PartialDeep<GmOptionsData> = {
   },
 };
 
-export const helperZoomToFeaturesOptions: PartialDeep<GmOptionsData> = {
+export const helperZoomToFeaturesOptions: GmOptionsPartial = {
   controls: {
     edit: {
       drag: {
