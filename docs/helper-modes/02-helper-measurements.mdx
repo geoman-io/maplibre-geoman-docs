@@ -15,6 +15,25 @@ map.gm.toggleMode('helper', 'measurements');
 map.gm.isModeEnabled('helper', 'measurements');
 ```
 
+
+Measurements unit system could be a set by GmOptions like this:
+```js
+const gmOptions: PartialDeep<GmOptionsData> = {
+  controls: {
+    helper: {
+      measurements: {
+        options: {
+          units: {
+            // "metric", "imperial", undefined (autodetection, default value)
+            value: 'imperial'
+          }
+        }
+      }
+    }
+  }
+};
+```
+
 ### Events for Measurements Helper Mode
 
 The following events are available on a map instance:
