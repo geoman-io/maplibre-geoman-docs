@@ -11,6 +11,8 @@ interface GmOptionsData {
   settings: {
     throttlingDelay: number;
     controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+    controlsUiEnabledByDefault: boolean,
+    controlsCollapsable: boolean,
   };
   layerStyles: typeof styles;
   controls: {
@@ -63,7 +65,14 @@ const gmOptions: GmOptionsPartial = {
     throttlingDelay: 100,
     
     // Position of the controls on the map
-    controlsPosition: 'top-right' // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    controlsPosition: 'top-right', // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    
+    // disable or enable each control by default,
+    // an individual control could be enabled and disabled separately 
+    controlsUiEnabledByDefault: true,
+    
+    // display the button which toggles all controls visibility
+    controlsCollapsable: false,
   }
 };
 ```
