@@ -12,7 +12,7 @@ interface GmOptionsData {
     throttlingDelay: number;
     controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     controlsUiEnabledByDefault: boolean,
-    controlsCollapsable: boolean,
+    controlsCollapsible: boolean,
   };
   layerStyles: typeof styles;
   controls: {
@@ -72,7 +72,7 @@ const gmOptions: GmOptionsPartial = {
     controlsUiEnabledByDefault: true,
     
     // display the button which toggles all controls visibility
-    controlsCollapsable: false,
+    controlsCollapsible: false,
   }
 };
 ```
