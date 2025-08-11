@@ -13,6 +13,11 @@ interface GmOptionsData {
     controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     controlsUiEnabledByDefault: boolean,
     controlsCollapsible: boolean,
+    controlsStyles: {
+      controlGroupClass: string,
+      controlContainerClass: string,
+      controlButtonClass: string,
+    },
   };
   layerStyles: typeof styles;
   controls: {
@@ -73,6 +78,13 @@ const gmOptions: GmOptionsPartial = {
     
     // display the button which toggles all controls visibility
     controlsCollapsible: false,
+    
+    // controls styling in case if you want to have custom buttons
+    controlsStyles: {
+      controlGroupClass: 'maplibregl-ctrl maplibregl-ctrl-group',
+      controlContainerClass: 'gm-control-container',
+      controlButtonClass: 'gm-control-button',
+    },
   }
 };
 ```
