@@ -82,7 +82,7 @@ Events related to drawing features:
 
 ```typescript
 // Listen to all draw events
-map.on('gm:draw', (event) => {
+map.on('_gm:draw', (event) => {
   console.log('Draw event:', event);
 });
 
@@ -98,7 +98,7 @@ Events related to editing features:
 
 ```typescript
 // Listen to all edit events
-map.on('gm:edit', (event) => {
+map.on('_gm:edit', (event) => {
   console.log('Edit event:', event);
 });
 
@@ -180,7 +180,7 @@ map.on('gm:cut', (event) => {
 Events related to helper functionality:
 
 ```typescript
-map.on('gm:helper', (event) => {
+map.on('_gm:helper', (event) => {
   console.log('Helper event:', event);
 });
 ```
@@ -190,7 +190,7 @@ map.on('gm:helper', (event) => {
 Events related to control interactions:
 
 ```typescript
-map.on('gm:control', (event) => {
+map.on('_gm:control', (event) => {
   console.log('Control event:', event);
 });
 ```
@@ -253,8 +253,8 @@ map.once('gm:loaded', () => {
   map.on('gm:cut', handleEvent);
 
   // Helper and control events
-  map.on('gm:helper', handleEvent);
-  map.on('gm:control', handleEvent);
+  map.on('_gm:helper', handleEvent);
+  map.on('_gm:control', handleEvent);
 });
 
 // Store events history
