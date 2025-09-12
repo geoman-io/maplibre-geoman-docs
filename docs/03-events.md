@@ -19,9 +19,9 @@ map.on('gm:create', (event) => {
 To listen to all Geoman events, use the global events listener:
 
 ```typescript
-import { type GlobalEventsListenerParemeters } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro'
+import { type GlobalEventsListenerParameters } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro'
 
-geoman.setGlobalEventsListener((event: GlobalEventsListenerParemeters) => {
+geoman.setGlobalEventsListener((event: GlobalEventsListenerParameters) => {
   if (event.type === 'converted') {
     console.log('Regular event:', event);
   } else if (event.type === 'system') {
