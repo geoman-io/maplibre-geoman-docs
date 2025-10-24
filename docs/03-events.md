@@ -21,12 +21,8 @@ To listen to all Geoman events, use the global events listener:
 ```typescript
 import { type GlobalEventsListenerParameters } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro'
 
-geoman.setGlobalEventsListener((event: GlobalEventsListenerParameters) => {
-  if (event.type === 'converted') {
-    console.log('Regular event:', event);
-  } else if (event.type === 'system') {
-    console.log('System event:', event);
-  }
+geoman.setGlobalEventsListener((event: GmSystemEvent | GmEvent) => {
+  console.log('Event:', event);
 });
 
 // Remove the global listener
@@ -82,12 +78,12 @@ Events related to drawing features:
 
 ```typescript
 // Listen to all draw events
-map.on('_gm:draw', (event) => {
+map.on('_gm:draw', (event: GmDrawEvent) => {
   console.log('Draw event:', event);
 });
 
 // Feature creation
-map.on('gm:create', (event) => {
+map.on('gm:create', (event: FeatureCreatedFwdEvent) => {
   console.log('Feature created:', event);
 });
 ```
@@ -98,17 +94,17 @@ Events related to editing features:
 
 ```typescript
 // Listen to all edit events
-map.on('_gm:edit', (event) => {
+map.on('_gm:edit', (event: GmEditEvent) => {
   console.log('Edit event:', event);
 });
 
 // Edit start
-map.on('gm:editstart', (event) => {
+map.on('gm:editstart', (event: FeatureEditStartFwdEvent) => {
   console.log('Edit started:', event);
 });
 
 // Edit end
-map.on('gm:editend', (event) => {
+map.on('gm:editend', (event: FeatureEditEndFwdEvent) => {
   console.log('Edit ended:', event);
 });
 ```
@@ -118,7 +114,7 @@ map.on('gm:editend', (event) => {
 Events for feature removal:
 
 ```typescript
-map.on('gm:remove', (event) => {
+map.on('gm:remove', (event: FeatureRemovedFwdEvent) => {
   console.log('Feature removed:', event);
 });
 ```
@@ -129,17 +125,17 @@ Events for rotating features:
 
 ```typescript
 // Listen to all rotate events
-map.on('gm:rotate', (event) => {
+map.on('gm:rotate', (event: FeatureUpdatedFwdEvent) => {
   console.log('Rotate event:', event);
 });
 
 // Rotation start
-map.on('gm:rotatestart', (event) => {
+map.on('gm:rotatestart', (event: FeatureEditStartFwdEvent) => {
   console.log('Rotation started:', event);
 });
 
 // Rotation end
-map.on('gm:rotateend', (event) => {
+map.on('gm:rotateend', (event: FeatureEditEndFwdEvent) => {
   console.log('Rotation ended:', event);
 });
 ```
@@ -150,17 +146,17 @@ Events for dragging features:
 
 ```typescript
 // Listen to all drag events
-map.on('gm:drag', (event) => {
+map.on('gm:drag', (event: FeatureUpdatedFwdEvent) => {
   console.log('Drag event:', event);
 });
 
 // Drag start
-map.on('gm:dragstart', (event) => {
+map.on('gm:dragstart', (event: FeatureEditStartFwdEvent) => {
   console.log('Drag started:', event);
 });
 
 // Drag end
-map.on('gm:dragend', (event) => {
+map.on('gm:dragend', (event: FeatureEditEndFwdEvent) => {
   console.log('Drag ended:', event);
 });
 ```
@@ -170,7 +166,7 @@ map.on('gm:dragend', (event) => {
 Events for cutting features:
 
 ```typescript
-map.on('gm:cut', (event) => {
+map.on('gm:cut', (event: FeatureUpdatedFwdEvent) => {
   console.log('Feature cut:', event);
 });
 ```
@@ -180,7 +176,7 @@ map.on('gm:cut', (event) => {
 Events related to helper functionality:
 
 ```typescript
-map.on('_gm:helper', (event) => {
+map.on('_gm:helper', (event: GmHelperEvent) => {
   console.log('Helper event:', event);
 });
 ```
@@ -190,7 +186,7 @@ map.on('_gm:helper', (event) => {
 Events related to control interactions:
 
 ```typescript
-map.on('_gm:control', (event) => {
+map.on('_gm:control', (event: GmControlEvent) => {
   console.log('Control event:', event);
 });
 ```
@@ -292,12 +288,8 @@ const handleEvent = (event: any) => {
 };
 
 // Optional: Global event listener
-gm.setGlobalEventsListener((event: GlobalEventsListenerParemeters) => {
-  if (event.type === 'converted') {
-    console.log('Regular event:', event);
-  } else if (event.type === 'system') {
-    console.log('System event:', event);
-  }
+gm.setGlobalEventsListener((event: GmSystemEvent | GmEvent) => {
+  console.log('Event:', event);
 });
 ```
 
@@ -322,7 +314,7 @@ The `getGeoJson` helper function safely extracts GeoJSON data from features:
 
 Example event data stored using the above event handler:
 ```typescript
-{
+const event = {
   id: "feature-123",
   enabled: true,
   timestamp: "14:30:45",
@@ -347,25 +339,27 @@ Example event data stored using the above event handler:
 Here are some common event payload types:
 
 ```typescript
-interface GMEvent {
-  map: maplibregl.Map; // Reference to the map instance where the event occurred
-  target: any; // Reference to the target object that triggered the event
-  type: string;
+interface FeatureCreatedFwdEvent {
+  name: 'gm:create';
+  shape: DrawModeName;
+  feature: FeatureData;
+  map: AnyMapInstance;
 }
 
-interface GMDrawEvent extends GMEvent {
-  shape: string;
-  feature?: FeatureData;
-}
-
-interface GMEditEvent extends GMEvent {
+interface FeatureUpdatedFwdEvent {
+  name: `gm:${FwdEditModeName}`;
+  map: AnyMapInstance;
+  shape?: FeatureShape;
   feature?: FeatureData; // The feature being edited if a single feature is being edited (e.g., during edit mode)
   features?: Array<FeatureData>; // The features being edited if multiple features are involved (e.g., during cut mode/split mode)
+  originalFeature?: FeatureData;
+  originalFeatures?: Array<FeatureData>;
 }
 
-interface GMToggleEvent extends GMEvent {
+interface GlobalEditToggledFwdEvent {
+  name: `gm:global${FwdEditModeName}modetoggled`;
   enabled: boolean;
-  shape?: string; // Optional shape type if the mode toggled is shape-specific (such as draw mode)
+  map: AnyMapInstance;
 }
 ```
 

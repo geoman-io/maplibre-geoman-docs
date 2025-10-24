@@ -52,9 +52,9 @@ const feature = {
 gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
 ```
 
-## The `_gmid` Property
+## The `__gm_id` Property
 
-When exporting features from Geoman, each feature will have a `_gmid` property in its properties object. This is Geoman's internal identifier for the feature.
+When exporting features from Geoman, each feature will have a `__gm_id` property in its properties object. This is Geoman's internal identifier for the feature.
 
 ### Export Example
 
@@ -63,12 +63,12 @@ When exporting features from Geoman, each feature will have a `_gmid` property i
 const exported = gm.features.exportGeoJson();
 
 // Example exported feature structure
-{
+const feature = {
   type: 'Feature',
   id: 'custom-123', // Original ID if it existed
   properties: {
     shape: 'polygon',
-    _gmid: 'custom-123', // Same as id or auto-generated if no id existed
+    __gm_id: 'custom-123', // Same as id or auto-generated if no id existed
     // ... other properties
   },
   geometry: {
@@ -80,7 +80,7 @@ const exported = gm.features.exportGeoJson();
 
 ### Reimporting Exported Features
 
-When reimporting features that were previously exported from Geoman, the `_gmid` property will be used to maintain feature identity:
+When reimporting features that were previously exported from Geoman, the `__gm_id` property will be used to maintain feature identity:
 
 ```typescript
 // Export features
@@ -89,7 +89,7 @@ const exported = gm.features.exportGeoJson();
 // Later, reimport the same features
 exported.features.forEach(feature => {
   gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
-  // The _gmid will be preserved, maintaining feature identity
+  // The __gm_id will be preserved, maintaining feature identity
 });
 ```
 
@@ -182,7 +182,7 @@ const features = [
 ];
 ```
 
-2. **ID Preservation**: When exporting and reimporting, preserve the `_gmid` property:
+2. **ID Preservation**: When exporting and reimporting, preserve the `__gm_id` property:
 ```typescript
 // Export
 const exported = gm.features.exportGeoJson();
@@ -192,7 +192,7 @@ const exported = gm.features.exportGeoJson();
 // Later, reimport
 const reimported = loadSavedFeatures();
 reimported.features.forEach(feature => {
-  // _gmid in properties will be preserved
+  // __gm_id in properties will be preserved
   gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
 });
 ```

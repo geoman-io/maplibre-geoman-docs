@@ -28,8 +28,8 @@ interface GeoJsonShapeFeatureCollection {
       coordinates: any[];
     };
     properties: {
+      __gm_id?: FeatureId;
       shape: FeatureShape;
-      _gmid?: FeatureId;
       center?: LngLat;
       text?: string;
     };

@@ -10,14 +10,16 @@ The main configuration object follows this structure:
 interface GmOptionsData {
   settings: {
     throttlingDelay: number;
-    controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-    controlsUiEnabledByDefault: boolean,
-    controlsCollapsible: boolean,
-    controlsStyles: {
-      controlGroupClass: string,
-      controlContainerClass: string,
-      controlButtonClass: string,
-    },
+    useDefaultLayers: boolean;
+    controlsPosition: BaseControlsPosition;
+    controlsUiEnabledByDefault: boolean;
+    controlsCollapsible: boolean;
+    controlsStyles: ControlStyles;
+    idGenerator: null | ((shapeGeoJson: GeoJsonShapeFeature) => string);
+    markerIcons: {
+      default: string;
+      control: string;
+    };
   };
   layerStyles: typeof styles;
   controls: {
@@ -85,6 +87,14 @@ const gmOptions: GmOptionsPartial = {
       controlContainerClass: 'gm-control-container',
       controlButtonClass: 'gm-control-button',
     },
+    
+    // a method for a feature id generation by supplied shape geojson
+    // the method should return a unique id for the feature
+    idGenerator: null,
+    markerIcons: {
+      default: '', // svg icon content for default marker
+      control: '', // svg icon content for control marker
+    },
   }
 };
 ```
@@ -93,7 +103,7 @@ const gmOptions: GmOptionsPartial = {
 
 ### Draw Controls
 
-Draw controls manage the creation of new geometries. Available draw modes include: 'marker', 'circle', 'circle_marker', 'text_marker', 'line', 'rectangle', 'polygon', 'freehand', and 'custom_shape'.
+Draw controls manage the creation of new geometries. Available draw modes include: 'marker', 'circle', 'ellipse', 'circle_marker', 'text_marker', 'line', 'rectangle', 'polygon', 'freehand', and 'custom_shape'.
 
 ```typescript
 const gmOptions: GmOptionsPartial = {
@@ -216,6 +226,7 @@ layerStyles: {
 You can configure styles for the following shape types:
 - `marker`
 - `circle`
+- `ellipse`
 - `circle_marker`
 - `text_marker`
 - `line`
