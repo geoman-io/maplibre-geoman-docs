@@ -1,0 +1,50 @@
+---
+title: "Draw Ellipse"
+---
+
+# Draw Ellipse Mode
+
+Ellipse Mode allows you to add ellipses to the map by defining a center point and two radii (x and y semi-axes).
+
+You can enable Draw Ellipse Mode like this:
+
+```js
+map.gm.enableDraw("ellipse");
+map.gm.disableDraw();
+map.gm.toggleDraw("ellipse");
+map.gm.drawEnabled("ellipse");
+
+// Or like this:
+map.gm.enableMode("draw", "ellipse");
+map.gm.disableMode("draw", "ellipse");
+map.gm.toggleMode("draw", "ellipse");
+map.gm.isModeEnabled("draw", "ellipse");
+```
+
+The following events are available on a map instance:
+
+| Event          | Params  | Description                        | Output                    |
+| :------------- | :------ | :--------------------------------- | :------------------------ |
+| `gm:drawstart` | `event` | Fired when ellipse drawing starts. | `map`, `shape`            |
+| `gm:create`    | `event` | Fired when an ellipse is created.  | `map`, `shape`, `feature` |
+
+## Behavior
+
+Ellipse drawing operates by:
+
+1. Clicking on the map to place the ellipse center
+2. Moving the mouse to adjust the x semi-axis (width)
+3. Clicking to set the width, then moving to adjust the y semi-axis (height)
+4. Clicking again to finalize the ellipse
+
+The ellipse is represented as a GeoJSON polygon with smooth edges for rendering. The feature properties include:
+- `xSemiAxis`: The horizontal radius of the ellipse
+- `ySemiAxis`: The vertical radius of the ellipse
+- `center`: The center point coordinates
+
+## Live Draw Ellipse Example
+
+import BrowserOnlyGmMap from "../../src/components/map/BrowserOnlyGmMap";
+import { drawEllipseOptions } from "../../src/components/examples/mode-options";
+
+<BrowserOnlyGmMap gmOptions={drawEllipseOptions} />

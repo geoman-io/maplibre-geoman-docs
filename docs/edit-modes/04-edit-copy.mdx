@@ -7,12 +7,6 @@ title: "Copy ⭐"
 You can handle Copy Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalCopyMode();
-map.gm.disableGlobalCopyMode();
-map.gm.toggleGlobalCopyMode();
-map.gm.globalCopyModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'copy');
 map.gm.disableMode('edit', 'copy');
 map.gm.toggleMode('edit', 'copy');
@@ -21,12 +15,12 @@ map.gm.isModeEnabled('edit', 'copy');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                   |
-|:------------------------------------------------------------------| :-------- | :-----------------------------|
-| `enableGlobalCopyMode()`  | -         | Enables global Copy Mode.                                             |
-| `disableGlobalCopyMode()` | -         | Disables global Copy Mode.                                            |
-| `toggleGlobalCopyMode()`  | -         | Toggles global Copy Mode.                                             |
-| `globalCopyModeEnabled()` | `Boolean` | Returns `true` if global Copy Mode is enabled. `false` when disabled. |
+| Method                                      | Returns   | Description                                                           |
+|:--------------------------------------------|:----------|:----------------------------------------------------------------------|
+| `enableMode('edit', 'copy')`                | -         | Enables global Copy Mode.                                             |
+| `disableMode('edit', 'copy')`               | -         | Disables global Copy Mode.                                            |
+| `toggleMode('edit', 'copy')`                | -         | Toggles global Copy Mode.                                             |
+| `isModeEnabled('edit', 'copy')`             | `Boolean` | Returns `true` if global Copy Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 
