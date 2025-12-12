@@ -28,7 +28,7 @@ const feature = {
 };
 
 // Import the feature
-gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
+gm.features.importGeoJsonFeature(feature);
 ```
 
 ### Auto-generated IDs
@@ -49,7 +49,7 @@ const feature = {
 };
 
 // Import the feature - ID will be auto-generated
-gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
+gm.features.importGeoJsonFeature(feature);
 ```
 
 ## The `__gm_id` Property
@@ -88,8 +88,8 @@ const exported = gm.features.exportGeoJson();
 
 // Later, reimport the same features
 exported.features.forEach(feature => {
-  gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
-  // The __gm_id will be preserved, maintaining feature identity
+  gm.features.importGeoJsonFeature(feature);
+  // The _gmid will be preserved, maintaining feature identity
 });
 ```
 
@@ -112,8 +112,8 @@ const feature2 = {
 };
 
 // Features will get sequential IDs
-const imported1 = gm.features.importGeoJsonFeature({ shapeGeoJson: feature1 });
-const imported2 = gm.features.importGeoJsonFeature({ shapeGeoJson: feature2 });
+const imported1 = gm.features.importGeoJsonFeature(feature1);
+const imported2 = gm.features.importGeoJsonFeature(feature2);
 
 console.log(imported1.id); // e.g., "1"
 console.log(imported2.id); // e.g., "2"
@@ -192,8 +192,8 @@ const exported = gm.features.exportGeoJson();
 // Later, reimport
 const reimported = loadSavedFeatures();
 reimported.features.forEach(feature => {
-  // __gm_id in properties will be preserved
-  gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
+  // _gmid in properties will be preserved
+  gm.features.importGeoJsonFeature(feature);
 });
 ```
 
@@ -206,7 +206,7 @@ features.forEach(feature => {
     throw new Error(`Duplicate ID: ${feature.id}`);
   }
   usedIds.add(feature.id);
-  gm.features.importGeoJsonFeature({ shapeGeoJson: feature });
+  gm.features.importGeoJsonFeature(feature);
 });
 ```
 

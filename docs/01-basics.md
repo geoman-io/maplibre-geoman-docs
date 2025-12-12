@@ -49,7 +49,6 @@ To install the Pro version on Vercel, follow these steps:
    - Environment Variable Value: Use the following content (preserve the line breaks):
   ```
     engine-strict=true
-    resolution-mode=highest
     @geoman-io:registry=https://npm.geoman.io
     //npm.geoman.io:_authToken=${NPM_TOKEN_GEOMAN}
   ```

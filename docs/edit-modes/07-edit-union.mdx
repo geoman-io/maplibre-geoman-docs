@@ -9,12 +9,6 @@ Union Mode allows you to merge multiple polygons into a single polygon. The orig
 You can handle Union Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalUnionMode();
-map.gm.disableGlobalUnionMode();
-map.gm.toggleGlobalUnionMode();
-map.gm.globalUnionModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'union');
 map.gm.disableMode('edit', 'union');
 map.gm.toggleMode('edit', 'union');
@@ -23,12 +17,12 @@ map.gm.isModeEnabled('edit', 'union');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                   |
-|:------------------------------------------------------------------| :-------- | :-----------------------------|
-| `enableGlobalUnionMode()`  | -         | Enables global Union Mode.                                             |
-| `disableGlobalUnionMode()` | -         | Disables global Union Mode.                                            |
-| `toggleGlobalUnionMode()`  | -         | Toggles global Union Mode.                                             |
-| `globalUnionModeEnabled()` | `Boolean` | Returns `true` if global Union Mode is enabled. `false` when disabled. |
+| Method                                      | Returns   | Description                                                            |
+|:--------------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'union')`               | -         | Enables global Union Mode.                                             |
+| `disableMode('edit', 'union')`              | -         | Disables global Union Mode.                                            |
+| `toggleMode('edit', 'union')`               | -         | Toggles global Union Mode.                                             |
+| `isModeEnabled('edit', 'union')`            | `Boolean` | Returns `true` if global Union Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 

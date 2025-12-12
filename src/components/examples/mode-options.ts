@@ -69,6 +69,23 @@ export const drawCircleOptions: GmOptionsPartial = {
   },
 };
 
+export const drawEllipseOptions: GmOptionsPartial = {
+  controls: {
+    draw: {
+      ellipse: {
+        active: true,
+        uiEnabled: true,
+      },
+    },
+    helper: {
+      snapping: {
+        uiEnabled: true,
+        active: true,
+      },
+    },
+  },
+};
+
 export const drawLineOptions: GmOptionsPartial = {
   controls: {
     draw: {

@@ -7,12 +7,6 @@ title: "Scale ⭐"
 You can handle Scale Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalScaleMode();
-map.gm.disableGlobalScaleMode();
-map.gm.toggleGlobalScaleMode();
-map.gm.globalScaleModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'scale');
 map.gm.disableMode('edit', 'scale');
 map.gm.toggleMode('edit', 'scale');
@@ -21,12 +15,12 @@ map.gm.isModeEnabled('edit', 'scale');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                   |
-|:------------------------------------------------------------------| :-------- | :-----------------------------|
-| `enableGlobalScaleMode()`  | -         | Enables global Scale Mode.                                             |
-| `disableGlobalScaleMode()` | -         | Disables global Scale Mode.                                            |
-| `toggleGlobalScaleMode()`  | -         | Toggles global Scale Mode.                                             |
-| `globalScaleModeEnabled()` | `Boolean` | Returns `true` if global Scale Mode is enabled. `false` when disabled. |
+| Method                                      | Returns   | Description                                                            |
+|:--------------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'scale')`               | -         | Enables global Scale Mode.                                             |
+| `disableMode('edit', 'scale')`              | -         | Disables global Scale Mode.                                            |
+| `toggleMode('edit', 'scale')`               | -         | Toggles global Scale Mode.                                             |
+| `isModeEnabled('edit', 'scale')`            | `Boolean` | Returns `true` if global Scale Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 

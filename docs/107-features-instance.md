@@ -54,7 +54,8 @@ features.get(sourceName: FeatureSourceName, featureId: FeatureId): FeatureData |
 Imports GeoJSON data and creates features.
 ```typescript
 features.importGeoJson(
-  geoJson: GeoJsonImportFeatureCollection | GeoJsonImportFeature
+  geoJson: GeoJsonImportFeatureCollection | GeoJsonImportFeature,
+  idPropertyName?: string  // Optional: use a specific property as the feature ID
 ): {
   stats: {
     total: number;
@@ -65,10 +66,31 @@ features.importGeoJson(
 };
 ```
 
+#### `importGeoJsonFeature`
+Imports a single GeoJSON feature.
+```typescript
+features.importGeoJsonFeature(shapeGeoJson: GeoJsonImportFeature): FeatureData | null;
+```
+
 #### `exportGeoJson`
 Exports all features as a GeoJSON FeatureCollection.
 ```typescript
-features.exportGeoJson(): GeoJsonShapeFeatureCollection;
+features.exportGeoJson(options?: {
+  allowedShapes?: Array<FeatureShape>;  // Filter by shape types
+  idPropertyName?: string;               // Custom property name for IDs
+}): GeoJsonShapeFeatureCollection;
+```
+
+#### `deleteAll`
+Deletes all features from the store.
+```typescript
+features.deleteAll(): void;
+```
+
+#### `getAll`
+Returns all features as a GeoJSON FeatureCollection (alias for exportGeoJson).
+```typescript
+features.getAll(): FeatureCollection;
 ```
 
 #### `getSourceGeoJson`
@@ -174,6 +196,7 @@ features.updateMarkerFeaturePosition(
 Geoman has three built-in sources for features:
 - `gm_main`: The main source for permanent features
 - `gm_temporary`: For temporary features during editing/drawing
+- `gm_standby`: For standby features (Pro version only)
 
 ## Types
 

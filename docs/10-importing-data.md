@@ -41,7 +41,7 @@ export const demoFeature: GeoJsonImportFeature =
 The `gm.features.importGeoJsonFeature` method is then called to add the feature to the map:
 
 ```js
-      gm.features.importGeoJsonFeature(demoFeature);
+gm.features.importGeoJsonFeature(demoFeature);
 ```
 
 ### Adding a Geojson FeatureCollection
@@ -76,19 +76,15 @@ const fc = {
   ]
 }
 
-// Add each feature from the collection
-fc.features.forEach((shapeGeoJson) => {
-  gm.features.importGeoJsonFeature(shapeGeoJson);
+// Add each feature from the collection individually
+fc.features.forEach((feature) => {
+  gm.features.importGeoJsonFeature(feature);
 });
 
-// Add the entire collection
+// Or add the entire collection at once (recommended)
 gm.features.importGeoJson(fc);
-
 ```
 
-```js
-
-```
 ## Full Demo example
 
 We have put together a list of examples from the Maplibre-Geoman Examples Repository that showcase how to import Geojson data into the map. All the examples import features from a fixtures file and add them to the map using the `gm.features.importGeoJsonFeature` method.

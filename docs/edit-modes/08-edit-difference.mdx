@@ -9,12 +9,6 @@ Difference Mode allows you to subtract one polygon from another. The original fe
 You can handle Difference Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalDifferenceMode();
-map.gm.disableGlobalDifferenceMode();
-map.gm.toggleGlobalDifferenceMode();
-map.gm.globalDifferenceModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'difference');
 map.gm.disableMode('edit', 'difference');
 map.gm.toggleMode('edit', 'difference');
@@ -23,12 +17,12 @@ map.gm.isModeEnabled('edit', 'difference');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                   |
-|:------------------------------------------------------------------| :-------- | :-----------------------------|
-| `enableGlobalDifferenceMode()`  | -         | Enables global Difference Mode.                                             |
-| `disableGlobalDifferenceMode()` | -         | Disables global Difference Mode.                                            |
-| `toggleGlobalDifferenceMode()`  | -         | Toggles global Difference Mode.                                             |
-| `globalDifferenceModeEnabled()` | `Boolean` | Returns `true` if global Difference Mode is enabled. `false` when disabled. |
+| Method                                           | Returns   | Description                                                                 |
+|:-------------------------------------------------|:----------|:----------------------------------------------------------------------------|
+| `enableMode('edit', 'difference')`               | -         | Enables global Difference Mode.                                             |
+| `disableMode('edit', 'difference')`              | -         | Disables global Difference Mode.                                            |
+| `toggleMode('edit', 'difference')`               | -         | Toggles global Difference Mode.                                             |
+| `isModeEnabled('edit', 'difference')`            | `Boolean` | Returns `true` if global Difference Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 

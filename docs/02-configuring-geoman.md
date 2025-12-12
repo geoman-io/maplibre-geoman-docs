@@ -11,10 +11,14 @@ interface GmOptionsData {
   settings: {
     throttlingDelay: number;
     useDefaultLayers: boolean;
-    controlsPosition: BaseControlsPosition;
+    controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     controlsUiEnabledByDefault: boolean;
     controlsCollapsible: boolean;
-    controlsStyles: ControlStyles;
+    controlsStyles: {
+      controlGroupClass: string;
+      controlContainerClass: string;
+      controlButtonClass: string;
+    };
     idGenerator: null | ((shapeGeoJson: GeoJsonShapeFeature) => string);
     markerIcons: {
       default: string;
@@ -70,30 +74,35 @@ const gmOptions: GmOptionsPartial = {
   settings: {
     // Delay in milliseconds for throttling events
     throttlingDelay: 100,
-    
+
+    // Whether to create default layers for rendering features
+    useDefaultLayers: true,
+
     // Position of the controls on the map
     controlsPosition: 'top-right', // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
-    
+
     // disable or enable each control by default,
-    // an individual control could be enabled and disabled separately 
+    // an individual control could be enabled and disabled separately
     controlsUiEnabledByDefault: true,
-    
+
     // display the button which toggles all controls visibility
     controlsCollapsible: false,
-    
+
     // controls styling in case if you want to have custom buttons
     controlsStyles: {
       controlGroupClass: 'maplibregl-ctrl maplibregl-ctrl-group',
       controlContainerClass: 'gm-control-container',
       controlButtonClass: 'gm-control-button',
     },
-    
-    // a method for a feature id generation by supplied shape geojson
-    // the method should return a unique id for the feature
+
+    // Custom ID generator function for features (optional)
+    // If null, Geoman will auto-generate IDs like 'feature-1', 'feature-2', etc.
     idGenerator: null,
+
+    // SVG icons for markers (used internally)
     markerIcons: {
-      default: '', // svg icon content for default marker
-      control: '', // svg icon content for control marker
+      default: '<svg>...</svg>',
+      control: '<svg>...</svg>',
     },
   }
 };
@@ -103,7 +112,7 @@ const gmOptions: GmOptionsPartial = {
 
 ### Draw Controls
 
-Draw controls manage the creation of new geometries. Available draw modes include: 'marker', 'circle', 'ellipse', 'circle_marker', 'text_marker', 'line', 'rectangle', 'polygon', 'freehand', and 'custom_shape'.
+Draw controls manage the creation of new geometries. Available draw modes include: 'marker', 'circle', 'circle_marker', 'ellipse', 'text_marker', 'line', 'rectangle', 'polygon', 'freehand', and 'custom_shape'.
 
 ```typescript
 const gmOptions: GmOptionsPartial = {

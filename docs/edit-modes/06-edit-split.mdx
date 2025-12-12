@@ -9,12 +9,6 @@ Split Mode allows you to draw a line that splits all underlying Polygons and Lin
 You can handle Split Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalSplitMode();
-map.gm.disableGlobalSplitMode();
-map.gm.toggleGlobalSplitMode();
-map.gm.globalSplitModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'split');
 map.gm.disableMode('edit', 'split');
 map.gm.toggleMode('edit', 'split');
@@ -23,12 +17,12 @@ map.gm.isModeEnabled('edit', 'split');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                     |
-|:------------------------------------------------------------------| :-------- | :-------------------------------|
-| `enableGlobalSplitMode()`  | -         | Enables global Split Mode.                                             |
-| `disableGlobalSplitMode()` | -         | Disables global Split Mode.                                            |
-| `toggleGlobalSplitMode()`  | -         | Toggles global Split Mode.                                             |
-| `globalSplitModeEnabled()` | `Boolean` | Returns `true` if global Split Mode is enabled. `false` when disabled. |
+| Method                                      | Returns   | Description                                                            |
+|:--------------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'split')`               | -         | Enables global Split Mode.                                             |
+| `disableMode('edit', 'split')`              | -         | Disables global Split Mode.                                            |
+| `toggleMode('edit', 'split')`               | -         | Toggles global Split Mode.                                             |
+| `isModeEnabled('edit', 'split')`            | `Boolean` | Returns `true` if global Split Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 

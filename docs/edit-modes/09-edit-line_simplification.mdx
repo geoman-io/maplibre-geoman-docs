@@ -9,12 +9,6 @@ Line Simplification Mode allows you to simplify line geometry by removing vertic
 You can handle Line Simplification Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalLineSimplificationMode();
-map.gm.disableGlobalLineSimplificationMode();
-map.gm.toggleGlobalLineSimplificationMode();
-map.gm.globalLineSimplificationModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'line_simplification');
 map.gm.disableMode('edit', 'line_simplification');
 map.gm.toggleMode('edit', 'line_simplification');
@@ -23,12 +17,12 @@ map.gm.isModeEnabled('edit', 'line_simplification');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                   |
-|:------------------------------------------------------------------| :-------- | :-----------------------------|
-| `enableGlobalLineSimplificationMode()`  | -         | Enables global Line Simplification Mode.                                             |
-| `disableGlobalLineSimplificationMode()` | -         | Disables global Line Simplification Mode.                                            |
-| `toggleGlobalLineSimplificationMode()`  | -         | Toggles global Line Simplification Mode.                                             |
-| `globalLineSimplificationModeEnabled()` | `Boolean` | Returns `true` if global Line Simplification Mode is enabled. `false` when disabled. |
+| Method                                                 | Returns   | Description                                                                          |
+|:-------------------------------------------------------|:----------|:-------------------------------------------------------------------------------------|
+| `enableMode('edit', 'line_simplification')`            | -         | Enables global Line Simplification Mode.                                             |
+| `disableMode('edit', 'line_simplification')`           | -         | Disables global Line Simplification Mode.                                            |
+| `toggleMode('edit', 'line_simplification')`            | -         | Toggles global Line Simplification Mode.                                             |
+| `isModeEnabled('edit', 'line_simplification')`         | `Boolean` | Returns `true` if global Line Simplification Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 

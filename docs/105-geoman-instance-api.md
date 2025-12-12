@@ -83,22 +83,6 @@ gm.toggleGlobalRotateMode(): void;
 gm.globalRotateModeEnabled(): boolean;
 ```
 
-#### Global Scale Mode
-```typescript
-gm.enableGlobalScaleMode(): void;
-gm.disableGlobalScaleMode(): void;
-gm.toggleGlobalScaleMode(): void;
-gm.globalScaleModeEnabled(): boolean;
-```
-
-#### Global Copy Mode
-```typescript
-gm.enableGlobalCopyMode(): void;
-gm.disableGlobalCopyMode(): void;
-gm.toggleGlobalCopyMode(): void;
-gm.globalCopyModeEnabled(): boolean;
-```
-
 #### Global Cut Mode
 ```typescript
 gm.enableGlobalCutMode(): void;
@@ -107,52 +91,28 @@ gm.toggleGlobalCutMode(): void;
 gm.globalCutModeEnabled(): boolean;
 ```
 
-#### Global Split Mode
-```typescript
-gm.enableGlobalSplitMode(): void;
-gm.disableGlobalSplitMode(): void;
-gm.toggleGlobalSplitMode(): void;
-gm.globalSplitModeEnabled(): boolean;
-```
-
-#### Global Union Mode
-```typescript
-gm.enableGlobalUnionMode(): void;
-gm.disableGlobalUnionMode(): void;
-gm.toggleGlobalUnionMode(): void;
-gm.globalUnionModeEnabled(): boolean;
-```
-
-#### Global Difference Mode
-```typescript
-gm.enableGlobalDifferenceMode(): void;
-gm.disableGlobalDifferenceMode(): void;
-gm.toggleGlobalDifferenceMode(): void;
-gm.globalDifferenceModeEnabled(): boolean;
-```
-
-#### Global Line Simplification Mode
-```typescript
-gm.enableGlobalLineSimplificationMode(): void;
-gm.disableGlobalLineSimplificationMode(): void;
-gm.toggleGlobalLineSimplificationMode(): void;
-gm.globalLineSimplificationModeEnabled(): boolean;
-```
-
-#### Global Lasso Mode
-```typescript
-gm.enableGlobalLassoMode(): void;
-gm.disableGlobalLassoMode(): void;
-gm.toggleGlobalLassoMode(): void;
-gm.globalLassoModeEnabled(): boolean;
-```
-
 #### Global Removal Mode
 ```typescript
 gm.enableGlobalRemovalMode(): void;
 gm.disableGlobalRemovalMode(): void;
 gm.toggleGlobalRemovalMode(): void;
 gm.globalRemovalModeEnabled(): boolean;
+```
+
+#### Other Edit Modes
+
+For edit modes without dedicated helper methods (scale, copy, split, union, difference, line_simplification, lasso), use the generic mode management methods:
+
+```typescript
+// Example: Scale mode
+gm.enableMode('edit', 'scale');
+gm.disableMode('edit', 'scale');
+gm.toggleMode('edit', 'scale');
+gm.isModeEnabled('edit', 'scale');
+
+// Example: Copy mode
+gm.enableMode('edit', 'copy');
+// ... and so on for other edit modes
 ```
 
 ### Generic Mode Management
@@ -215,10 +175,24 @@ Adds the Geoman controls to the map.
 gm.addControls(controlsElement?: HTMLElement): Promise<void>;
 ```
 
-#### `removeControl`
+#### `removeControls`
 Removes the Geoman controls from the map.
 ```typescript
-gm.removeControl(): Promise<void>;
+gm.removeControls(): void;
+```
+
+## Lifecycle Methods
+
+#### `waitForGeomanLoaded`
+Waits for Geoman to be fully loaded and ready.
+```typescript
+gm.waitForGeomanLoaded(): Promise<Geoman | undefined>;
+```
+
+#### `destroy`
+Destroys the Geoman instance and cleans up resources.
+```typescript
+gm.destroy({ removeSources }: { removeSources: boolean }): Promise<void>;
 ```
 
 ## Event Handling
@@ -233,8 +207,8 @@ gm.setGlobalEventsListener(callback?: (parameters: GlobalEventsListenerParameter
 
 ### ModeName Types
 ```typescript
-type DrawModeName = 'marker' | 'circle' | 'circle_marker' | 'text_marker' | 'line' | 
-                    'rectangle' | 'polygon' | 'freehand' | 'custom_shape';
+type DrawModeName = 'marker' | 'circle' | 'circle_marker' | 'ellipse' | 'text_marker' |
+                    'line' | 'rectangle' | 'polygon' | 'freehand' | 'custom_shape';
 
 type EditModeName = 'drag' | 'change' | 'rotate' | 'scale' | 'copy' | 'cut' | 
                     'split' | 'union' | 'difference' | 'line_simplification' | 
@@ -295,6 +269,7 @@ gm.disableAllModes();
 - `marker`: Single point marker
 - `circle`: Circle with radius
 - `circle_marker`: Fixed-size circle marker
+- `ellipse`: Ellipse with x and y semi-axes
 - `text_marker`: Text label
 - `line`: Linear feature
 - `rectangle`: Rectangular polygon

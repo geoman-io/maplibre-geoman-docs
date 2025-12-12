@@ -89,7 +89,7 @@ const canEdit = options.isModeAvailable('edit', 'rotate');
 Gets the options for a specific control.
 ```typescript
 options.getControlOptions({
-  actionType: ActionType,
+  modeType: ModeType,
   modeName: ModeName
 }): ControlOptions | null;
 ```
@@ -97,7 +97,7 @@ options.getControlOptions({
 Example:
 ```typescript
 const polygonOptions = options.getControlOptions({
-  actionType: 'draw',
+  modeType: 'draw',
   modeName: 'polygon'
 });
 ```

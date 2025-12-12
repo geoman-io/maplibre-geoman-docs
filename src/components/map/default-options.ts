@@ -20,6 +20,7 @@ export const getDisabledByDefaultOptions = (): GmOptionsPartial => {
     'marker',
     'circle',
     'circle_marker',
+    'ellipse',
     'text_marker',
     'line',
     'rectangle',

@@ -9,12 +9,6 @@ Lasso Mode allows you to select multiple features by drawing a polygon around th
 You can handle Lasso Mode for all layers on a map like this:
 
 ```js
-map.gm.enableGlobalLassoMode();
-map.gm.disableGlobalLassoMode();
-map.gm.toggleGlobalLassoMode();
-map.gm.globalLassoModeEnabled();
-
-// Or like this:
 map.gm.enableMode('edit', 'lasso');
 map.gm.disableMode('edit', 'lasso');
 map.gm.toggleMode('edit', 'lasso');
@@ -23,12 +17,12 @@ map.gm.isModeEnabled('edit', 'lasso');
 
 The following methods are available on `map.gm`:
 
-| Method                                                            | Returns   | Description                   |
-|:------------------------------------------------------------------| :-------- | :-----------------------------|
-| `enableGlobalLassoMode()`  | -         | Enables global Lasso Mode.                                             |
-| `disableGlobalLassoMode()` | -         | Disables global Lasso Mode.                                            |
-| `toggleGlobalLassoMode()`  | -         | Toggles global Lasso Mode.                                             |
-| `globalLassoModeEnabled()` | `Boolean` | Returns `true` if global Lasso Mode is enabled. `false` when disabled. |
+| Method                                      | Returns   | Description                                                            |
+|:--------------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'lasso')`               | -         | Enables global Lasso Mode.                                             |
+| `disableMode('edit', 'lasso')`              | -         | Disables global Lasso Mode.                                            |
+| `toggleMode('edit', 'lasso')`               | -         | Toggles global Lasso Mode.                                             |
+| `isModeEnabled('edit', 'lasso')`            | `Boolean` | Returns `true` if global Lasso Mode is enabled. `false` when disabled. |
 
 The following events are available on a map instance:
 
