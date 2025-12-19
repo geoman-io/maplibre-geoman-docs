@@ -52,6 +52,41 @@ const feature = {
 gm.features.importGeoJsonFeature(feature);
 ```
 
+### Using a Property as the Feature ID
+
+You can specify a property name to use as the feature ID during import with the `idPropertyName` option:
+
+```typescript
+// GeoJSON with ID stored in properties
+const featureCollection = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: {
+        shape: 'polygon',
+        customId: 'my-custom-id-123',  // Use this as the feature ID
+        name: 'My Polygon'
+      },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [/* ... */]
+      }
+    }
+  ]
+};
+
+// Import using the 'customId' property as the feature ID
+const result = gm.features.importGeoJson(featureCollection, {
+  idPropertyName: 'customId'
+});
+
+// The feature will have ID 'my-custom-id-123'
+const feature = gm.features.get('gm_main', 'my-custom-id-123');
+```
+
+This is useful when your GeoJSON data stores IDs in a property rather than the top-level `id` field.
+
 ## The `__gm_id` Property
 
 When exporting features from Geoman, each feature will have a `__gm_id` property in its properties object. This is Geoman's internal identifier for the feature.
@@ -80,18 +115,20 @@ const feature = {
 
 ### Reimporting Exported Features
 
-When reimporting features that were previously exported from Geoman, the `__gm_id` property will be used to maintain feature identity:
+When reimporting features that were previously exported from Geoman, you can use the `overwrite` option to replace existing features with matching IDs:
 
 ```typescript
 // Export features
 const exported = gm.features.exportGeoJson();
 
-// Later, reimport the same features
-exported.features.forEach(feature => {
-  gm.features.importGeoJsonFeature(feature);
-  // The _gmid will be preserved, maintaining feature identity
-});
+// Later, reimport the same features with overwrite to replace existing ones
+const result = gm.features.importGeoJson(exported, { overwrite: true });
+
+// Check how many features were replaced
+console.log(`Replaced ${result.stats.overwritten} existing features`);
 ```
+
+Without the `overwrite` option, importing features with existing IDs will fail for those features.
 
 ## ID Generation
 
@@ -151,15 +188,6 @@ gm.features.forEach((feature, id) => {
   console.log('Feature ID:', id);
   console.log('Feature:', feature);
 });
-
-// Filter features by criteria
-const filterFn = (feature: FeatureData) => feature.shape === 'polygon';
-const filteredIterator = gm.features.filteredForEach(filterFn);
-
-filteredIterator((feature, id) => {
-  console.log('Filtered Feature ID:', id);
-  console.log('Filtered Feature:', feature);
-});
 ```
 
 ## Best Practices
@@ -182,19 +210,17 @@ const features = [
 ];
 ```
 
-2. **ID Preservation**: When exporting and reimporting, preserve the `__gm_id` property:
+2. **ID Preservation**: When exporting and reimporting, use the `overwrite` option to replace existing features:
 ```typescript
 // Export
 const exported = gm.features.exportGeoJson();
 
 // Save somewhere...
 
-// Later, reimport
+// Later, reimport with overwrite to replace existing features
 const reimported = loadSavedFeatures();
-reimported.features.forEach(feature => {
-  // _gmid in properties will be preserved
-  gm.features.importGeoJsonFeature(feature);
-});
+const result = gm.features.importGeoJson(reimported, { overwrite: true });
+console.log(`Imported ${result.stats.success} features, replaced ${result.stats.overwritten}`);
 ```
 
 3. **ID Uniqueness**: Ensure custom IDs are unique within your feature set:
