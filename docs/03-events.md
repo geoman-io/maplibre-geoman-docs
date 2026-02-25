@@ -1,3 +1,8 @@
+---
+title: "Geoman Events"
+description: "Event system reference for listening to draw, edit, drag, cut, rotate, and other geometry interactions."
+---
+
 # Geoman Events
 
 Geoman provides a rich event system that allows you to listen to various interactions with the map. Events can be listened to either individually or globally.

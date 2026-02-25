@@ -1,3 +1,7 @@
+---
+title: "Geoman Options API"
+description: "API reference for GmOptions: control configuration, mode state management, settings, and layer styles."
+---
 
 # Geoman Options API
 

@@ -1,5 +1,6 @@
 ---
 title: "Modes Handling"
+description: "Enable, disable, and toggle draw, edit, and helper modes using the mode handling API."
 ---
 
 # Mode Handling

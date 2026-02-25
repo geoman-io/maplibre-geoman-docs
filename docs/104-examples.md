@@ -1,5 +1,6 @@
 ---
 title: "Examples"
+description: "Runnable code examples demonstrating common MapLibre-Geoman use cases."
 ---
 
 # Maplibre-Geoman Examples

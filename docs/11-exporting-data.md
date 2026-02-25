@@ -1,3 +1,8 @@
+---
+title: "Exporting GeoJSON"
+description: "Export features as GeoJSON FeatureCollections with filtering by source, shape type, or specific features."
+---
+
 # Exporting GeoJSON
 
 Geoman provides several methods to export features as GeoJSON. You can export all features, features from specific sources, or filtered features based on shape types.

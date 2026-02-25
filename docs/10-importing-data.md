@@ -1,5 +1,6 @@
 ---
 title: "Importing Geojson"
+description: "Import existing GeoJSON data into the map using importGeoJsonFeature and importGeoJson methods."
 ---
 
 # Importing existing Geojson data

@@ -1,3 +1,8 @@
+---
+title: "Feature IDs"
+description: "How Geoman assigns, tracks, and manages feature IDs during import, export, and editing."
+---
+
 # Feature IDs in Geoman
 
 Geoman uses feature IDs to track and manage features on the map. Understanding how these IDs work is important for importing, exporting, and managing features.

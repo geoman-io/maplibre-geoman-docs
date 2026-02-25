@@ -1,5 +1,6 @@
 ---
 title: "Basic Usage and Installation"
+description: "Installation guide, basic setup, and initialization for the free and pro versions of MapLibre-Geoman."
 ---
 
 # Basic Usage
