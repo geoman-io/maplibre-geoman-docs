@@ -3,6 +3,8 @@ title: "Lasso ⭐"
 description: "Select multiple features by drawing a freehand lasso selection area."
 ---
 
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
 # Lasso Mode
 
 Lasso Mode allows you to select multiple features by drawing a polygon around them. The selection behavior can be configured to either select features that intersect with or are contained within the lasso polygon.
@@ -64,3 +66,5 @@ import features from '../../src/components/examples/geojson/basic-edit.json';
 <BrowserOnlyGmMap
   gmOptions={editLassoOptions}
   features={features} />
+
+<IntegrationHelpCallout />
