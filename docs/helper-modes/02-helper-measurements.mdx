@@ -3,6 +3,8 @@ title: "Measurements ⭐"
 description: "Display live distance, area, and perimeter measurements during drawing and editing."
 ---
 
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
 # Measurements Helper Mode
 
 The Measurements Helper Mode provides tools to display live measurements such as distance, area, and perimeter for various shapes during map editing. This mode works with different shape types to dynamically calculate and display measurements as users draw or modify features.
@@ -75,3 +77,5 @@ import features from '../../src/components/examples/geojson/basic-edit.json';
 <BrowserOnlyGmMap
   gmOptions={helperMeasurementsOptions}
   features={features} />
+
+<IntegrationHelpCallout />

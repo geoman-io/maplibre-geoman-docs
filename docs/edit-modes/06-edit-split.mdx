@@ -3,6 +3,8 @@ title: "Split ⭐"
 description: "Split features into multiple parts using a cutting line."
 ---
 
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
 # Split Mode
 
 Split Mode allows you to draw a line that splits all underlying Polygons and Lines. When a feature is split, the original feature will be replaced with the resulting split features.
@@ -61,3 +63,5 @@ import features from '../../src/components/examples/geojson/basic-edit.json';
 <BrowserOnlyGmMap
   gmOptions={editSplitOptions}
   features={features} />
+
+<IntegrationHelpCallout />

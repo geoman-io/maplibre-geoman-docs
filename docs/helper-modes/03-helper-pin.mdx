@@ -3,6 +3,8 @@ title: "Pin ⭐"
 description: "Pin markers to specific positions that persist across interactions."
 ---
 
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
 # Pin Helper Mode
 
 The Pin Helper Mode allows you to "pin" markers or vertices together, enabling synchronized movement of all connected points when any one of them is dragged. This mode is useful for maintaining alignment across features that share the same coordinates.
@@ -48,3 +50,5 @@ import features from '../../src/components/examples/geojson/basic-edit.json';
 <BrowserOnlyGmMap
   gmOptions={helperPinOptions}
   features={features} />
+
+<IntegrationHelpCallout />
