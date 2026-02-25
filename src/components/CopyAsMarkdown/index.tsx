@@ -10,17 +10,15 @@ export default function CopyAsMarkdown({ className }: CopyAsMarkdownProps): JSX.
 
   const handleCopy = useCallback(async () => {
     try {
-      // Get the current page's markdown source URL
-      const editUrl = document.querySelector<HTMLAnchorElement>('a[href*="github.com"][href*="/edit/"]');
+      // Try fetching the local .md file generated during build
+      const currentPath = window.location.pathname.replace(/\/$/, '');
+      const mdUrl = currentPath + '.md';
 
-      if (editUrl) {
-        // Convert edit URL to raw content URL
-        const rawUrl = editUrl.href
-          .replace('github.com', 'raw.githubusercontent.com')
-          .replace('/edit/', '/');
-
-        const response = await fetch(rawUrl);
-        if (response.ok) {
+      const response = await fetch(mdUrl);
+      if (response.ok) {
+        const contentType = response.headers.get('content-type') || '';
+        // Verify we got markdown, not an HTML 404 page
+        if (!contentType.includes('text/html')) {
           const markdown = await response.text();
           await navigator.clipboard.writeText(markdown);
           setCopied(true);

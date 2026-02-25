@@ -1,3 +1,8 @@
+---
+title: "Geoman Features API"
+description: "API reference for the Features instance: importing, exporting, querying, and manipulating map features."
+---
+
 # Geoman Features API
 
 The Features API provides methods to manage and manipulate features (geometries) on the map. It is accessible through the `features` property on the Geoman instance.

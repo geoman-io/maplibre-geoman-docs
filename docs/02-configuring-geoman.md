@@ -1,3 +1,8 @@
+---
+title: "Configuring Geoman"
+description: "Configure Geoman controls, styles, settings, and layer behaviors through the options object."
+---
+
 # Configuring Geoman
 
 Geoman can be configured by passing an options object to the Geoman constructor. The configuration allows you to customize various aspects of the library, including controls, styles, and general settings.

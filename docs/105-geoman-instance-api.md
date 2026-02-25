@@ -1,3 +1,8 @@
+---
+title: "Geoman Instance API"
+description: "Complete API reference for the Geoman instance: initialization, mode management, global controls, and feature operations."
+---
+
 # Geoman Instance API
 
 The Geoman instance provides the main interface for interacting with the map editing functionality. This documentation covers all public methods available on the Geoman instance.
