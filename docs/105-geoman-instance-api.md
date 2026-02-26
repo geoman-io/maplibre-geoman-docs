@@ -10,7 +10,7 @@ The Geoman instance provides the main interface for interacting with the map edi
 ## Installation & Initialization
 
 ```typescript
-import { Geoman, GmOptionsPartial } from '@geoman-io/maplibre-geoman-pro'; // or '@geoman-io/maplibre-geoman-free'
+import { Geoman, GmOptionsPartial } from '@geoman-io/maplibre-geoman-pro'; // or '@geoman-io/maplibre-geoman-free', '@geoman-io/mapbox-geoman-pro', '@geoman-io/mapbox-geoman-free'
 
 
 const options: GmOptionsPartial = {
@@ -308,4 +308,3 @@ gm.disableAllModes();
 - `geofencing`: Geofencing mode
 - `zoom_to_features`: Zoom to features
 - `click_to_edit`: Click to edit mode
-

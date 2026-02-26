@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import llmTxtPlugin from './plugins/llm-txt-plugin';
 
 const config: Config = {
-  title: 'Documentation for MapLibre-Geoman',
-  tagline: 'A library to edit geometries in MapLibre',
+  title: 'Documentation for MapLibre-Geoman and Mapbox-Geoman',
+  tagline: 'A library to edit geometries in MapLibre and Mapbox',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -81,9 +81,9 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'MapLibre-Geoman',
+      title: 'MapLibre-Geoman / Mapbox-Geoman',
       logo: {
-        alt: 'Geoman MapLibre',
+        alt: 'Geoman Docs',
         src: 'img/geoman-logo.svg',
       },
       items: [

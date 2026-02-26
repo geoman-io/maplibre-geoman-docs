@@ -1,11 +1,13 @@
 ---
 title: "Examples"
-description: "Runnable code examples demonstrating common MapLibre-Geoman use cases."
+description: "Runnable code examples for Geoman, with MapLibre-focused demos that map directly to Mapbox packages."
 ---
 
 # Maplibre-Geoman Examples
 
 We have prepared a few examples to help you get started with Maplibre-Geoman.
+
+The examples use MapLibre package names, but the same API works for Mapbox variants (`@geoman-io/mapbox-geoman-free` / `@geoman-io/mapbox-geoman-pro`).
 
 These are available on GitHub in the [Maplibre-Geoman Examples Repository](https://github.com/geoman-io/maplibre-geoman-examples).
 

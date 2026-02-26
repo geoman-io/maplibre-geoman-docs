@@ -1,15 +1,15 @@
 ---
 sidebar_position: 0
 title: "Introduction"
-description: "Explore MapLibre-Geoman documentation: your guide to mastering this powerful geo-editing tool. Dive into tutorials, code snippets, API references and more."
+description: "Explore Geoman documentation for both MapLibre and Mapbox integrations, including tutorials, code snippets, and API references."
 slug: "/"
 ---
 
 # Documentation
 
-### For MapLibre-Geoman (Free & ⭐ Pro)
+### For MapLibre-Geoman and Mapbox-Geoman (Free & ⭐ Pro)
 
-A MapLibre Plugin For Creating And Editing Geometry Layers
+A plugin for creating and editing geometry layers in MapLibre and Mapbox.
 Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
 
 ![demo](/img/geoman-maplibre-demo.png)
@@ -20,9 +20,17 @@ Features _not_ available in the free version are marked with a star (⭐).
 
 ## Installation
 
-The Free and Pro version of MapLibre-Geoman are now available.
+This documentation covers both package families:
 
-See below for installation instructions for each version.
+- `@geoman-io/maplibre-geoman-free` and `@geoman-io/maplibre-geoman-pro`
+- `@geoman-io/mapbox-geoman-free` and `@geoman-io/mapbox-geoman-pro`
+
+The implementation is maintained as dual-target workspaces:
+
+- In `maplibre-geoman` (free): `packages/core`, `packages/maplibre`, and `packages/mapbox`
+- In `maplibre-geoman-pro` (pro): `packages/core`, `packages/maplibre`, `packages/mapbox`, `packages/maplibre-pro`, and `packages/mapbox-pro`
+
+See [Basic Usage and Installation](/basics) for setup instructions for each variant.
 
 ## **Get Started**
 

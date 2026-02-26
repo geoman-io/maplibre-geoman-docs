@@ -1,22 +1,35 @@
 ---
 title: "Basic Usage and Installation"
-description: "Installation guide, basic setup, and initialization for the free and pro versions of MapLibre-Geoman."
+description: "Installation guide, basic setup, and initialization for MapLibre-Geoman and Mapbox-Geoman (free and pro)."
 ---
 
 import ProCallout from '@site/src/components/ProCallout';
 
 # Basic Usage
 
+This documentation applies to both adapter packages:
+
+- `@geoman-io/maplibre-geoman-*`
+- `@geoman-io/mapbox-geoman-*`
+
+Both adapters share the same Geoman API and are built from the same core package in the `maplibre-geoman`/`maplibre-geoman-pro` workspaces.
+
 ## Installation
 
 ### Free Version
 
 ```shell
-# install free version
+# install MapLibre free version
 npm install @geoman-io/maplibre-geoman-free
+
+# install Mapbox free version
+npm install @geoman-io/mapbox-geoman-free
 ```
 
-The Free version can also be downloaded directly from [https://www.npmjs.com/package/@geoman-io/maplibre-geoman-free](https://www.npmjs.com/package/@geoman-io/maplibre-geoman-free).
+The free packages are available on npm:
+
+- [@geoman-io/maplibre-geoman-free](https://www.npmjs.com/package/@geoman-io/maplibre-geoman-free)
+- [@geoman-io/mapbox-geoman-free](https://www.npmjs.com/package/@geoman-io/mapbox-geoman-free)
 
 ### Pro Version
 
@@ -31,8 +44,11 @@ Add the following content to .npmrc in your project root
 Replace `<YOUR LICENSE KEY>` with your license key.
 
 ```shell
-# install pro version
+# install MapLibre pro version
 npm install @geoman-io/maplibre-geoman-pro
+
+# install Mapbox pro version
+npm install @geoman-io/mapbox-geoman-pro
 ```
 
 Don't have a license key yet? <a href="https://geoman.io/pricing" className="pro-cta-link">Purchase one here</a>.
@@ -53,7 +69,7 @@ To install the Pro version on Vercel, follow these steps:
   ```
     engine-strict=true
     @geoman-io:registry=https://npm.geoman.io
-    //npm.geoman.io:_authToken=${NPM_TOKEN_GEOMAN}
+    //npm.geoman.io/:_authToken=${NPM_TOKEN_GEOMAN}
   ```
 
 
@@ -68,7 +84,7 @@ Once these variables are set, Vercel will use the correct .npmrc configuration a
 <!-- index.html -->
 <html lang="en_US">
 <head>
-  <title>Geoman Maplibre</title>
+  <title>Geoman MapLibre / Mapbox</title>
   <style>
     #dev-map {
       height: 100vh;
@@ -82,15 +98,14 @@ Once these variables are set, Vercel will use the correct .npmrc configuration a
 </html>
 ```
 
-## Maplibre and Geoman initialization
+## MapLibre and Geoman initialization
 
 ```typescript
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@geoman-io/maplibre-geoman-free/dist/maplibre-geoman.css';
 
 import ml from 'maplibre-gl';
-import { Geoman, type GmOptionsPartial } from '@geoman-io/maplibre-geoman-free';
-
+import { Geoman, type GmOptionsPartial } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro'
 
 const mapLibreStyle: ml.StyleSpecification = {
   version: 8,
@@ -143,7 +158,6 @@ map.on('gm:loaded', () => {
   // add a geojson shape to the map
   geoman.features.importGeoJsonFeature(shapeGeoJson);
 
-
   const shapeGeoJson2 = {
     type: 'Feature',
     geometry: { type: 'Point', coordinates: [3, 52] },
@@ -151,6 +165,58 @@ map.on('gm:loaded', () => {
   };
   // geoman instance is also available on the map object
   map.gm?.features.importGeoJsonFeature(shapeGeoJson2);
+});
+```
 
+## Mapbox and Geoman initialization
+
+```typescript
+import mapboxgl from 'mapbox-gl';
+import { Geoman, type GmOptionsPartial } from '@geoman-io/mapbox-geoman-free'; // or '@geoman-io/mapbox-geoman-pro'
+
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@geoman-io/mapbox-geoman-free/dist/mapbox-geoman.css';
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN ?? '';
+
+const mapStyle: mapboxgl.StyleSpecification = {
+  version: 8,
+  glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+  sources: {
+    'osm-tiles': {
+      type: 'raster',
+      tiles: [
+        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      ],
+      tileSize: 256,
+      attribution: '© OpenStreetMap contributors',
+    },
+  },
+  layers: [
+    {
+      id: 'osm-tiles-layer',
+      type: 'raster',
+      source: 'osm-tiles',
+      minzoom: 0,
+      maxzoom: 19,
+    },
+  ],
+};
+
+const map = new mapboxgl.Map({
+  container: 'dev-map',
+  style: mapStyle,
+  center: [0, 51],
+  zoom: 5,
+});
+
+const gmOptions: GmOptionsPartial = {
+  // geoman options here
+};
+
+const geoman = new Geoman(map, gmOptions);
+
+map.on('gm:loaded', () => {
+  console.log('Geoman fully loaded');
 });
 ```

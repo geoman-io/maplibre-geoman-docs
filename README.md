@@ -1,33 +1,41 @@
-# Website
+# Geoman Documentation Website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This website is built with [Docusaurus](https://docusaurus.io/) and deployed to `https://geoman.io/docs/maplibre`.
 
-This repo is automatically deployed to https://geoman.io/docs
+It documents both adapter families:
 
-# Contributing
+- `@geoman-io/maplibre-geoman-*`
+- `@geoman-io/mapbox-geoman-*`
 
-PRs that improve documentation are always welcome
+The docs are aligned with the current workspace structure in sibling repositories:
 
-## Working locally
+- `../maplibre-geoman` (free): `packages/core`, `packages/maplibre`, `packages/mapbox`
+- `../maplibre-geoman-pro` (pro): `packages/core`, `packages/maplibre`, `packages/mapbox`, `packages/maplibre-pro`, `packages/mapbox-pro`
+
+## Contributing
+
+PRs that improve documentation are welcome.
+
+## Working Locally
 
 ### Installation
 
-```
-$ npm i
+```shell
+npm i
 ```
 
 ### Local Development
 
-```
-$ npm run start
+```shell
+npm run start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Starts a local development server with live reload.
 
 ### Build
 
-```
-$ npm run start
+```shell
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Generates static content into the `build` directory.
