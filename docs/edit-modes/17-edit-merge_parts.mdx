@@ -1,0 +1,77 @@
+---
+title: "Merge Parts ⭐"
+description: "Combine several features into one multipolygon (parts kept disjoint)."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Merge Parts Mode
+
+:::info Pro feature
+Merge Parts Mode is part of the polygon sub-editing suite and is only available in **MapLibre-Geoman Pro**.
+:::
+
+Combine the selected polygon/multipolygon features into a single `MultiPolygon` — the inverse of [Explode](./16-edit-explode.mdx). Parts are **collected, not dissolved** like `union`: they stay disjoint in the resulting multipolygon. Merge Parts is selection-driven and **one-shot**: select two or more features, then activate the mode and it merges the selection and immediately disables itself.
+
+You can handle Merge Parts Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'merge_parts');
+map.gm.disableMode('edit', 'merge_parts');
+map.gm.toggleMode('edit', 'merge_parts');
+map.gm.isModeEnabled('edit', 'merge_parts');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                   | Returns   | Description                                                         |
+|:-----------------------------------------|:----------|:-------------------------------------------------------------------|
+| `enableMode('edit', 'merge_parts')`      | -         | Enables Merge Parts Mode (runs once on the selection).             |
+| `disableMode('edit', 'merge_parts')`     | -         | Disables Merge Parts Mode.                                         |
+| `toggleMode('edit', 'merge_parts')`      | -         | Toggles Merge Parts Mode.                                          |
+| `isModeEnabled('edit', 'merge_parts')`   | `Boolean` | Returns `true` if Merge Parts Mode is enabled. `false` when disabled. |
+
+## Selection requirement
+
+Merge Parts is gated on selecting **two or more polygons**. Build the selection with [Select Mode](./12-edit-select.mdx) (ctrl/cmd-click to add features), with ctrl/cmd-click in [Drag Mode](./00-edit-drag.mdx), or with `geoman.features.setSelection([idA, idB])`, then activate the mode.
+
+## Events
+
+Merge Parts does not emit per-mode start/end events. It creates the merged feature, deletes each consumed source part, and emits a feature-updated event linking the sources to the merged target:
+
+| Event                              | Params  | Description                                                              | Output                                |
+| :--------------------------------- | :------ | :--------------------------------------------------------------------- | :------------------------------------ |
+| `gm:create`                        | `event` | Fired when the merged multipolygon feature is created.                  | `map`, `feature`                      |
+| `gm:remove`                        | `event` | Fired for **each** consumed source part that is deleted.                | `map`, `feature`                      |
+| `gm:merge_parts`                   | `event` | Fired with the source features and the resulting merged feature.        | `map`, `originalFeatures`, `feature`  |
+| `gm:operation_rejected`            | `event` | Fired when the merge cannot be applied (no geometry change).            | `map`, `mode`, `reason`, `feature`    |
+| `gm:globalmerge_partsmodetoggled`  | `event` | Fired when Merge Parts Mode is toggled.                                 | `enabled`, `map`                      |
+
+For Merge Parts the `gm:operation_rejected` `reason` is `no_target` (fewer than two polygons selected) or `invalid_geometry` (the parts could not be merged, or the merged feature could not be created).
+
+```js
+map.on('gm:operation_rejected', (event) => {
+  if (event.mode === 'merge_parts') {
+    showToast(`Could not merge: ${event.reason}`);
+  }
+});
+
+map.on('gm:globalmerge_partsmodetoggled', (event) => {
+  console.log(event.enabled);
+});
+```
+
+## Behavior
+
+The selected polygon/multipolygon geometries are collected into a single `MultiPolygon` (kept disjoint, **not** dissolved like `union`). A new merged feature is created and the selection is updated to it; each consumed source feature is then deleted **and** announced via `gm:remove`, so a host that owns the data and syncs its own store on `gm:remove` learns the parts are gone, not just that a merged feature appeared. The merge bails out before deleting any source if the merged feature could not be created, so the parts are never destroyed without a replacement.
+
+## Programmatic API
+
+The same operation is available without the toolbar via the `geoman.edit` façade, driving the edit by feature ids:
+
+```js
+const result = await geoman.edit.merge([idA, idB]);
+if (result.ok) console.log(result.feature); // the merged multipolygon
+```
+
+<IntegrationHelpCallout />

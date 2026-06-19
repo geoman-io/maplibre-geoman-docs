@@ -1,0 +1,63 @@
+---
+title: "Shape Markers"
+description: "Render the vertex, edge and center markers that make a shape editable."
+---
+
+# Shape Markers Helper Mode
+
+The Shape Markers Helper Mode renders the interactive markers that make a feature editable: vertex markers at each point, edge (midpoint) markers along segments, and a center marker for shapes that have one (circles, ellipses, rectangles). Dragging these markers is what moves a shape's geometry, so this helper is what turns a static feature into an editable one.
+
+You can handle Shape Markers Helper Mode with the following methods:
+
+```js
+map.gm.enableMode('helper', 'shape_markers');
+map.gm.disableMode('helper', 'shape_markers');
+map.gm.toggleMode('helper', 'shape_markers');
+map.gm.isModeEnabled('helper', 'shape_markers');
+```
+
+### Methods
+
+| Method                                          | Description                                                     |
+|:------------------------------------------------|:---------------------------------------------------------------|
+| `map.gm.enableMode('helper', 'shape_markers')`  | Enables the Shape Markers Helper Mode and draws the markers.    |
+| `map.gm.disableMode('helper', 'shape_markers')` | Disables the mode and removes the markers.                      |
+| `map.gm.toggleMode('helper', 'shape_markers')`  | Toggles the mode on or off.                                     |
+| `map.gm.isModeEnabled('helper', 'shape_markers')` | Returns `true` when the mode is currently enabled.           |
+
+### Events for Shape Markers Helper Mode
+
+The following event is available on a map instance:
+
+| Event                                | Params  | Description                                       | Output            |
+|:-------------------------------------|:--------|:--------------------------------------------------|:------------------|
+| `gm:globalshape_markersmodetoggled`  | `event` | Fired when Shape Markers Helper Mode is toggled.  | `enabled`, `map`  |
+
+### Example Usage
+
+You can listen for the Shape Markers Helper Mode toggle event on the map instance like this:
+
+```js
+map.on('gm:globalshape_markersmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+When Shape Markers Mode is enabled:
+
+1. **Marker generation**: For every editable feature, the helper adds vertex markers at the shape's points, and (when the active edit mode supports it) edge midpoint markers along its segments. Shapes with a defined center (`circle`, `line`, `rectangle`, `polygon`, `ellipse` are the supported shapes) also receive a center marker.
+2. **Dragging moves geometry**: Pressing on a marker captures it and disables map drag-pan; moving the pointer emits marker-move events that update the feature's geometry; releasing finishes the edit. A marker drag also selects the feature it belongs to.
+3. **Edge markers become vertices**: Dragging an edge (midpoint) marker converts it into a new vertex, inserting a point into the shape.
+4. **Center marker**: For shapes that expose a `center` property, the center marker is kept in sync with the geometry as the shape changes.
+5. **Live refresh**: Markers are rebuilt as features are created or updated, so the marker set always reflects the current geometry.
+6. **Edge markers are gated by edit mode**: Edge (midpoint) markers are only drawn when the `change` edit mode is active. Marker interaction is limited to the `drag`, `change`, `cut` and `split` edit modes.
+
+### Skipped features
+
+Markers are not generated for features that are temporary, are not one of the supported shapes, or have the `disableEdit` shape property set to `true`.
+
+### Pin integration
+
+When the [Pin Helper Mode](./03-helper-pin.mdx) is also active, dragging a marker that shares coordinates with other markers moves all of them together, so co-located vertices stay aligned.

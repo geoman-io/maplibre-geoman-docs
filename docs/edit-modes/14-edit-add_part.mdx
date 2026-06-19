@@ -1,0 +1,94 @@
+---
+title: "Add Part ⭐"
+description: "Append a new part to a polygon, promoting it to a multipolygon."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Add Part Mode
+
+:::info Pro feature
+Add Part Mode is part of the polygon sub-editing suite and is only available in **MapLibre-Geoman Pro**.
+:::
+
+Draw a polygon to append it as a new part of a target polygon/multipolygon feature, promoting a `Polygon` to a `MultiPolygon` when needed (the QGIS "Add Part" tool). Click to place each vertex and click the first vertex again to close the part; **right-click discards** the part currently being drawn. Snapping engages automatically while the mode is active.
+
+You can handle Add Part Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'add_part');
+map.gm.disableMode('edit', 'add_part');
+map.gm.toggleMode('edit', 'add_part');
+map.gm.isModeEnabled('edit', 'add_part');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                | Returns   | Description                                                                |
+|:--------------------------------------|:----------|:--------------------------------------------------------------------------|
+| `enableMode('edit', 'add_part')`      | -         | Enables global Add Part Mode.                                             |
+| `disableMode('edit', 'add_part')`     | -         | Disables global Add Part Mode.                                            |
+| `toggleMode('edit', 'add_part')`      | -         | Toggles global Add Part Mode.                                             |
+| `isModeEnabled('edit', 'add_part')`   | `Boolean` | Returns `true` if global Add Part Mode is enabled. `false` when disabled. |
+
+## Selection requirement
+
+Add Part operates on a **single selected polygon parent**, mirroring desktop GIS ("add part to the active feature"). Its toolbar button is disabled with a guidance tooltip ("Select a polygon to continue") until exactly one polygon is selected. Use [Select Mode](./12-edit-select.mdx) — or `geoman.features.setSelection([id])` — to pick the parent first. The `targetStrategy` option (below) controls how the target is resolved when the selection is missing or you prefer the nearest feature. Hosts that manage availability themselves can disable this gating with `settings.disableSelectionGating: true`; the mode still validates at run time.
+
+## Events
+
+Add Part does not emit per-mode start/end events. It uses the standard edit/feature events for success, and `gm:operation_rejected` when the part cannot be applied:
+
+| Event                            | Params  | Description                                                  | Output                              |
+| :------------------------------- | :------ | :---------------------------------------------------------- | :---------------------------------- |
+| `gm:add_part`                    | `event` | Fired when a part is successfully added (feature updated).  | `map`, `feature`, `originalFeature` |
+| `gm:operation_rejected`          | `event` | Fired when the drawn part is rejected (no geometry change). | `map`, `mode`, `reason`, `feature`  |
+| `gm:globaladd_partmodetoggled`   | `event` | Fired when Add Part Mode is toggled.                        | `enabled`, `map`                    |
+
+`gm:operation_rejected` carries `{ mode, reason, feature }`. For Add Part the `reason` is one of:
+
+- `overlap` — the part genuinely overlaps the existing geometry (parts are disjoint by default; a part that merely touches along a shared edge/vertex is accepted).
+- `no_target` — no eligible target feature was found.
+- `invalid_geometry` — the drawn shape is not a usable polygon.
+
+```js
+map.on('gm:operation_rejected', (event) => {
+  if (event.mode === 'add_part') {
+    showToast(`Could not add part: ${event.reason}`);
+  }
+});
+
+map.on('gm:globaladd_partmodetoggled', (event) => {
+  console.log(event.enabled);
+});
+```
+
+## Behavior
+
+The drawn polygon is appended as a new part of the target feature, promoting a `Polygon` to a `MultiPolygon` when needed. Multipolygon parts are disjoint by default — a part that overlaps the existing geometry is rejected unless **Allow overlapping parts** is enabled; a part that only touches along a shared edge or vertex is accepted as a valid adjacent part.
+
+## Options
+
+These options appear in the mode's control menu and can also be set programmatically on the active mode instance:
+
+| Option           | Type                                     | Default | Meaning                                                                                                                                                                          |
+| :--------------- | :--------------------------------------- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `targetStrategy` | select: `auto` \| `selection` \| `nearest` | `auto`  | `auto` uses the selected feature and falls back to the nearest polygon; `selection` requires an explicit selection (QGIS-style); `nearest` always attaches to the nearest polygon. |
+| `allowOverlap`   | toggle                                   | `false` | Allow a part that overlaps existing geometry (parts are disjoint by default).                                                                                                   |
+
+```js
+map.gm.enableMode('edit', 'add_part');
+geoman.actionInstances['edit__add_part']?.applyOptionValue('targetStrategy', 'nearest');
+geoman.actionInstances['edit__add_part']?.applyOptionValue('allowOverlap', true);
+```
+
+## Programmatic API
+
+The same operation is available without the toolbar via the `geoman.edit` façade, driving the edit by feature id:
+
+```js
+const result = await geoman.edit.addPart(featureId, partRings, { allowOverlap: false });
+if (!result.ok) showToast(result.reason); // 'overlap' | 'no_target' | …
+```
+
+<IntegrationHelpCallout />

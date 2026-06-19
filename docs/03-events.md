@@ -176,6 +176,37 @@ map.on('gm:cut', (event: FeatureUpdatedFwdEvent) => {
 });
 ```
 
+### Selection Events
+
+Fired whenever the global feature selection changes (a feature is selected,
+deselected, or the selection is cleared). The `selection` payload is an array of
+the currently selected feature IDs.
+
+```typescript
+map.on('gm:selection', (event: SelectionChangedFwdEvent) => {
+  console.log('Selection changed:', event.selection); // Array<FeatureId>
+});
+```
+
+### Operation Rejected Events
+
+Fired when an edit operation is intentionally **not** applied — for example a
+hole ring is not contained, a part overlaps existing geometry, or nothing is
+selected. The geometry is left untouched and this event is emitted so you can
+surface feedback (a toast/snackbar) the way desktop GIS tools do.
+
+```typescript
+map.on('gm:operation_rejected', (event: OperationRejectedFwdEvent) => {
+  // event.mode    — the edit mode (e.g. 'add_hole', 'add_part')
+  // event.reason  — why it was rejected (see below)
+  // event.feature — the target FeatureData when known, otherwise null
+  console.warn(`Could not ${event.mode}: ${event.reason}`);
+});
+```
+
+The `reason` is one of: `not_contained`, `self_intersection`, `overlap`,
+`no_target`, or `invalid_geometry`.
+
 ### Helper Events
 
 Events related to helper functionality:
@@ -365,6 +396,24 @@ interface FeatureUpdatedFwdEvent {
 interface GlobalEditToggledFwdEvent {
   name: `gm:global${FwdEditModeName}modetoggled`;
   enabled: boolean;
+  map: AnyMapInstance;
+}
+
+interface SelectionChangedFwdEvent {
+  name: 'gm:selection';
+  actionType: 'edit';
+  action: 'selection_change';
+  selection: Array<FeatureId>; // currently selected feature IDs
+  map: AnyMapInstance;
+}
+
+interface OperationRejectedFwdEvent {
+  name: 'gm:operation_rejected';
+  actionType: 'edit';
+  action: 'operation_rejected';
+  mode: EditModeName;
+  reason: 'not_contained' | 'self_intersection' | 'overlap' | 'no_target' | 'invalid_geometry';
+  feature: FeatureData | null; // the target feature when known, else null
   map: AnyMapInstance;
 }
 ```

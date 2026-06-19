@@ -1,0 +1,74 @@
+{
+  "libraryVersion": "0.8.3",
+  "modes": {
+    "draw": [
+      "marker",
+      "circle",
+      "circle_marker",
+      "ellipse",
+      "text_marker",
+      "line",
+      "rectangle",
+      "polygon",
+      "freehand",
+      "custom_shape"
+    ],
+    "edit": [
+      "select",
+      "drag",
+      "change",
+      "rotate",
+      "scale",
+      "copy",
+      "cut",
+      "split",
+      "union",
+      "difference",
+      "line_simplification",
+      "lasso",
+      "add_hole",
+      "add_part",
+      "remove_ring",
+      "explode",
+      "merge_parts",
+      "reshape",
+      "delete"
+    ],
+    "helper": [
+      "shape_markers",
+      "pin",
+      "snapping",
+      "snap_guides",
+      "measurements",
+      "auto_trace",
+      "geofencing",
+      "zoom_to_features",
+      "click_to_edit"
+    ]
+  },
+  "api": {
+    "edit": [
+      "addHole",
+      "addPart",
+      "removeRing",
+      "reshape",
+      "explode",
+      "merge"
+    ],
+    "layers": [
+      "getSourceIds",
+      "getLayerIds",
+      "ownsSource",
+      "ownsLayer",
+      "setVisibility",
+      "setOpacity"
+    ]
+  },
+  "rejectionReasons": [
+    "not_contained",
+    "self_intersection",
+    "overlap",
+    "no_target",
+    "invalid_geometry"
+  ]
+}

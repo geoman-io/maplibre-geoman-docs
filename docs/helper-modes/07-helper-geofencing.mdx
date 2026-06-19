@@ -1,0 +1,62 @@
+---
+title: "Geofencing ⭐"
+description: "Restrict where features may be drawn or edited using containment and intersection rules."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Geofencing Helper Mode
+
+The Geofencing Helper Mode restricts where features may be created or edited. It evaluates each drawn or edited feature against two sets of rules — *containment* (the feature must stay inside an allowed area) and *intersection* (the feature must not overlap a restricted area) — and blocks the operation when a rule is violated.
+
+You can handle Geofencing Helper Mode with the following methods:
+
+```js
+map.gm.enableMode('helper', 'geofencing');
+map.gm.disableMode('helper', 'geofencing');
+map.gm.toggleMode('helper', 'geofencing');
+map.gm.isModeEnabled('helper', 'geofencing');
+```
+
+### Methods
+
+| Method                                       | Description                                              |
+|:---------------------------------------------|:---------------------------------------------------------|
+| `map.gm.enableMode('helper', 'geofencing')`  | Enables the Geofencing Helper Mode.                      |
+| `map.gm.disableMode('helper', 'geofencing')` | Disables the mode and clears its configured rule sets.   |
+| `map.gm.toggleMode('helper', 'geofencing')`  | Toggles the mode on or off.                              |
+| `map.gm.isModeEnabled('helper', 'geofencing')` | Returns `true` when the mode is currently enabled.     |
+
+### Events for Geofencing Helper Mode
+
+The following event is available on a map instance:
+
+| Event                              | Params  | Description                                   | Output            |
+|:-----------------------------------|:--------|:----------------------------------------------|:------------------|
+| `gm:globalgeofencingmodetoggled`   | `event` | Fired when Geofencing Helper Mode is toggled. | `enabled`, `map`  |
+
+### Example Usage
+
+You can listen for the Geofencing Helper Mode toggle event on the map instance like this:
+
+```js
+map.on('gm:globalgeofencingmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+When Geofencing Mode is enabled, it intercepts the internal draw and edit pipeline before a feature is created or updated and checks it against the configured rules:
+
+1. **Containment**: If one or more *containment* features (polygons or multipolygons) are configured, the candidate feature must lie inside at least one of them. A feature that falls outside every containment area is a `containment_violation`.
+2. **Intersection**: If one or more *restricted intersection* features are configured, the candidate feature must not intersect any of them. A feature that intersects a restricted area is an `intersection_violation`.
+3. **Blocking**: When a draw produces a violation, feature creation is blocked; when an edit produces a violation, the update is blocked. The operation is rejected rather than applied.
+
+If no containment features are configured, containment always passes; if no restricted intersection features are configured, intersection never fails. With neither configured, geofencing has no effect even when enabled.
+
+:::note
+Containment and intersection rule sets are evaluated only against the *first* feature in each draw/edit operation. Configure the rule features against the live `GeoFencingHelper` instance — there is no public map event payload for individual violations; violations are handled internally to block the offending create/update.
+:::
+
+<IntegrationHelpCallout />

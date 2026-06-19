@@ -1,0 +1,77 @@
+---
+title: "Explode ⭐"
+description: "Split a multipolygon into separate single-polygon features."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Explode Mode
+
+:::info Pro feature
+Explode Mode is part of the polygon sub-editing suite and is only available in **MapLibre-Geoman Pro**.
+:::
+
+Split the selected multipolygon into separate single-polygon features — the inverse of [Merge Parts](./17-edit-merge_parts.mdx). Explode is selection-driven and **one-shot**: select a multipolygon, then activate the mode and it explodes the selection and immediately disables itself.
+
+You can handle Explode Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'explode');
+map.gm.disableMode('edit', 'explode');
+map.gm.toggleMode('edit', 'explode');
+map.gm.isModeEnabled('edit', 'explode');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                               | Returns   | Description                                                               |
+|:-------------------------------------|:----------|:-------------------------------------------------------------------------|
+| `enableMode('edit', 'explode')`      | -         | Enables Explode Mode (runs once on the selection).                       |
+| `disableMode('edit', 'explode')`     | -         | Disables Explode Mode.                                                    |
+| `toggleMode('edit', 'explode')`      | -         | Toggles Explode Mode.                                                     |
+| `isModeEnabled('edit', 'explode')`   | `Boolean` | Returns `true` if Explode Mode is enabled. `false` when disabled.        |
+
+## Selection requirement
+
+Explode is gated on having a **multipolygon selected**. Select a multipolygon first via [Select Mode](./12-edit-select.mdx) or `geoman.features.setSelection([id])`, then activate the mode.
+
+## Events
+
+Explode does not emit per-mode start/end events. It creates one feature per part, deletes the original, and emits a feature-updated event linking source to targets:
+
+| Event                            | Params  | Description                                                       | Output                       |
+| :------------------------------- | :------ | :--------------------------------------------------------------- | :--------------------------- |
+| `gm:create`                      | `event` | Fired for each new single-polygon feature created.               | `map`, `feature`             |
+| `gm:remove`                      | `event` | Fired when the original multipolygon feature is deleted.         | `map`, `feature`             |
+| `gm:explode`                     | `event` | Fired with the source feature and the resulting target features. | `map`, `originalFeatures`, `features` |
+| `gm:operation_rejected`          | `event` | Fired when there is nothing to explode (no geometry change).      | `map`, `mode`, `reason`, `feature` |
+| `gm:globalexplodemodetoggled`    | `event` | Fired when Explode Mode is toggled.                              | `enabled`, `map`             |
+
+For Explode the `gm:operation_rejected` `reason` is `no_target` (no selected feature, or the selection is not a multipolygon with two or more parts).
+
+```js
+map.on('gm:operation_rejected', (event) => {
+  if (event.mode === 'explode') {
+    showToast(`Could not explode: ${event.reason}`);
+  }
+});
+
+map.on('gm:globalexplodemodetoggled', (event) => {
+  console.log(event.enabled);
+});
+```
+
+## Behavior
+
+Each part's ring-set (`[outerRing, ...holes]`) becomes a standalone `Polygon` feature. The original multipolygon is deleted only after at least one part was successfully created, so a failed split never destroys the geometry with nothing to show. A `Polygon` (or a multipolygon with a single part) has nothing to split and is rejected with `no_target`.
+
+## Programmatic API
+
+The same operation is available without the toolbar via the `geoman.edit` façade, driving the edit by feature id:
+
+```js
+const result = await geoman.edit.explode(featureId);
+if (result.ok) console.log(result.features); // the new single-polygon features
+```
+
+<IntegrationHelpCallout />

@@ -1,0 +1,63 @@
+---
+title: "Select ⭐"
+description: "Select and inspect features into the global selection."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Select Mode
+
+:::info Pro feature
+Select Mode is part of the polygon sub-editing suite and is only available in **MapLibre-Geoman Pro**.
+:::
+
+A dedicated select/inspect tool that drives the global selection (`features.selection`). Click a feature to select it, ctrl/cmd-click to toggle it in a multi-feature selection, or click empty space to clear. The selection is rendered globally (the selected feature's border turns red) and is consumed by the selection-gated sub-editing tools (`add_hole`, `add_part`, `remove_ring`, `explode`, `merge_parts`, `reshape`).
+
+You can handle Select Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'select');
+map.gm.disableMode('edit', 'select');
+map.gm.toggleMode('edit', 'select');
+map.gm.isModeEnabled('edit', 'select');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                              | Returns   | Description                                                              |
+|:------------------------------------|:----------|:------------------------------------------------------------------------|
+| `enableMode('edit', 'select')`      | -         | Enables global Select Mode.                                             |
+| `disableMode('edit', 'select')`     | -         | Disables global Select Mode.                                            |
+| `toggleMode('edit', 'select')`      | -         | Toggles global Select Mode.                                             |
+| `isModeEnabled('edit', 'select')`   | `Boolean` | Returns `true` if global Select Mode is enabled. `false` when disabled. |
+
+## Events
+
+Select Mode does not emit per-mode start/end events. It changes the global selection, so the relevant events are the selection event and the mode-toggle event:
+
+| Event                          | Params  | Description                                              | Output             |
+| :----------------------------- | :------ | :------------------------------------------------------- | :----------------- |
+| `gm:selection`                 | `event` | Fired whenever the global selection set changes.        | `selection`, `map` |
+| `gm:globalselectmodetoggled`   | `event` | Fired when Select Mode is toggled.                      | `enabled`, `map`   |
+
+```js
+map.on('gm:selection', (event) => {
+  console.log(event.selection); // array of selected feature ids
+});
+
+map.on('gm:globalselectmodetoggled', (event) => {
+  console.log(event.enabled);
+});
+```
+
+## Behavior
+
+- **Click a feature** — replaces the selection with just that feature.
+- **Ctrl/Cmd-click a feature** — toggles that feature in or out of a multi-feature selection (so you can pick several polygons before merging).
+- **Click empty space** — clears the selection.
+
+The globally selected features are always outlined (in any mode): the feature keeps its normal fill and its border turns red. Selecting a polygon enables the selection-gated tools (`add_hole`, `add_part`, `merge_parts`, …); clearing it disables them again.
+
+Selection is the standard geoman selection, so it can also be driven programmatically with `geoman.features.setSelection([id])` / `geoman.features.clearSelection()`, and observed via the `gm:selection` event.
+
+<IntegrationHelpCallout />

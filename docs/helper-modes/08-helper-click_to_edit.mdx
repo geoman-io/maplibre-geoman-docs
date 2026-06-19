@@ -1,0 +1,66 @@
+---
+title: "Click to Edit ⭐"
+description: "Park features out of editing and click a single feature to make it editable on demand."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Click to Edit Helper Mode
+
+The Click to Edit Helper Mode makes editing opt-in per feature. When enabled, it parks every editable feature out of the editable source so nothing shows edit markers by default. A plain click on a feature then makes *that* feature editable; clicking it again parks it back. It is designed to pair with an edit mode (for example `edit:change`) so the clicked feature gains vertex markers and can be edited, while the rest of the map stays quiet.
+
+You can handle Click to Edit Helper Mode with the following methods:
+
+```js
+map.gm.enableMode('helper', 'click_to_edit');
+map.gm.disableMode('helper', 'click_to_edit');
+map.gm.toggleMode('helper', 'click_to_edit');
+map.gm.isModeEnabled('helper', 'click_to_edit');
+```
+
+### Methods
+
+| Method                                          | Description                                                                  |
+|:------------------------------------------------|:-----------------------------------------------------------------------------|
+| `map.gm.enableMode('helper', 'click_to_edit')`  | Enables the mode and parks every editable feature into the standby source.   |
+| `map.gm.disableMode('helper', 'click_to_edit')` | Disables the mode and restores the features it parked back into editing.     |
+| `map.gm.toggleMode('helper', 'click_to_edit')`  | Toggles the mode on or off.                                                  |
+| `map.gm.isModeEnabled('helper', 'click_to_edit')` | Returns `true` when the mode is currently enabled.                         |
+
+### Events for Click to Edit Helper Mode
+
+The following event is available on a map instance:
+
+| Event                                | Params  | Description                                       | Output            |
+|:-------------------------------------|:--------|:--------------------------------------------------|:------------------|
+| `gm:globalclick_to_editmodetoggled`  | `event` | Fired when Click to Edit Helper Mode is toggled.  | `enabled`, `map`  |
+
+### Example Usage
+
+You can listen for the Click to Edit Helper Mode toggle event on the map instance like this:
+
+```js
+map.on('gm:globalclick_to_editmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+## Behavior
+
+When Click to Edit Mode is enabled:
+
+1. **Park on activation**: All editable features are moved out of the editable `gm_main` source and parked in the standby source (`gm_standby`). Parked features are still rendered but carry no edit markers, so the map looks static.
+2. **Plain-click toggle**: A plain map `click` on a feature toggles it between editable and parked. Clicking a parked feature moves it back into `gm_main`; clicking an editable feature parks it again into `gm_standby`. Because the helper listens on `click` (which — unlike `mouseup` — does not fire after a drag-pan), no modifier key is needed and panning the map never accidentally toggles a feature.
+3. **Pairs with an edit mode**: Click to Edit only moves features between sources — it does not itself draw markers. Pair it with an edit mode such as `edit:change` so that the feature you click becomes editable with vertex markers, while the parked features stay untouched.
+4. **Only real shapes**: Clicks that land on transient helpers (selection/hover highlights, edit markers, snap guides) are ignored — the toggle acts only on real features. A handled click is consumed so a co-active click-driven mode (such as `edit:select`) cannot double-handle it.
+5. **Restore on exit**: When the mode is disabled, only the features *it* parked are restored to `gm_main`; features parked for other reasons are left in standby.
+
+### Importing features while active
+
+The helper does not hijack the global default source. A host that imports features while Click to Edit is active receives them in the editable `gm_main` source rather than silently parked in standby.
+
+### Programmatic editing of parked features
+
+Features parked in `gm_standby` are still live and editable by id. The `geoman.edit.*` programmatic operations (for example `geoman.edit.addHole`, `geoman.edit.reshape`) resolve features across both `gm_main` and `gm_standby`, so a host driving the editing API by feature id can edit a parked feature without first clicking it back into the editable source.
+
+<IntegrationHelpCallout />

@@ -102,5 +102,35 @@ Created documentation for the ellipse draw mode including:
 
 ---
 
+## 2026-06 Update — Polygon sub-editing & host-integration release
+
+Aligned the docs with the maplibre-geoman-pro `0.8.x`/sub-editing surface.
+
+### New documentation
+
+| File | Description |
+|------|-------------|
+| `docs/edit-modes/12-edit-select.mdx` … `18-edit-reshape.mdx` | The 7 polygon sub-editing modes: `select`, `add_hole`, `add_part`, `remove_ring`, `explode`, `merge_parts`, `reshape` (modes, options, events, rejection reasons) |
+| `docs/helper-modes/06-helper-shape_markers.mdx`, `07-helper-geofencing.mdx`, `08-helper-click_to_edit.mdx` | Previously undocumented helper modes |
+| `docs/108-geoman-edit-api.md` | The programmatic `geoman.edit` façade (`addHole`/`addPart`/`removeRing`/`reshape`/`explode`/`merge`, `EditApiResult`) |
+| `docs/109-geoman-layers-api.md` | The host-integration `geoman.layers` API (`getSourceIds`/`getLayerIds`/`ownsSource`/`ownsLayer`/`setVisibility`/`setOpacity`) |
+
+### Updated documentation
+
+- `02-configuring-geoman.md` — `disableSelectionGating` setting; selection/highlight style variables (`highlightSelectedColor`/`highlightSelectedWidth`/`highlightCandidateColor`/`highlightHoverColor`/`highlightSelectedFillColor`/`highlightSelectedFillOpacity`/`holeMarkerColor`); the control-level `requiresSelection` gate
+- `03-events.md` — `gm:operation_rejected` (`{ mode, reason, feature }`) and `gm:selection`
+- `10-importing-data.md` — `importGeoJson(..., { onIdCollision: 'skip' | 'reassign' })`
+
+### Automated docs ↔ code coverage check (new)
+
+To keep the docs from silently drifting from the library again, this update adds a snapshot-based coverage check (mirrors the library's own `scripts/api-surface/*.json` pattern):
+
+- `scripts/extract-library-surface.mjs` (`npm run docs:extract-surface`) reads the library SOURCE (mode registries, `geoman.edit`/`geoman.layers` methods, rejection reasons, version) and writes the checked-in snapshot `_meta/library-surface.json`. Point it at a non-sibling checkout with `GEOMAN_PRO_DIR`.
+- `scripts/check-docs.mjs` (`npm run docs:check`, also `npm test`) fails when a mode has no doc page, when a `geoman.edit`/`geoman.layers` method is never shown in the docs, or when a doc page exists for a mode the library no longer has; it warns when the docs' `@geoman-io/maplibre-geoman-pro` dependency lags the documented version.
+
+**Maintainer workflow:** on a library version bump, run `npm run docs:extract-surface` then `npm run docs:check`, and add/rename any flagged doc pages. Wire `npm run docs:check` into CI to enforce it.
+
+> Note: the docs still depend on `@geoman-io/maplibre-geoman-pro ^0.5.6` (the live-example bundle). Bumping to the sub-editing release and re-running `npm install` (then re-verifying the live `<BrowserOnlyGmMap>` examples) is a separate, release-coupled step — `docs:check` surfaces this as a warning.
+
 ## Audit Date
-December 12, 2024
+December 12, 2024; updated June 19, 2026

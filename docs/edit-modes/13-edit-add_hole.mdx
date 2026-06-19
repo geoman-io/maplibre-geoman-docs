@@ -1,0 +1,95 @@
+---
+title: "Add Hole ⭐"
+description: "Punch an interior ring (hole) into a polygon or multipolygon."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Add Hole Mode
+
+:::info Pro feature
+Add Hole Mode is part of the polygon sub-editing suite and is only available in **MapLibre-Geoman Pro**.
+:::
+
+Draw a ring inside a polygon/multipolygon to punch an interior ring (hole) into it — the equivalent of the QGIS "Add Ring" tool. Click to place each vertex and click the first vertex again to close the ring; **right-click discards** the ring currently being drawn. Snapping engages automatically while the mode is active.
+
+You can handle Add Hole Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'add_hole');
+map.gm.disableMode('edit', 'add_hole');
+map.gm.toggleMode('edit', 'add_hole');
+map.gm.isModeEnabled('edit', 'add_hole');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                | Returns   | Description                                                                |
+|:--------------------------------------|:----------|:--------------------------------------------------------------------------|
+| `enableMode('edit', 'add_hole')`      | -         | Enables global Add Hole Mode.                                             |
+| `disableMode('edit', 'add_hole')`     | -         | Disables global Add Hole Mode.                                            |
+| `toggleMode('edit', 'add_hole')`      | -         | Toggles global Add Hole Mode.                                             |
+| `isModeEnabled('edit', 'add_hole')`   | `Boolean` | Returns `true` if global Add Hole Mode is enabled. `false` when disabled. |
+
+## Selection requirement
+
+Add Hole operates on a **single selected polygon parent** (the hole is punched into the selected feature). Its toolbar button is disabled with a guidance tooltip ("Select a polygon to continue") until exactly one polygon is selected. Use [Select Mode](./12-edit-select.mdx) — or `geoman.features.setSelection([id])` — to pick the parent first. Hosts that manage availability themselves can disable this gating with `settings.disableSelectionGating: true`; the mode still validates at run time.
+
+## Events
+
+Add Hole does not emit per-mode start/end events. It uses the standard edit/feature events for success, and `gm:operation_rejected` when the ring cannot be applied:
+
+| Event                            | Params  | Description                                                  | Output                           |
+| :------------------------------- | :------ | :---------------------------------------------------------- | :------------------------------- |
+| `gm:add_hole`                    | `event` | Fired when a hole is successfully added (feature updated).  | `map`, `feature`, `originalFeature` |
+| `gm:create`                      | `event` | Fired when the optional **Fill ring** feature is created.   | `map`, `feature`                 |
+| `gm:operation_rejected`          | `event` | Fired when the drawn ring is rejected (no geometry change). | `map`, `mode`, `reason`, `feature` |
+| `gm:globaladd_holemodetoggled`   | `event` | Fired when Add Hole Mode is toggled.                        | `enabled`, `map`                 |
+
+`gm:operation_rejected` carries `{ mode, reason, feature }`. For Add Hole the `reason` is one of:
+
+- `not_contained` — the ring is not fully inside a single ring-set of the parent.
+- `self_intersection` — the drawn ring crosses itself.
+- `overlap` — the hole overlaps an existing hole.
+- `no_target` — no selected polygon to add a hole to.
+- `invalid_geometry` — the drawn shape is not a usable ring.
+
+```js
+map.on('gm:operation_rejected', (event) => {
+  if (event.mode === 'add_hole') {
+    showToast(`Could not add hole: ${event.reason}`);
+  }
+});
+
+map.on('gm:globaladd_holemodetoggled', (event) => {
+  console.log(event.enabled);
+});
+```
+
+## Behavior
+
+The drawn ring is added as an interior ring to the single feature that fully contains it. Rings that aren't contained, self-intersect, or overlap an existing hole are rejected and leave the geometry unchanged. With the **Fill ring** option enabled, a new polygon feature is also created occupying the punched hole (mirroring the QGIS "Fill Ring" tool), which fires an additional `gm:create`.
+
+## Options
+
+These options appear in the mode's control menu and can also be set programmatically on the active mode instance:
+
+| Option     | Type   | Default | Meaning                                                                          |
+| :--------- | :----- | :------ | :------------------------------------------------------------------------------- |
+| `fillRing` | toggle | `false` | Also create a new polygon feature filling the punched hole (QGIS "Fill Ring").   |
+
+```js
+map.gm.enableMode('edit', 'add_hole');
+geoman.actionInstances['edit__add_hole']?.applyOptionValue('fillRing', true);
+```
+
+## Programmatic API
+
+The same operation is available without the toolbar via the `geoman.edit` façade, driving the edit by feature id:
+
+```js
+const result = await geoman.edit.addHole(featureId, ring); // ring: Position[]
+if (!result.ok) showToast(result.reason); // 'not_contained' | 'self_intersection' | …
+```
+
+<IntegrationHelpCallout />

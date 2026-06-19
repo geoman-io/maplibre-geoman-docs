@@ -108,6 +108,27 @@ You can specify which property to use as the feature ID during import:
 const result = gm.features.importGeoJson(fc, { idPropertyName: 'customId' });
 ```
 
+### Handling ID collisions
+
+When an imported feature's ID collides with one that already exists (and
+`overwrite` is not set), the `onIdCollision` option controls what happens:
+
+```js
+const result = gm.features.importGeoJson(fc, { onIdCollision: 'reassign' });
+```
+
+- `'skip'` (default) keeps the existing deduplicating behavior — the colliding
+  feature is not imported (it is counted in `stats.failed`).
+- `'reassign'` imports the colliding feature with a fresh, unique ID instead of
+  dropping it, so no feature is ever silently lost. The assigned ID is reported
+  back in `result.addedFeatures`, so a host can key its store by the same IDs
+  Geoman ended up using.
+
+```js
+const { addedFeatures } = gm.features.importGeoJson(fc, { onIdCollision: 'reassign' });
+// addedFeatures[i].id is the ID Geoman assigned to fc.features[i]
+```
+
 ## Full Demo example
 
 We have put together a list of examples from the Maplibre-Geoman Examples Repository that showcase how to import Geojson data into the map. All the examples import features from a fixtures file and add them to the map using the `gm.features.importGeoJsonFeature` method.
@@ -122,6 +143,9 @@ See the [Examples](/examples) page for more information.
 interface ImportGeoJsonOptions {
   idPropertyName?: string;  // Use a specific property as the feature ID
   overwrite?: boolean;      // When true, replace existing features with matching IDs
+  onIdCollision?: 'skip' | 'reassign'; // On an ID collision (overwrite not set):
+                            // 'skip' (default) drops the colliding feature;
+                            // 'reassign' imports it with a fresh unique ID
 }
 ```
 

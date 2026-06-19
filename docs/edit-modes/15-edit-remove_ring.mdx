@@ -1,0 +1,80 @@
+---
+title: "Remove Ring ⭐"
+description: "Remove a hole or a whole part by clicking it."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Remove Ring Mode
+
+:::info Pro feature
+Remove Ring Mode is part of the polygon sub-editing suite and is only available in **MapLibre-Geoman Pro**.
+:::
+
+Click inside a hole to remove it, or click a multipolygon part to drop it — the QGIS "Delete Ring / Delete Part" tools. The mode is scoped to the selected polygon: all of its removable rings/parts are faintly outlined as candidates, and the one under the cursor is highlighted brighter so it's clear what a click will remove.
+
+You can handle Remove Ring Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'remove_ring');
+map.gm.disableMode('edit', 'remove_ring');
+map.gm.toggleMode('edit', 'remove_ring');
+map.gm.isModeEnabled('edit', 'remove_ring');
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                   | Returns   | Description                                                                   |
+|:-----------------------------------------|:----------|:-----------------------------------------------------------------------------|
+| `enableMode('edit', 'remove_ring')`      | -         | Enables global Remove Ring Mode.                                             |
+| `disableMode('edit', 'remove_ring')`     | -         | Disables global Remove Ring Mode.                                            |
+| `toggleMode('edit', 'remove_ring')`      | -         | Toggles global Remove Ring Mode.                                             |
+| `isModeEnabled('edit', 'remove_ring')`   | `Boolean` | Returns `true` if global Remove Ring Mode is enabled. `false` when disabled. |
+
+## Selection requirement
+
+Remove Ring is scoped to the **selected polygon** captured when the mode starts — it outlines and removes only that feature's rings/parts. Select a polygon first via [Select Mode](./12-edit-select.mdx) or `geoman.features.setSelection([id])`.
+
+## Events
+
+Remove Ring does not emit per-mode start/end events. Removing a hole/part updates the feature; removing the last ring deletes the feature:
+
+| Event                              | Params  | Description                                                            | Output                              |
+| :--------------------------------- | :------ | :-------------------------------------------------------------------- | :---------------------------------- |
+| `gm:remove_ring`                   | `event` | Fired when a ring/part is removed and the feature is updated.         | `map`, `feature`, `originalFeature` |
+| `gm:remove`                        | `event` | Fired when removing the only ring/part deletes the whole feature.    | `map`, `feature`                    |
+| `gm:globalremove_ringmodetoggled`  | `event` | Fired when Remove Ring Mode is toggled.                              | `enabled`, `map`                    |
+
+```js
+map.on('gm:remove', (event) => {
+  console.log('feature deleted', event.feature);
+});
+
+map.on('gm:globalremove_ringmodetoggled', (event) => {
+  console.log(event.enabled);
+});
+```
+
+## Behavior
+
+Clicking a removable ring/part removes it from the selected feature:
+
+- Removing an **interior ring (hole)** drops that hole.
+- Removing a **multipolygon part** drops that part; removing the last part collapses the geometry back to a `Polygon`.
+- Removing the **only ring** empties the geometry, so the whole feature is deleted (fires `gm:remove`).
+
+After each removal the candidate outlines are refreshed for the updated geometry.
+
+## Programmatic API
+
+The same operation is available without the toolbar via the `geoman.edit` façade, targeting a specific ring by index:
+
+```js
+const result = await geoman.edit.removeRing(featureId, {
+  kind: 'hole', // or 'part'
+  partIndex: 0,
+  ringIndex: 1,
+});
+```
+
+<IntegrationHelpCallout />

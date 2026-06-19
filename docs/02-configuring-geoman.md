@@ -24,6 +24,7 @@ interface GmOptionsData {
       controlContainerClass: string;
       controlButtonClass: string;
     };
+    disableSelectionGating: boolean;
     idGenerator: null | ((shapeGeoJson: GeoJsonShapeFeature) => string);
     markerIcons: {
       default: string;
@@ -99,6 +100,14 @@ const gmOptions: GmOptionsPartial = {
       controlContainerClass: 'gm-control-container',
       controlButtonClass: 'gm-control-button',
     },
+
+    // Turn off selection-requirement gating of controls. When false (default),
+    // controls that declare a `requiresSelection` (such as add_hole, add_part,
+    // merge_parts, reshape) are shown disabled until the current selection
+    // satisfies the requirement. Set to true for hosts that manage tool
+    // availability themselves — the modes still validate at run time and emit
+    // a `gm:operation_rejected` event when an operation cannot be applied.
+    disableSelectionGating: false,
 
     // Custom ID generator function for features (optional)
     // If null, Geoman will auto-generate IDs like 'feature-1', 'feature-2', etc.
@@ -453,6 +462,35 @@ const gmOptions: GmOptionsPartial = {
 
 5. Performance: Consider using simpler styles for temporary features to improve performance during editing operations.
 
+### Selection & Highlight Style Variables
+
+Beyond the per-layer style specification above, Geoman exposes a set of
+**style variables** that colour the selection outline and the transient
+highlights shown during editing (for example while sub-editing polygons). These
+variables live on each source's `StyleVariables` — they are configured **per
+source** (each entry in `layerStyles` / `styleVariables` carries its own set) —
+and every one has a built-in default, so you only override the ones you want to
+change.
+
+Selection is read as a **single cue**: when a feature is selected it keeps its
+normal fill and its border turns red (`#e03131`). On top of that, an optional
+translucent **blue fill tint** can be enabled — it is off by default, since the
+feature already shows its own fill.
+
+| Variable                       | Default          | Meaning                                                                                          |
+| ------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------ |
+| `highlightSelectedColor`       | `#e03131`        | Border colour of the selected feature                                                            |
+| `highlightSelectedWidth`       | `lineWidth + 1`  | Selected border width — defaults to one pixel wider so it fully covers the feature's own border  |
+| `highlightCandidateColor`      | `#f0a868`        | Outline of removal candidates (the removable rings/parts in `remove_ring`)                       |
+| `highlightHoverColor`          | `#e8590c`        | Outline of the ring/part currently under the cursor                                              |
+| `highlightSelectedFillColor`   | `fillColor`      | Fill colour of the optional selection fill tint                                                  |
+| `highlightSelectedFillOpacity` | `0` (off)        | Opacity of the selection fill tint; set a value `> 0` to enable the tint                         |
+| `holeMarkerColor`              | built-in default | Colour of vertex markers on an interior ring (hole), so holes stand out from the outer ring      |
+
+To enable the blue selection fill tint, set `highlightSelectedFillOpacity` above
+`0` (and optionally change `highlightSelectedFillColor`) on the relevant source's
+style variables.
+
 ## Control Options
 
 Each control can have the following options:
@@ -487,6 +525,51 @@ type ToggleActionOption = {
   value: boolean;
 };
 ```
+
+### Gating a control on the selection (`requiresSelection`)
+
+A control's `settings.requiresSelection` declares the selection context the
+control needs to be usable. When set, Geoman resolves it against the current
+feature selection and **disables the control's toolbar button** (with a guidance
+tooltip) until the requirement is met. This is what gates the polygon
+sub-editing tools (for example `add_hole` / `add_part` require a single selected
+polygon, `merge_parts` requires two or more).
+
+```typescript
+interface SelectionRequirement {
+  min?: number;        // minimum number of selected features (default 1)
+  max?: number;        // maximum number of selected features
+  shapes?: FeatureShape[]; // allowed shapes for every selected feature, e.g. ['polygon']
+  context?: 'multipolygon' | 'has-holes' | 'has-parts'; // required selection context
+  message?: string;    // override the default guidance message shown when unmet
+}
+```
+
+`requiresSelection` lives on the control's `settings`:
+
+```typescript
+const gmOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      add_hole: {
+        settings: {
+          requiresSelection: {
+            min: 1,
+            max: 1,
+            shapes: ['polygon'],
+            message: 'Select a polygon to continue',
+          },
+        },
+      },
+    },
+  },
+};
+```
+
+To turn this gating off globally — for hosts that manage tool availability
+themselves — set `settings.disableSelectionGating: true` (see the Settings
+section above). The modes still validate at run time and emit
+`gm:operation_rejected` when an operation cannot be applied.
 
 ## Full Configuration Example
 

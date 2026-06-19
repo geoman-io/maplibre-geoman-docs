@@ -12,7 +12,10 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "docs:extract-surface": "node scripts/extract-library-surface.mjs",
+    "docs:check": "node scripts/check-docs.mjs",
+    "test": "node scripts/check-docs.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
