@@ -1,5 +1,9 @@
-# core-js ships a postinstall that only prints a funding banner; it is not needed
-# to build the docs site, so we explicitly acknowledge skipping its build script.
+# pnpm 10+ reads project config (overrides, patches, build-script policy) from
+# this file rather than package.json's "pnpm" field. The repo pins
+# packageManager: pnpm@11 so Vercel/corepack use a pnpm that honors it.
+
+# core-js ships a postinstall that only prints a funding banner; not needed to
+# build the docs site, so we explicitly acknowledge skipping its build script.
 ignoredBuiltDependencies:
   - core-js
 
