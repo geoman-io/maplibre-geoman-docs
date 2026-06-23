@@ -1,0 +1,4 @@
+# core-js ships a postinstall that only prints a funding banner; it is not needed
+# to build the docs site, so we explicitly acknowledge skipping its build script.
+ignoredBuiltDependencies:
+  - core-js

@@ -1,0 +1,86 @@
+---
+title: "Remove Ring ⭐"
+description: "Remove a hole or a whole part from a selected polygon or multipolygon."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Remove Ring Mode
+
+`remove_ring` removes a single ring from a polygon or multipolygon — either an interior
+ring (a **hole**) or a whole **part** of a multipolygon (a part is only removable when
+the feature has more than one). It is a **selection-gated** mode: select the feature
+first (see [Select Mode](/edit-modes/edit-select)), then activate Remove Ring and
+click the ring you want to remove.
+
+```js
+map.gm.enableMode('edit', 'remove_ring');
+map.gm.disableMode('edit', 'remove_ring');
+map.gm.toggleMode('edit', 'remove_ring');
+map.gm.isModeEnabled('edit', 'remove_ring');
+```
+
+## Programmatic API
+
+```js
+// Remove the first hole of the first part
+const result = await map.gm.edit.removeRing('subedit-polygon', {
+  kind: 'hole',
+  partIndex: 0,
+  ringIndex: 0,
+});
+
+// Or remove a whole part of a multipolygon
+// await map.gm.edit.removeRing('subedit-polygon', { kind: 'part', partIndex: 1 });
+
+if (result.ok) {
+  console.log('Updated feature:', result.feature);
+} else {
+  console.warn('Rejected:', result.reason); // e.g. 'no_target'
+}
+```
+
+The `ringTarget` is one of:
+
+```ts
+type RemovableRingTarget =
+  | { kind: 'hole'; partIndex: number; ringIndex: number }
+  | { kind: 'part'; partIndex: number };
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                 | Returns   | Description                                                            |
+|:---------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'remove_ring')`    | `Promise` | Enables Remove Ring Mode.                                             |
+| `disableMode('edit', 'remove_ring')`   | `Promise` | Disables Remove Ring Mode.                                            |
+| `toggleMode('edit', 'remove_ring')`    | `Promise` | Toggles Remove Ring Mode.                                             |
+| `isModeEnabled('edit', 'remove_ring')` | `Boolean` | Returns `true` if Remove Ring Mode is enabled. `false` when disabled. |
+
+The following events are available on a map instance:
+
+| Event                   | Params  | Description                                          | Output                      |
+| :---------------------- | :------ | :--------------------------------------------------- | :-------------------------- |
+| `gm:remove_ring`        | `event` | Fired when a ring or part is removed from a feature. | `map`, `feature`, `shape`   |
+| `gm:operation_rejected` | `event` | Fired when the operation is rejected.                | `map`, `mode`, `reason`     |
+
+```js
+map.on('gm:remove_ring', (event) => {
+  console.log('Ring removed from:', event.feature?.id);
+});
+```
+
+## Live Remove Ring Example
+
+This polygon already has a hole. Click the polygon to select it, activate **Remove
+Ring**, then click the inner ring to remove it.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { editRemoveRingOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/polygon-with-hole.json';
+
+<BrowserOnlyGmMap
+  gmOptions={editRemoveRingOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

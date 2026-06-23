@@ -1,0 +1,77 @@
+---
+title: "Add Hole ⭐"
+description: "Punch an interior ring (hole) into a selected polygon or multipolygon."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Add Hole Mode
+
+`add_hole` punches an interior ring (a hole) into a polygon or multipolygon. It is a
+**selection-gated** mode: select the target polygon first (see
+[Select Mode](/edit-modes/edit-select)), then the Add Hole control becomes
+enabled. With the mode active, draw a closed ring **inside** the selected polygon by
+clicking each vertex. A ring drawn outside the polygon is rejected (the geometry is
+left untouched and a `gm:operation_rejected` event fires with reason `not_contained`).
+
+```js
+map.gm.enableMode('edit', 'add_hole');
+map.gm.disableMode('edit', 'add_hole');
+map.gm.toggleMode('edit', 'add_hole');
+map.gm.isModeEnabled('edit', 'add_hole');
+```
+
+## Programmatic API
+
+For host-driven flows you can add a hole by id with the `geoman.edit` façade — it runs
+the same operation and fires the same events, without any toolbar interaction:
+
+```js
+// ring: an array of [lng, lat] positions forming a closed ring inside the feature
+const result = await map.gm.edit.addHole('subedit-polygon', [
+  [-4, 51], [-2, 51], [-2, 52], [-4, 52], [-4, 51],
+]);
+
+if (result.ok) {
+  console.log('Updated feature:', result.feature);
+} else {
+  console.warn('Rejected:', result.reason); // e.g. 'not_contained'
+}
+```
+
+The following methods are available on `map.gm`:
+
+| Method                              | Returns   | Description                                                            |
+|:------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'add_hole')`    | `Promise` | Enables Add Hole Mode.                                                 |
+| `disableMode('edit', 'add_hole')`   | `Promise` | Disables Add Hole Mode.                                                |
+| `toggleMode('edit', 'add_hole')`    | `Promise` | Toggles Add Hole Mode.                                                 |
+| `isModeEnabled('edit', 'add_hole')` | `Boolean` | Returns `true` if Add Hole Mode is enabled. `false` when disabled.     |
+
+The following events are available on a map instance:
+
+| Event                   | Params  | Description                                          | Output                      |
+| :---------------------- | :------ | :--------------------------------------------------- | :-------------------------- |
+| `gm:add_hole`           | `event` | Fired when a hole is added to a feature.             | `map`, `feature`, `shape`   |
+| `gm:operation_rejected` | `event` | Fired when the operation is rejected.                | `map`, `mode`, `reason`     |
+
+```js
+map.on('gm:add_hole', (event) => {
+  console.log('Hole added to:', event.feature?.id);
+});
+```
+
+## Live Add Hole Example
+
+Click the polygon to select it, activate **Add Hole**, then click vertices to draw a
+ring inside it and close the ring on the first point.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { editAddHoleOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/subedit-polygon.json';
+
+<BrowserOnlyGmMap
+  gmOptions={editAddHoleOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

@@ -1,0 +1,74 @@
+---
+title: "Add Part ⭐"
+description: "Append a disjoint part to a selected polygon, promoting it to a multipolygon."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Add Part Mode
+
+`add_part` appends a new part to a polygon or multipolygon. Adding a part to a plain
+`Polygon` promotes it to a `MultiPolygon`. It is a **selection-gated** mode: select the
+target feature first (see [Select Mode](/edit-modes/edit-select)), then activate
+Add Part and draw the new part by clicking each vertex.
+
+```js
+map.gm.enableMode('edit', 'add_part');
+map.gm.disableMode('edit', 'add_part');
+map.gm.toggleMode('edit', 'add_part');
+map.gm.isModeEnabled('edit', 'add_part');
+```
+
+## Programmatic API
+
+```js
+// partRings: an array of rings ([[ [lng, lat], ... ]]) describing the new part
+const result = await map.gm.edit.addPart(
+  'subedit-polygon',
+  [[[0, 50], [2, 50], [2, 52], [0, 52], [0, 50]]],
+  { allowOverlap: false }, // optional; reject parts that overlap the existing geometry
+);
+
+if (result.ok) {
+  console.log('Feature is now a multipolygon:', result.feature);
+} else {
+  console.warn('Rejected:', result.reason); // e.g. 'overlap'
+}
+```
+
+The following methods are available on `map.gm`:
+
+| Method                              | Returns   | Description                                                            |
+|:------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'add_part')`    | `Promise` | Enables Add Part Mode.                                                 |
+| `disableMode('edit', 'add_part')`   | `Promise` | Disables Add Part Mode.                                                |
+| `toggleMode('edit', 'add_part')`    | `Promise` | Toggles Add Part Mode.                                                 |
+| `isModeEnabled('edit', 'add_part')` | `Boolean` | Returns `true` if Add Part Mode is enabled. `false` when disabled.     |
+
+The following events are available on a map instance:
+
+| Event                   | Params  | Description                                          | Output                      |
+| :---------------------- | :------ | :--------------------------------------------------- | :-------------------------- |
+| `gm:add_part`           | `event` | Fired when a part is appended to a feature.          | `map`, `feature`, `shape`   |
+| `gm:operation_rejected` | `event` | Fired when the operation is rejected.                | `map`, `mode`, `reason`     |
+
+```js
+map.on('gm:add_part', (event) => {
+  console.log('Part added to:', event.feature?.id);
+});
+```
+
+## Live Add Part Example
+
+Click the polygon to select it, activate **Add Part**, then draw a separate polygon
+next to it — the feature is promoted to a multipolygon.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { editAddPartOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/subedit-polygon.json';
+
+<BrowserOnlyGmMap
+  gmOptions={editAddPartOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

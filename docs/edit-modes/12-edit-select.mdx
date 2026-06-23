@@ -1,0 +1,77 @@
+---
+title: "Select ⭐"
+description: "Click features to drive the global selection, which gates the sub-editing modes (add hole, add part, remove ring, explode, merge parts)."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Select Mode
+
+`select` is the click-to-select tool. With it active, clicking a feature selects it and
+outlines it; **Ctrl/Cmd-click** toggles a feature in a multi-feature selection; clicking
+empty map space clears the selection. This **global selection** is what gates the
+sub-editing modes
+([Add Hole](/edit-modes/edit-add_hole), [Add Part](/edit-modes/edit-add_part),
+[Remove Ring](/edit-modes/edit-remove_ring), [Explode](/edit-modes/edit-explode)
+and [Merge Parts](/edit-modes/edit-merge_parts)) — those controls stay disabled
+until the selection they require is in place.
+
+You can handle Select Mode for all layers on a map like this:
+
+```js
+map.gm.enableMode('edit', 'select');
+map.gm.disableMode('edit', 'select');
+map.gm.toggleMode('edit', 'select');
+map.gm.isModeEnabled('edit', 'select');
+```
+
+## Driving the selection programmatically
+
+The global selection also lives on the Features API, so a host application can set or
+clear it directly instead of relying on user clicks:
+
+```js
+// Select one or more features by id
+map.gm.features.setSelection(['poly-a', 'poly-b']);
+
+// Read the current selection (a Set of feature ids)
+console.log(map.gm.features.selection);
+
+// Clear the selection
+map.gm.features.clearSelection();
+```
+
+The following methods are available on `map.gm`:
+
+| Method                            | Returns   | Description                                                            |
+|:----------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'select')`    | `Promise` | Enables Select Mode.                                                   |
+| `disableMode('edit', 'select')`   | `Promise` | Disables Select Mode.                                                  |
+| `toggleMode('edit', 'select')`    | `Promise` | Toggles Select Mode.                                                   |
+| `isModeEnabled('edit', 'select')` | `Boolean` | Returns `true` if Select Mode is enabled. `false` when disabled.       |
+
+The following event is fired whenever the global selection changes:
+
+| Event          | Params  | Description                          | Output            |
+| :------------- | :------ | :----------------------------------- | :---------------- |
+| `gm:selection` | `event` | Fired when the selection changes.    | `selection`, `map`|
+
+```js
+map.on('gm:selection', (event) => {
+  console.log('Selected feature ids:', event.selection);
+});
+```
+
+## Live Select Example
+
+Click a polygon to select it (it gets outlined); click the empty background to clear.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { editSelectOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/two-polygons.json';
+
+<BrowserOnlyGmMap
+  gmOptions={editSelectOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

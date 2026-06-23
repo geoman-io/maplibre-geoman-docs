@@ -331,6 +331,97 @@ export const editDeleteOptions: GmOptionsPartial = {
   },
 };
 
+// `select` is the click-to-select tool that drives the global selection.
+// It is the entry point for the selection-gated sub-editing modes below.
+export const editSelectOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      select: {
+        uiEnabled: true,
+        active: true,
+      },
+    },
+  },
+};
+
+// add_hole / add_part / remove_ring / explode / merge_parts are gated on a
+// selection, so each demo enables the `select` tool (active by default) next to
+// the operation control. Select a polygon first, then use the operation.
+export const editAddHoleOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      select: {
+        uiEnabled: true,
+        active: true,
+      },
+      add_hole: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+  },
+};
+
+export const editAddPartOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      select: {
+        uiEnabled: true,
+        active: true,
+      },
+      add_part: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+  },
+};
+
+export const editRemoveRingOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      select: {
+        uiEnabled: true,
+        active: true,
+      },
+      remove_ring: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+  },
+};
+
+export const editExplodeOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      select: {
+        uiEnabled: true,
+        active: true,
+      },
+      explode: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+  },
+};
+
+export const editMergePartsOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      select: {
+        uiEnabled: true,
+        active: true,
+      },
+      merge_parts: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+  },
+};
+
 export const helperSnappingOptions: GmOptionsPartial = {
   controls: {
     draw: {

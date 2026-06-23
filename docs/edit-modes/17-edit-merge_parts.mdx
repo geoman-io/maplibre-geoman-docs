@@ -1,0 +1,76 @@
+---
+title: "Merge Parts ⭐"
+description: "Merge several selected polygon/multipolygon features into a single multipolygon."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Merge Parts Mode
+
+`merge_parts` combines several polygon/multipolygon features into a single
+`MultiPolygon` feature. Unlike [Union](/edit-modes/edit-union), merge does **not**
+dissolve shared boundaries — each input becomes a part of the resulting multipolygon. It
+is a **selection-gated** mode that requires **two or more** selected features: select
+them first (see [Select Mode](/edit-modes/edit-select)), then activate Merge Parts.
+
+When features are merged, the originals are removed (`gm:remove`) and a single combined
+feature is created (`gm:create`).
+
+```js
+map.gm.enableMode('edit', 'merge_parts');
+map.gm.disableMode('edit', 'merge_parts');
+map.gm.toggleMode('edit', 'merge_parts');
+map.gm.isModeEnabled('edit', 'merge_parts');
+```
+
+## Programmatic API
+
+```js
+// Merge two (or more) features by id into one multipolygon
+const result = await map.gm.edit.merge(['poly-a', 'poly-b']);
+
+if (result.ok) {
+  console.log('Merged feature:', result.feature);
+} else {
+  console.warn('Rejected:', result.reason);
+}
+```
+
+The following methods are available on `map.gm`:
+
+| Method                                 | Returns   | Description                                                            |
+|:---------------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'merge_parts')`    | `Promise` | Enables Merge Parts Mode.                                            |
+| `disableMode('edit', 'merge_parts')`   | `Promise` | Disables Merge Parts Mode.                                           |
+| `toggleMode('edit', 'merge_parts')`    | `Promise` | Toggles Merge Parts Mode.                                            |
+| `isModeEnabled('edit', 'merge_parts')` | `Boolean` | Returns `true` if Merge Parts Mode is enabled. `false` when disabled.|
+
+The following events are available on a map instance:
+
+| Event            | Params  | Description                                          | Output                       |
+| :--------------- | :------ | :--------------------------------------------------- | :--------------------------- |
+| `gm:merge_parts` | `event` | Fired when features are merged.                      | `map`, `feature`, `shape`    |
+| `gm:create`      | `event` | Fired for the new combined multipolygon feature.     | `map`, `feature`, `shape`    |
+| `gm:remove`      | `event` | Fired for each original feature that is removed.     | `map`, `feature`, `shape`    |
+
+```js
+map.on('gm:merge_parts', (event) => {
+  console.log('Merged into:', event.feature?.id);
+});
+```
+
+## Live Merge Parts Example
+
+Two separate polygons are loaded. With the **Select** tool, click the first polygon,
+then **Ctrl/Cmd-click** the second to add it to the selection. With both selected,
+activate **Merge Parts** to combine them into a single multipolygon.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { editMergePartsOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/two-polygons.json';
+
+<BrowserOnlyGmMap
+  gmOptions={editMergePartsOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

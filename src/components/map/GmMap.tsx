@@ -39,7 +39,7 @@ const Component: React.FC<ComponentProps> = ({
       const geoman = new Geoman(map, gmOptions);
       map.on(`gm:loaded`, () => {
         features?.forEach((feature) => {
-          geoman.features.addGeoJsonFeature({ shapeGeoJson: feature });
+          geoman.features.importGeoJsonFeature(feature);
         });
       });
 

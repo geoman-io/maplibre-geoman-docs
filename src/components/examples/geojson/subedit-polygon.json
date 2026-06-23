@@ -1,0 +1,19 @@
+[
+  {
+    "id": "subedit-polygon",
+    "type": "Feature",
+    "properties": { "shape": "polygon" },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-5, 50],
+          [-1, 50],
+          [-1, 53],
+          [-5, 53],
+          [-5, 50]
+        ]
+      ]
+    }
+  }
+]

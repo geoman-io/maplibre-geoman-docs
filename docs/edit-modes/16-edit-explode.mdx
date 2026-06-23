@@ -1,0 +1,74 @@
+---
+title: "Explode ⭐"
+description: "Split a selected multipolygon into separate single-polygon features."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Explode Mode
+
+`explode` splits a multipolygon into separate single-polygon features. It is a
+**selection-gated** mode and only applies to multipolygons — select a multipolygon
+first (see [Select Mode](/edit-modes/edit-select)) and the Explode control becomes
+enabled. The control stays disabled for a plain `Polygon`, since there is nothing to
+split (`requiresSelection` context `multipolygon`).
+
+When a multipolygon is exploded, the original feature is removed (`gm:remove`) and one
+new feature is created per part (`gm:create`).
+
+```js
+map.gm.enableMode('edit', 'explode');
+map.gm.disableMode('edit', 'explode');
+map.gm.toggleMode('edit', 'explode');
+map.gm.isModeEnabled('edit', 'explode');
+```
+
+## Programmatic API
+
+```js
+const result = await map.gm.edit.explode('subedit-polygon');
+
+if (result.ok) {
+  console.log('New features:', result.features); // one per part
+} else {
+  console.warn('Rejected:', result.reason); // e.g. 'no_target'
+}
+```
+
+The following methods are available on `map.gm`:
+
+| Method                             | Returns   | Description                                                            |
+|:-----------------------------------|:----------|:-----------------------------------------------------------------------|
+| `enableMode('edit', 'explode')`    | `Promise` | Enables Explode Mode.                                                  |
+| `disableMode('edit', 'explode')`   | `Promise` | Disables Explode Mode.                                                 |
+| `toggleMode('edit', 'explode')`    | `Promise` | Toggles Explode Mode.                                                  |
+| `isModeEnabled('edit', 'explode')` | `Boolean` | Returns `true` if Explode Mode is enabled. `false` when disabled.      |
+
+The following events are available on a map instance:
+
+| Event        | Params  | Description                                          | Output                       |
+| :----------- | :------ | :--------------------------------------------------- | :--------------------------- |
+| `gm:explode` | `event` | Fired when a multipolygon is exploded.               | `map`, `features`, `shape`   |
+| `gm:create`  | `event` | Fired for each new single-polygon feature created.   | `map`, `feature`, `shape`    |
+| `gm:remove`  | `event` | Fired when the original multipolygon is removed.     | `map`, `feature`, `shape`    |
+
+```js
+map.on('gm:explode', (event) => {
+  console.log('Exploded into:', event.features?.map((f) => f.id));
+});
+```
+
+## Live Explode Example
+
+This feature is a two-part multipolygon. Click it to select it, then activate
+**Explode** to split it into two independent polygons.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { editExplodeOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/multipolygon.json';
+
+<BrowserOnlyGmMap
+  gmOptions={editExplodeOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

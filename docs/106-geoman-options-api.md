@@ -26,9 +26,9 @@ const options = gm.options;
 ### Mode Management
 
 #### `enableMode`
-Enables a specific mode for an action type.
+Enables a specific mode for a mode type. Returns a `Promise` that resolves once the mode change has completed.
 ```typescript
-options.enableMode(actionType: ActionType, modeName: ModeName): void;
+options.enableMode(modeType: ModeType, modeName: ModeName): Promise<void>;
 ```
 
 Example:
@@ -38,9 +38,9 @@ options.enableMode('edit', 'rotate');
 ```
 
 #### `disableMode`
-Disables a specific mode for an action type.
+Disables a specific mode for a mode type. Returns a `Promise` that resolves once the mode change has completed.
 ```typescript
-options.disableMode(actionType: ActionType, modeName: ModeName): void;
+options.disableMode(modeType: ModeType, modeName: ModeName): Promise<void>;
 ```
 
 Example:
@@ -50,9 +50,9 @@ options.disableMode('edit', 'rotate');
 ```
 
 #### `toggleMode`
-Toggles a specific mode for an action type.
+Toggles a specific mode for a mode type. Returns a `Promise` that resolves once the mode change has completed.
 ```typescript
-options.toggleMode(actionType: ActionType, modeName: ModeName): void;
+options.toggleMode(modeType: ModeType, modeName: ModeName): Promise<void>;
 ```
 
 Example:
@@ -111,7 +111,7 @@ const polygonOptions = options.getControlOptions({
 ```typescript
 // Get current control options
 const polygonControl = gm.options.getControlOptions({
-  actionType: 'draw',
+  modeType: 'draw',
   modeName: 'polygon'
 });
 
