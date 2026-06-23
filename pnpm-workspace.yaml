@@ -2,3 +2,13 @@
 # to build the docs site, so we explicitly acknowledge skipping its build script.
 ignoredBuiltDependencies:
   - core-js
+
+# Force patched versions of transitive deps flagged by security advisories.
+# Scoped to the vulnerable ranges so other major lines are left untouched.
+# (js-yaml is intentionally not overridden: the flagged 3.x copy is pulled by
+# gray-matter, which calls the safeLoad/safeDump API removed in js-yaml 4, so
+# forcing 4.x breaks Docusaurus' frontmatter parsing. That advisory is a
+# build-time quadratic-DoS only triggerable by crafted YAML — not first-party docs.)
+overrides:
+  'serialize-javascript@<7.0.5': '^7.0.6'
+  'uuid@<11.1.1': '^11.1.1'
