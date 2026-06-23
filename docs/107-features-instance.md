@@ -36,9 +36,9 @@ features.add(featureData: FeatureData): void;
 ```
 
 #### `delete`
-Removes a feature from the store.
+Removes a feature from the store. Accepts either a `FeatureData` instance or a feature ID.
 ```typescript
-features.delete(featureData: FeatureData): void;
+features.delete(featureIdOrFeatureData: FeatureData | FeatureId): Promise<void>;
 ```
 
 #### `has`
@@ -63,8 +63,9 @@ features.importGeoJson(
   options?: {
     idPropertyName?: string;  // Use a specific property as the feature ID
     overwrite?: boolean;      // When true, replace existing features with matching IDs
+    onIdCollision?: 'skip' | 'reassign'; // ID-collision handling (default: 'skip')
   }
-): {
+): Promise<{
   stats: {
     total: number;
     success: number;
@@ -72,7 +73,7 @@ features.importGeoJson(
     overwritten: number;  // Count of replaced features (when overwrite: true)
   };
   addedFeatures: Array<FeatureData>;
-};
+}>;
 ```
 
 When `overwrite: true` is set, existing features with matching IDs are deleted before importing the new features.
@@ -80,7 +81,7 @@ When `overwrite: true` is set, existing features with matching IDs are deleted b
 #### `importGeoJsonFeature`
 Imports a single GeoJSON feature.
 ```typescript
-features.importGeoJsonFeature(shapeGeoJson: GeoJsonImportFeature): FeatureData | null;
+features.importGeoJsonFeature(shapeGeoJson: GeoJsonImportFeature): Promise<FeatureData | null>;
 ```
 
 #### `exportGeoJson`
@@ -104,28 +105,13 @@ features.exportGeoJsonFromSource(options?: {
 #### `deleteAll`
 Deletes all features from the store.
 ```typescript
-features.deleteAll(): void;
+features.deleteAll(): Promise<void>;
 ```
 
 #### `getAll`
-Returns all features as a GeoJSON FeatureCollection (alias for exportGeoJson).
+Returns all features as a GeoJSON FeatureCollection.
 ```typescript
 features.getAll(): FeatureCollection;
-```
-
-#### `getSourceGeoJson`
-Gets all features from a specific source as a GeoJSON FeatureCollection.
-```typescript
-features.getSourceGeoJson(sourceName: FeatureSourceName): GeoJsonShapeFeatureCollection;
-```
-
-#### `setSourceGeoJson`
-Sets the features for a source from GeoJSON data.
-```typescript
-features.setSourceGeoJson({
-  geoJson: GeoJSON;
-  sourceName: FeatureSourceName;
-}): void;
 ```
 
 ### Feature Creation and Management
@@ -139,7 +125,7 @@ features.createFeature({
   parent?: FeatureData;
   sourceName: FeatureSourceName;
   imported?: boolean;
-}): FeatureData | null;
+}): Promise<FeatureData | null>;
 ```
 
 #### `addGeoJsonFeature`
@@ -149,7 +135,7 @@ features.addGeoJsonFeature({
   shapeGeoJson: GeoJsonImportFeature;
   sourceName?: FeatureSourceName;
   defaultSource?: boolean;
-}): FeatureData | null;
+}): Promise<FeatureData | null>;
 ```
 
 ### Feature Queries
@@ -158,7 +144,7 @@ features.addGeoJsonFeature({
 Gets a feature at the mouse event location.
 ```typescript
 features.getFeatureByMouseEvent({
-  event: AnyEvent;
+  event: BaseMapPointerEvent;
   sourceNames: Array<FeatureSourceName>;
 }): FeatureData | null;
 ```
@@ -196,10 +182,11 @@ Creates a new marker feature.
 ```typescript
 features.createMarkerFeature({
   type: MarkerData['type'];
-  coordinate: LngLat;
+  coordinate: LngLatTuple;
   parentFeature: FeatureData;
   sourceName: FeatureSourceName;
-}): FeatureData | null;
+  properties?: Record<string, unknown>;
+}): Promise<FeatureData | null>;
 ```
 
 #### `updateMarkerFeaturePosition`
@@ -207,8 +194,8 @@ Updates a marker feature's position.
 ```typescript
 features.updateMarkerFeaturePosition(
   markerFeatureData: FeatureData,
-  coordinates: LngLat
-): void;
+  coordinates: LngLatTuple
+): Promise<void>;
 ```
 
 ## Source Names
@@ -225,7 +212,7 @@ Once you have a `FeatureData` instance (from importing, creating, or querying fe
 ### `updateProperties`
 Updates custom properties on this feature. Properties are merged with existing ones. Set a property value to `undefined` to delete it. Internal Geoman properties (prefixed with `gm_`) are protected and cannot be modified through this method.
 ```typescript
-feature.updateProperties(properties: Record<string, unknown>): void;
+feature.updateProperties(properties: Record<string, unknown>): Promise<void>;
 ```
 
 **Example:**
@@ -244,7 +231,7 @@ feature.updateProperties({
 ### `setProperties`
 Replaces all custom properties on this feature. Removes existing custom properties and replaces them with the provided ones. Internal Geoman properties (prefixed with `gm_`) are preserved and cannot be removed.
 ```typescript
-feature.setProperties(properties: Record<string, unknown>): void;
+feature.setProperties(properties: Record<string, unknown>): Promise<void>;
 ```
 
 **Example:**
@@ -263,7 +250,7 @@ feature.setProperties({
 ### `updateGeometry`
 Updates the geometry of this feature with new coordinates.
 ```typescript
-feature.updateGeometry(geometry: BasicGeometry): void;
+feature.updateGeometry(geometry: BasicGeometry): Promise<void>;
 ```
 
 **Example:**
@@ -289,13 +276,13 @@ feature.updateGeometry({
 ### `delete`
 Removes this feature and its associated markers from the map.
 ```typescript
-feature.delete(): void;
+feature.delete(): Promise<void>;
 ```
 
 ### `convertToPolygon`
-Converts circle, ellipse, or rectangle shapes to standard polygon form by removing shape-specific properties. Returns `true` if conversion was successful.
+Converts circle, ellipse, or rectangle shapes to standard polygon form by removing shape-specific properties. Resolves to `true` if conversion was successful.
 ```typescript
-feature.convertToPolygon(): boolean;
+feature.convertToPolygon(): Promise<boolean>;
 ```
 
 ### `changeSource`
@@ -303,8 +290,7 @@ Moves this feature to a different source.
 ```typescript
 feature.changeSource({
   sourceName: FeatureSourceName;
-  atomic: boolean;
-}): void;
+}): Promise<void>;
 ```
 
 ## Types
@@ -312,22 +298,26 @@ feature.changeSource({
 ### FeatureData
 The main class representing a feature on the map.
 ```typescript
-interface FeatureData {
+class FeatureData {
+  gm: Geoman;
   id: FeatureId;
   parent: FeatureData | null;
-  shape: FeatureShape;
   markers: Map<MarkerId, MarkerData>;
-  shapeProperties: FeatureShapeProperties;
   source: BaseSource;
-  orders: FeatureOrders;
+
+  // Getters
+  get shape(): FeatureShape;
+  get temporary(): boolean;
+  get sourceName(): FeatureSourceName;
 
   // Instance methods
-  updateProperties(properties: Record<string, unknown>): void;
-  setProperties(properties: Record<string, unknown>): void;
-  updateGeometry(geometry: BasicGeometry): void;
-  delete(): void;
-  convertToPolygon(): boolean;
-  changeSource(options: { sourceName: FeatureSourceName; atomic: boolean }): void;
+  getGeoJson(): GeoJsonShapeFeature;
+  updateProperties(properties: Record<string, unknown>): Promise<void>;
+  setProperties(properties: Record<string, unknown>): Promise<void>;
+  updateGeometry(geometry: BasicGeometry): Promise<void>;
+  delete(): Promise<void>;
+  convertToPolygon(): Promise<boolean>;
+  changeSource(options: { sourceName: FeatureSourceName }): Promise<void>;
 }
 ```
 
@@ -356,11 +346,11 @@ const geoJson = {
   ]
 };
 
-// Import features
-const result = gm.features.importGeoJson(geoJson);
+// Import features (importGeoJson is async)
+const result = await gm.features.importGeoJson(geoJson);
 
 // Import with overwrite option (replaces existing features with matching IDs)
-const resultWithOverwrite = gm.features.importGeoJson(geoJson, { overwrite: true });
+const resultWithOverwrite = await gm.features.importGeoJson(geoJson, { overwrite: true });
 console.log(`Overwritten: ${resultWithOverwrite.stats.overwritten} features`);
 
 // Iterate over features
@@ -384,24 +374,24 @@ const featuresInBounds = gm.features.getFeaturesByScreenBounds({
 // Working with individual feature instances
 const feature = gm.features.get('gm_main', 'feature-id');
 if (feature) {
-  // Update properties (merges with existing)
-  feature.updateProperties({
+  // Update properties (merges with existing) — these methods are async
+  await feature.updateProperties({
     name: 'Updated Feature',
     status: 'active'
   });
 
   // Replace all properties
-  feature.setProperties({
+  await feature.setProperties({
     name: 'New Name Only'
   });
 
   // Update geometry
-  feature.updateGeometry({
+  await feature.updateGeometry({
     type: 'Point',
     coordinates: [10, 20]
   });
 
   // Delete the feature
-  // feature.delete();
+  // await feature.delete();
 }
 ```

@@ -30,6 +30,7 @@ export const getDisabledByDefaultOptions = (): GmOptionsPartial => {
   ];
 
   const editModes: Array<EditModeName> = [
+    'select',
     'drag',
     'change',
     'rotate',
@@ -41,6 +42,11 @@ export const getDisabledByDefaultOptions = (): GmOptionsPartial => {
     'difference',
     'line_simplification',
     'lasso',
+    'add_hole',
+    'add_part',
+    'remove_ring',
+    'explode',
+    'merge_parts',
     'delete',
   ];
 

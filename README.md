@@ -21,13 +21,13 @@ PRs that improve documentation are welcome.
 ### Installation
 
 ```shell
-npm i
+pnpm install
 ```
 
 ### Local Development
 
 ```shell
-npm run start
+pnpm start
 ```
 
 Starts a local development server with live reload.
@@ -35,7 +35,7 @@ Starts a local development server with live reload.
 ### Build
 
 ```shell
-npm run build
+pnpm build
 ```
 
 Generates static content into the `build` directory.

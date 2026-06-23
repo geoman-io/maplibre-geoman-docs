@@ -38,22 +38,24 @@ const mapAdapter = gm.mapAdapter;
 
 ### Draw Modes
 
+Mode-changing methods are asynchronous and return a `Promise`. You can `await` them when you need to be sure the mode change has completed, or call them fire-and-forget.
+
 #### `enableDraw`
 Enables drawing mode for a specific shape.
 ```typescript
-gm.enableDraw(shape: DrawModeName): void;
+gm.enableDraw(shape: DrawModeName): Promise<void>;
 ```
 
 #### `disableDraw`
 Disables any active drawing mode.
 ```typescript
-gm.disableDraw(): void;
+gm.disableDraw(): Promise<void>;
 ```
 
 #### `toggleDraw`
 Toggles drawing mode for a specific shape.
 ```typescript
-gm.toggleDraw(shape: DrawModeName): void;
+gm.toggleDraw(shape: DrawModeName): Promise<void>;
 ```
 
 #### `drawEnabled`
@@ -66,47 +68,47 @@ gm.drawEnabled(shape: DrawModeName): boolean;
 
 #### Global Edit Mode
 ```typescript
-gm.enableGlobalEditMode(): void;
-gm.disableGlobalEditMode(): void;
-gm.toggleGlobalEditMode(): void;
+gm.enableGlobalEditMode(): Promise<void>;
+gm.disableGlobalEditMode(): Promise<void>;
+gm.toggleGlobalEditMode(): Promise<void>;
 gm.globalEditModeEnabled(): boolean;
 ```
 
 #### Global Drag Mode
 ```typescript
-gm.enableGlobalDragMode(): void;
-gm.disableGlobalDragMode(): void;
-gm.toggleGlobalDragMode(): void;
+gm.enableGlobalDragMode(): Promise<void>;
+gm.disableGlobalDragMode(): Promise<void>;
+gm.toggleGlobalDragMode(): Promise<void>;
 gm.globalDragModeEnabled(): boolean;
 ```
 
 #### Global Rotate Mode
 ```typescript
-gm.enableGlobalRotateMode(): void;
-gm.disableGlobalRotateMode(): void;
-gm.toggleGlobalRotateMode(): void;
+gm.enableGlobalRotateMode(): Promise<void>;
+gm.disableGlobalRotateMode(): Promise<void>;
+gm.toggleGlobalRotateMode(): Promise<void>;
 gm.globalRotateModeEnabled(): boolean;
 ```
 
 #### Global Cut Mode
 ```typescript
-gm.enableGlobalCutMode(): void;
-gm.disableGlobalCutMode(): void;
-gm.toggleGlobalCutMode(): void;
+gm.enableGlobalCutMode(): Promise<void>;
+gm.disableGlobalCutMode(): Promise<void>;
+gm.toggleGlobalCutMode(): Promise<void>;
 gm.globalCutModeEnabled(): boolean;
 ```
 
 #### Global Removal Mode
 ```typescript
-gm.enableGlobalRemovalMode(): void;
-gm.disableGlobalRemovalMode(): void;
-gm.toggleGlobalRemovalMode(): void;
+gm.enableGlobalRemovalMode(): Promise<void>;
+gm.disableGlobalRemovalMode(): Promise<void>;
+gm.toggleGlobalRemovalMode(): Promise<void>;
 gm.globalRemovalModeEnabled(): boolean;
 ```
 
 #### Other Edit Modes
 
-For edit modes without dedicated helper methods (scale, copy, split, union, difference, line_simplification, lasso), use the generic mode management methods:
+For edit modes without dedicated helper methods (select, scale, copy, split, union, difference, line_simplification, lasso, add_hole, add_part, remove_ring, explode, merge_parts), use the generic mode management methods:
 
 ```typescript
 // Example: Scale mode
@@ -123,33 +125,33 @@ gm.enableMode('edit', 'copy');
 ### Generic Mode Management
 
 #### `enableMode`
-Enables a specific mode for a given action type.
+Enables a specific mode for a given mode type.
 ```typescript
-gm.enableMode(actionType: ActionType, modeName: ModeName): void;
+gm.enableMode(modeType: ModeType, modeName: ModeName): Promise<void>;
 ```
 
 #### `disableMode`
-Disables a specific mode for a given action type.
+Disables a specific mode for a given mode type.
 ```typescript
-gm.disableMode(actionType: ActionType, modeName: ModeName): void;
+gm.disableMode(modeType: ModeType, modeName: ModeName): Promise<void>;
 ```
 
 #### `toggleMode`
-Toggles a specific mode for a given action type.
+Toggles a specific mode for a given mode type.
 ```typescript
-gm.toggleMode(actionType: ActionType, modeName: ModeName): void;
+gm.toggleMode(modeType: ModeType, modeName: ModeName): Promise<void>;
 ```
 
 #### `isModeEnabled`
 Checks if a specific mode is enabled.
 ```typescript
-gm.isModeEnabled(actionType: ActionType, modeName: ModeName): boolean;
+gm.isModeEnabled(modeType: ModeType, modeName: ModeName): boolean;
 ```
 
 #### `disableAllModes`
 Disables all active modes.
 ```typescript
-gm.disableAllModes(): void;
+gm.disableAllModes(): Promise<void>;
 ```
 
 ## Mode Status Methods
@@ -183,7 +185,7 @@ gm.addControls(controlsElement?: HTMLElement): Promise<void>;
 #### `removeControls`
 Removes the Geoman controls from the map.
 ```typescript
-gm.removeControls(): void;
+gm.removeControls(): Promise<void>;
 ```
 
 ## Lifecycle Methods
@@ -197,15 +199,15 @@ gm.waitForGeomanLoaded(): Promise<Geoman | undefined>;
 #### `destroy`
 Destroys the Geoman instance and cleans up resources.
 ```typescript
-gm.destroy({ removeSources }: { removeSources: boolean }): Promise<void>;
+gm.destroy(options?: { removeSources: boolean }): Promise<void>;
 ```
 
 ## Event Handling
 
 #### `setGlobalEventsListener`
-Sets a global event listener for all Geoman events.
+Sets a global event listener for all Geoman events. Pass `null` (or call with no argument) to remove the listener.
 ```typescript
-gm.setGlobalEventsListener(callback?: (parameters: GlobalEventsListenerParameters) => void): void;
+gm.setGlobalEventsListener(callback?: GlobalEventsListener | null): void;
 ```
 
 ## Types
@@ -215,22 +217,23 @@ gm.setGlobalEventsListener(callback?: (parameters: GlobalEventsListenerParameter
 type DrawModeName = 'marker' | 'circle' | 'circle_marker' | 'ellipse' | 'text_marker' |
                     'line' | 'rectangle' | 'polygon' | 'freehand' | 'custom_shape';
 
-type EditModeName = 'drag' | 'change' | 'rotate' | 'scale' | 'copy' | 'cut' | 
-                    'split' | 'union' | 'difference' | 'line_simplification' | 
-                    'lasso' | 'delete';
+type EditModeName = 'select' | 'drag' | 'change' | 'rotate' | 'scale' | 'copy' |
+                    'cut' | 'split' | 'union' | 'difference' | 'line_simplification' |
+                    'lasso' | 'add_hole' | 'add_part' | 'remove_ring' | 'explode' |
+                    'merge_parts' | 'delete';
 
 type HelperModeName = 'shape_markers' | 'pin' | 'snapping' | 'snap_guides' | 
                       'measurements' | 'auto_trace' | 'geofencing' | 
                       'zoom_to_features' | 'click_to_edit';
+
+// The mode type accepted by enableMode / disableMode / toggleMode / isModeEnabled
+type ModeType = 'draw' | 'edit' | 'helper';
 ```
 
 ### Event Types
 ```typescript
-type GlobalEventsListenerParameters = {
-    type: 'system' | 'converted';
-    name: GmFwdEventNameWithPrefix | GmFwdSystemEventNameWithPrefix;
-    payload: GmFwdEvent | GMEvent;
-};
+// The global events listener receives a single event object
+type GlobalEventsListener = (event: GmSystemEvent | GmEvent) => void;
 ```
 
 ## Example Usage
@@ -251,9 +254,9 @@ await gm.addControls();
 gm.enableDraw('polygon');
 
 // Listen to events
-gm.setGlobalEventsListener((params) => {
-  if (params.name === 'gm:create') {
-    console.log('Feature created:', params.payload);
+gm.setGlobalEventsListener((event) => {
+  if (event.name === 'gm:create') {
+    console.log('Feature created:', event);
   }
 });
 
@@ -284,6 +287,7 @@ gm.disableAllModes();
 
 ## Available Edit Modes
 
+- `select`: Select features
 - `drag`: Move features
 - `change`: Modify vertices
 - `rotate`: Rotate features
@@ -295,6 +299,11 @@ gm.disableAllModes();
 - `difference`: Subtract features
 - `line_simplification`: Simplify lines
 - `lasso`: Lasso selection
+- `add_hole`: Add a hole to a polygon
+- `add_part`: Add a part to a (multi)polygon
+- `remove_ring`: Remove a ring (hole or part) from a polygon
+- `explode`: Explode a multi-part feature into separate features
+- `merge_parts`: Merge selected features into a single multi-part feature
 - `delete`: Remove features
 
 ## Available Helper Modes

@@ -92,7 +92,7 @@ When importing GeoJSON features that may have IDs matching existing features, yo
 
 ```js
 // Import with overwrite enabled - existing features with matching IDs will be replaced
-const result = gm.features.importGeoJson(fc, { overwrite: true });
+const result = await gm.features.importGeoJson(fc, { overwrite: true });
 
 console.log(result.stats.overwritten); // Number of features that were replaced
 ```
@@ -105,7 +105,21 @@ You can specify which property to use as the feature ID during import:
 
 ```js
 // Use the 'customId' property from feature.properties as the feature ID
-const result = gm.features.importGeoJson(fc, { idPropertyName: 'customId' });
+const result = await gm.features.importGeoJson(fc, { idPropertyName: 'customId' });
+```
+
+### Handling ID collisions
+
+When `overwrite` is not set, you can control what happens to an imported feature whose
+ID collides with one already present using the `onIdCollision` option:
+
+```js
+// 'skip' (default): the colliding feature is not imported (counted as failed)
+const skipped = await gm.features.importGeoJson(fc, { onIdCollision: 'skip' });
+
+// 'reassign': the colliding feature is imported with a fresh, unique ID so that
+// no feature is ever silently dropped. The assigned ID is reported in addedFeatures.
+const reassigned = await gm.features.importGeoJson(fc, { onIdCollision: 'reassign' });
 ```
 
 ## Full Demo example
@@ -122,8 +136,16 @@ See the [Examples](/examples) page for more information.
 interface ImportGeoJsonOptions {
   idPropertyName?: string;  // Use a specific property as the feature ID
   overwrite?: boolean;      // When true, replace existing features with matching IDs
+  // How to handle a feature whose ID collides with an existing one (when overwrite is not set):
+  // - 'skip' (default): the colliding feature is not imported (counted as failed)
+  // - 'reassign': the colliding feature is imported with a fresh unique ID
+  onIdCollision?: 'skip' | 'reassign';
 }
 ```
+
+> **Note:** `importGeoJson` and `importGeoJsonFeature` are asynchronous and return a
+> `Promise`. `await` them (or use `.then()`) when you need the import result or want to
+> ensure the features are added before continuing.
 
 ### GeoJsonImportFeature
 

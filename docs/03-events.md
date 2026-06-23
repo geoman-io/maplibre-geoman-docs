@@ -24,7 +24,7 @@ map.on('gm:create', (event) => {
 To listen to all Geoman events, use the global events listener:
 
 ```typescript
-import type { GlobalEventsListenerParameters } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro', '@geoman-io/mapbox-geoman-free', '@geoman-io/mapbox-geoman-pro'
+import type { GmSystemEvent, GmEvent } from '@geoman-io/maplibre-geoman-free'; // or '@geoman-io/maplibre-geoman-pro', '@geoman-io/mapbox-geoman-free', '@geoman-io/mapbox-geoman-pro'
 
 geoman.setGlobalEventsListener((event: GmSystemEvent | GmEvent) => {
   console.log('Event:', event);
@@ -202,7 +202,7 @@ Here's a complete example showing how to set up event listeners:
 
 ```typescript
 import { Geoman, type GmOptionsPartial } from '@geoman-io/maplibre-geoman-free';
-import type { GlobalEventsListenerParameters } from '@geoman-io/maplibre-geoman-free';
+import type { GmSystemEvent, GmEvent } from '@geoman-io/maplibre-geoman-free';
 // swap to '@geoman-io/mapbox-geoman-free' or '@geoman-io/mapbox-geoman-pro' for Mapbox
 
 // Initialize map and Geoman

@@ -15,7 +15,13 @@ The main configuration object follows this structure:
 interface GmOptionsData {
   settings: {
     throttlingDelay: number;
+    // When true, events like gm:create and gm:remove wait for MapLibre to commit
+    // data updates before firing, so feature data is accessible via exportGeoJson()
+    // inside event handlers. Set to false for faster async updates. (default: true)
+    awaitDataUpdatesOnEvents: boolean;
     useDefaultLayers: boolean;
+    useCursorHandlers: boolean;
+    useControlsUi: boolean;
     controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     controlsUiEnabledByDefault: boolean;
     controlsCollapsible: boolean;
@@ -24,17 +30,25 @@ interface GmOptionsData {
       controlContainerClass: string;
       controlButtonClass: string;
     };
+    // Disable selection-requirement gating of controls (add_hole, add_part,
+    // merge_parts). The modes still validate at run time. (default: false)
+    disableSelectionGating?: boolean;
+    // Clear the global selection when the user clicks the empty map background. (default: true)
+    clearSelectionOnBackgroundClick?: boolean;
     idGenerator: null | ((shapeGeoJson: GeoJsonShapeFeature) => string);
+    // Snapping tolerance in pixels for the snapping helper. (default: 18)
+    snapDistance: number;
     markerIcons: {
       default: string;
       control: string;
     };
   };
   layerStyles: typeof styles;
+  // Each mode entry is optional, so you only specify the controls you want to override.
   controls: {
-    draw: Record<DrawModeName, ControlOptions>;
-    edit: Record<EditModeName, ControlOptions>;
-    helper: Record<HelperModeName, ControlOptions>;
+    draw: { [key in DrawModeName]?: ControlOptions };
+    edit: { [key in EditModeName]?: ControlOptions };
+    helper: { [key in HelperModeName]?: ControlOptions };
   };
 }
 ```
@@ -80,8 +94,15 @@ const gmOptions: GmOptionsPartial = {
     // Delay in milliseconds for throttling events
     throttlingDelay: 100,
 
+    // When true, events like gm:create wait for MapLibre to commit data updates
+    // before firing, so feature data is available via exportGeoJson() in handlers
+    awaitDataUpdatesOnEvents: true,
+
     // Whether to create default layers for rendering features
     useDefaultLayers: true,
+
+    // Snapping tolerance in pixels for the snapping helper
+    snapDistance: 18,
 
     // Position of the controls on the map
     controlsPosition: 'top-right', // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
@@ -128,14 +149,13 @@ const gmOptions: GmOptionsPartial = {
         icon: 'custom-polygon-icon',
         uiEnabled: true,
         active: false,
-        options: [
-          {
+        options: {
+          snap: {
             type: 'toggle',
-            name: 'snap',
             label: 'Snap to Vertices',
             value: true
           }
-        ]
+        }
       },
       line: {
         title: 'Draw Line',
@@ -149,7 +169,7 @@ const gmOptions: GmOptionsPartial = {
 
 ### Edit Controls
 
-Edit controls handle modification of existing geometries. Available edit modes include: 'drag', 'change', 'rotate', 'scale', 'copy', 'cut', 'split', 'union', 'difference', 'line_simplification', 'lasso', and 'delete'.
+Edit controls handle modification of existing geometries. Available edit modes include: 'select', 'drag', 'change', 'rotate', 'scale', 'copy', 'cut', 'split', 'union', 'difference', 'line_simplification', 'lasso', 'add_hole', 'add_part', 'remove_ring', 'explode', 'merge_parts', and 'delete'.
 
 ```typescript
 const gmOptions: GmOptionsPartial = {
@@ -165,10 +185,9 @@ const gmOptions: GmOptionsPartial = {
         title: 'Rotate Features',
         uiEnabled: true,
         active: false,
-        options: [
-          {
+        options: {
+          rotationStep: {
             type: 'select',
-            name: 'rotationStep',
             label: 'Rotation Step',
             value: { title: '45°', value: 45 },
             choices: [
@@ -177,7 +196,7 @@ const gmOptions: GmOptionsPartial = {
               { title: '90°', value: 90 }
             ]
           }
-        ]
+        }
       }
     }
   }
@@ -196,14 +215,13 @@ const gmOptions: GmOptionsPartial = {
         title: 'Snap to Features',
         uiEnabled: true,
         active: true,
-        options: [
-          {
+        options: {
+          snapToVertices: {
             type: 'toggle',
-            name: 'snapToVertices',
             label: 'Snap to Vertices',
             value: true
           }
-        ]
+        }
       },
       measurements: {
         title: 'Show Measurements',
@@ -464,18 +482,24 @@ interface ControlOptions {
   uiEnabled: boolean;   // Whether the control appears in the UI
   active: boolean;      // Whether the control is active by default
   options?: ActionOptions; // Additional control-specific options
+  settings?: ActionSettings; // Control-specific settings (boolean | string | null)
+  order?: number;          // Optional ordering of the control in the UI
 }
 ```
 
 ### Action Options Types
 
-Controls can have additional options of two types:
+Each control's `options` is an object keyed by option name, where each value is one
+of the following action option types:
 
 ```typescript
+type ActionOptions = {
+  [name: string]: SelectActionOption | ToggleActionOption | HiddenActionOption;
+};
+
 type SelectActionOption = {
   type: 'select';
   label: string;
-  name: string;
   value: { title: string; value: boolean | string | number };
   choices: Array<{ title: string; value: boolean | string | number }>;
 };
@@ -483,8 +507,12 @@ type SelectActionOption = {
 type ToggleActionOption = {
   type: 'toggle';
   label: string;
-  name: string;
   value: boolean;
+};
+
+type HiddenActionOption = {
+  type: 'hidden';
+  value: string | boolean | number | undefined;
 };
 ```
 
@@ -505,14 +533,13 @@ const gmOptions: GmOptionsPartial = {
         icon: 'polygon-icon',
         uiEnabled: true,
         active: false,
-        options: [
-          {
+        options: {
+          snap: {
             type: 'toggle',
-            name: 'snap',
             label: 'Snap to Vertices',
             value: true
           }
-        ]
+        }
       }
     },
     edit: {

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "poly-a",
+    "type": "Feature",
+    "properties": { "shape": "polygon" },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-5, 50],
+          [-2, 50],
+          [-2, 53],
+          [-5, 53],
+          [-5, 50]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "poly-b",
+    "type": "Feature",
+    "properties": { "shape": "polygon" },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-1, 50],
+          [2, 50],
+          [2, 53],
+          [-1, 53],
+          [-1, 50]
+        ]
+      ]
+    }
+  }
+]

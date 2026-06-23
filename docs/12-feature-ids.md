@@ -82,7 +82,7 @@ const featureCollection = {
 };
 
 // Import using the 'customId' property as the feature ID
-const result = gm.features.importGeoJson(featureCollection, {
+const result = await gm.features.importGeoJson(featureCollection, {
   idPropertyName: 'customId'
 });
 
@@ -127,13 +127,15 @@ When reimporting features that were previously exported from Geoman, you can use
 const exported = gm.features.exportGeoJson();
 
 // Later, reimport the same features with overwrite to replace existing ones
-const result = gm.features.importGeoJson(exported, { overwrite: true });
+const result = await gm.features.importGeoJson(exported, { overwrite: true });
 
 // Check how many features were replaced
 console.log(`Replaced ${result.stats.overwritten} existing features`);
 ```
 
-Without the `overwrite` option, importing features with existing IDs will fail for those features.
+Without the `overwrite` option, importing a feature with an existing ID is handled by the
+`onIdCollision` option (default `'skip'`), so colliding features are skipped and counted as
+failed. Set `onIdCollision: 'reassign'` to instead import them with a fresh unique ID.
 
 ## ID Generation
 
@@ -153,12 +155,12 @@ const feature2 = {
   geometry: { /* ... */ }
 };
 
-// Features will get sequential IDs
-const imported1 = gm.features.importGeoJsonFeature(feature1);
-const imported2 = gm.features.importGeoJsonFeature(feature2);
+// Features will get sequential IDs (importGeoJsonFeature is async)
+const imported1 = await gm.features.importGeoJsonFeature(feature1);
+const imported2 = await gm.features.importGeoJsonFeature(feature2);
 
-console.log(imported1.id); // e.g., "1"
-console.log(imported2.id); // e.g., "2"
+console.log(imported1?.id); // e.g., "1"
+console.log(imported2?.id); // e.g., "2"
 ```
 
 ## ID Types
@@ -224,7 +226,7 @@ const exported = gm.features.exportGeoJson();
 
 // Later, reimport with overwrite to replace existing features
 const reimported = loadSavedFeatures();
-const result = gm.features.importGeoJson(reimported, { overwrite: true });
+const result = await gm.features.importGeoJson(reimported, { overwrite: true });
 console.log(`Imported ${result.stats.success} features, replaced ${result.stats.overwritten}`);
 ```
 
