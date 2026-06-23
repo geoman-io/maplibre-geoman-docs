@@ -2,6 +2,12 @@
 # this file rather than package.json's "pnpm" field. The repo pins
 # packageManager: pnpm@11 so Vercel/corepack use a pnpm that honors it.
 
+# Disable pnpm's minimum-release-age supply-chain gate. pnpm 11 defaults to a
+# 24h delay before a newly-published version may be installed; this project
+# intentionally tracks a brand-new geoman alpha (and transitive deps such as
+# electron-to-chromium publish daily), which otherwise fails CI/Vercel installs.
+minimumReleaseAge: 0
+
 # core-js ships a postinstall that only prints a funding banner; not needed to
 # build the docs site, so we explicitly acknowledge skipping its build script.
 ignoredBuiltDependencies:

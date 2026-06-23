@@ -25,3 +25,5 @@ yarn-error.log*
 # Generated LLM files
 /static/llms.txt
 /static/llms-full.txt
+.vercel
+.env*
