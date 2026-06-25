@@ -35,5 +35,10 @@ See [Basic Usage and Installation](/basics) for setup instructions for each vari
 ## **Get Started**
 
 - [Installation](/basics)
+- [Configuring Geoman](/configuring-geoman)
 - [Events](/events)
 - [Modes](/mode-switching)
+- [History & Undo/Redo](/history) ⭐
+- [Keyboard Shortcuts](/keyboard-shortcuts) ⭐
+- [Selection](/selection) ⭐
+- [Snapping to External Sources](/external-snapping) ⭐

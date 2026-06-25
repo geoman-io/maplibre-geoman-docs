@@ -1,0 +1,64 @@
+---
+title: "Click to Edit ⭐"
+description: "Let users start editing a feature simply by clicking it, without first selecting an edit tool."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Click to Edit Helper Mode
+
+The Click to Edit Helper Mode makes existing features directly interactive: clicking a feature on the map puts it straight into editing, so users don't have to enable a specific edit tool first. It is a convenience layer on top of Geoman's edit modes and is well suited to "select and tweak" workflows.
+
+You can enable Click to Edit Helper Mode with the following methods:
+
+```js
+map.gm.enableMode('helper', 'click_to_edit');
+map.gm.disableMode('helper', 'click_to_edit');
+map.gm.toggleMode('helper', 'click_to_edit');
+map.gm.isModeEnabled('helper', 'click_to_edit');
+```
+
+### Events for Click to Edit Helper Mode
+
+The following events are available on a map instance:
+
+| Event                               | Params  | Description                                  | Output            |
+|:------------------------------------| :-------| :------------------------------------------- | :-----------------|
+| `gm:globalclick_to_editmodetoggled` | `event` | Fired when Click to Edit Helper Mode is toggled. | `enabled`, `map` |
+
+### Example Usage
+
+```js
+map.on('gm:globalclick_to_editmodetoggled', (event) => {
+  console.log(event);
+});
+```
+
+The actual geometry changes a user makes while a feature is being edited are reported through the standard edit events (`gm:editstart`, `gm:edit`, `gm:editend`) and feature events — see [Events](/events).
+
+## Behavior
+
+The click to edit helper:
+1. Resolves the feature under the cursor across Geoman's persistent sources.
+2. Activates editing for that feature so its vertices/handles become draggable.
+3. Works together with the snapping and shape-marker helpers when they are enabled.
+
+## Default Control Options
+
+| Option       | Default           |
+|:-------------|:------------------|
+| `title`      | `"Click to edit"` |
+| `icon`       | built-in click-to-edit icon |
+| `uiEnabled`  | `true`            |
+| `active`     | `false`           |
+
+## Live Click to Edit Example
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { helperClickToEditOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
+
+<BrowserOnlyGmMap
+  gmOptions={helperClickToEditOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

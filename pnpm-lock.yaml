@@ -26,8 +26,8 @@ importers:
         specifier: ^3.10.1
         version: 3.10.1(@docusaurus/plugin-content-docs@3.10.1(@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.7))(postcss@8.5.15)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3))(postcss@8.5.15)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@geoman-io/maplibre-geoman-pro':
-        specifier: 0.9.0-alpha.0
-        version: 0.9.0-alpha.0(maplibre-gl@5.24.0)
+        specifier: 0.9.0-alpha.1
+        version: 0.9.0-alpha.1(maplibre-gl@5.24.0)
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.2.17)(react@19.2.7)
@@ -1255,8 +1255,8 @@ packages:
     resolution: {integrity: sha512-3ojeJry9xBYdJO6qoyyzqeJFSJBVx2mXhyDzSdjwL2+URFQMf+h25gG38iswGImicK0ELjTd1EL2xzk8hf3QPw==}
     engines: {node: '>=20.0'}
 
-  '@geoman-io/maplibre-geoman-pro@0.9.0-alpha.0':
-    resolution: {integrity: sha512-c4Se7n7NGVOoVR4mcADQOYOVaolYDoGlibNl3IVY3ocCtwt+4hRc8j887HTk71JIP9ETYVmPCTJ0KLkLng+YwA==}
+  '@geoman-io/maplibre-geoman-pro@0.9.0-alpha.1':
+    resolution: {integrity: sha512-ZRqlZkvtO826GAmBY5L/ViI9PAPZxJycHbx+4E1kqLQAer/raRzRhCkpuOCre7xv7tHCznK9TFYw3T931vwjuA==}
     peerDependencies:
       maplibre-gl: '>=5.19.0'
 
@@ -7338,7 +7338,7 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@geoman-io/maplibre-geoman-pro@0.9.0-alpha.0(maplibre-gl@5.24.0)':
+  '@geoman-io/maplibre-geoman-pro@0.9.0-alpha.1(maplibre-gl@5.24.0)':
     dependencies:
       '@types/geojson': 7946.0.16
       lodash-es: 4.18.1

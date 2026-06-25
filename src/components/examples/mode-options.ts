@@ -585,3 +585,47 @@ export const helperZoomToFeaturesOptions: GmOptionsPartial = {
     },
   },
 };
+
+export const helperClickToEditOptions: GmOptionsPartial = {
+  controls: {
+    edit: {
+      change: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+    helper: {
+      click_to_edit: {
+        uiEnabled: true,
+        active: true,
+      },
+      snapping: {
+        uiEnabled: true,
+        active: true,
+      },
+    },
+  },
+};
+
+export const helperGeofencingOptions: GmOptionsPartial = {
+  controls: {
+    draw: {
+      polygon: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+    edit: {
+      change: {
+        uiEnabled: true,
+        active: false,
+      },
+    },
+    helper: {
+      geofencing: {
+        uiEnabled: true,
+        active: true,
+      },
+    },
+  },
+};

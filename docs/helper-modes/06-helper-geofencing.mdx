@@ -1,0 +1,118 @@
+---
+title: "Geofencing ⭐"
+description: "Constrain where features may be drawn or edited and react to containment and intersection violations."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Geofencing Helper Mode
+
+The Geofencing Helper Mode validates every feature that is drawn or edited against a set of reference features and emits a violation event when a feature breaks the configured rules. Use it to keep geometry inside an allowed area (containment) or to keep it out of restricted zones (intersection).
+
+Geofencing does **not** cancel the operation by itself — it reports violations through events so your application decides how to react (warn the user, revert the change, block saving, etc.).
+
+You can enable Geofencing Helper Mode with the following methods:
+
+```js
+map.gm.enableMode('helper', 'geofencing');
+map.gm.disableMode('helper', 'geofencing');
+map.gm.toggleMode('helper', 'geofencing');
+map.gm.isModeEnabled('helper', 'geofencing');
+```
+
+## Configuring the reference features
+
+The geofencing helper tracks two independent groups of reference features:
+
+| Group | Rule | Violation |
+|:------|:-----|:----------|
+| `containment` | Drawn/edited features must stay **inside** at least one containment feature. | `containment_violation` |
+| `intersection` | Drawn/edited features must **not** intersect any intersection feature. | `intersection_violation` |
+
+Reference features are registered on the helper instance, which is reachable through `gm.actionInstances`:
+
+```ts
+import type { FeatureData } from '@geoman-io/maplibre-geoman-pro';
+
+// the geofencing helper must be enabled before you access it
+map.gm.enableMode('helper', 'geofencing');
+
+const geofencing = map.gm.actionInstances['helper__geofencing'];
+
+// keep drawing/editing inside these features
+geofencing.addFeatures('containment', allowedAreaFeatures);
+
+// disallow overlapping these features
+geofencing.addFeatures('intersection', restrictedZoneFeatures);
+
+// later, remove individual reference features…
+geofencing.removeFeatures('intersection', [someFeatureData]);
+```
+
+`addFeatures` / `removeFeatures` take an array of `FeatureData` (the wrapped features Geoman manages — see [Working with the Features Instance](/features-instance)). When the mode is disabled both groups are cleared.
+
+If no containment features are registered, every feature passes the containment check. If no intersection features are registered, the intersection check never triggers.
+
+## Events for Geofencing Helper Mode
+
+The following events are available on a map instance:
+
+| Event                                | Params  | Description                                              | Output            |
+|:-------------------------------------| :-------| :------------------------------------------------------- | :-----------------|
+| `gm:globalgeofencingmodetoggled`     | `event` | Fired when Geofencing Helper Mode is toggled.            | `enabled`, `map`  |
+| `gm:geofencing_violation`            | `event` | Fired when a drawn/edited feature breaks a rule.         | see below         |
+
+The violation event carries the following fields:
+
+```ts
+interface GmGeofencingViolationEvent {
+  name: '_gm:helper:geofencing_violation';
+  mode: 'geofencing';
+  // which operation produced the feature under test
+  actionType: 'draw' | 'edit';
+  // the rule that was broken
+  action: 'containment_violation' | 'intersection_violation';
+}
+```
+
+### Example Usage
+
+```js
+map.on('gm:geofencing_violation', (event) => {
+  if (event.action === 'containment_violation') {
+    console.warn('Feature left the allowed area');
+  } else if (event.action === 'intersection_violation') {
+    console.warn('Feature overlaps a restricted zone');
+  }
+});
+```
+
+## Behavior
+
+The geofencing helper:
+1. Listens for the `before_create` (draw) and `before_update` (edit) feature events.
+2. Runs the new geometry through the containment and intersection checks.
+3. Fires a `gm:geofencing_violation` event for each rule that is broken.
+
+## Default Control Options
+
+| Option       | Default        |
+|:-------------|:---------------|
+| `title`      | `"Geofencing"` |
+| `icon`       | built-in geofencing icon |
+| `uiEnabled`  | `true`         |
+| `active`     | `false`        |
+
+## Live Geofencing Example
+
+Draw or edit features with the geofencing helper enabled — register containment/intersection reference features (see above) and listen for `gm:geofencing_violation` to react.
+
+import BrowserOnlyGmMap from '../../src/components/map/BrowserOnlyGmMap';
+import { helperGeofencingOptions } from '../../src/components/examples/mode-options';
+import features from '../../src/components/examples/geojson/basic-edit.json';
+
+<BrowserOnlyGmMap
+  gmOptions={helperGeofencingOptions}
+  features={features} />
+
+<IntegrationHelpCallout />

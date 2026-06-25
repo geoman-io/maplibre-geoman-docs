@@ -1,0 +1,50 @@
+---
+title: "Shape Markers ⭐"
+description: "The internal helper that renders and manages the vertex and edge markers used while editing a shape."
+---
+
+import IntegrationHelpCallout from '@site/src/components/IntegrationHelpCallout';
+
+# Shape Markers Helper Mode
+
+The Shape Markers Helper Mode renders the draggable vertex and edge markers that appear on a feature while it is being edited (for example in `change` mode) and routes pointer interaction on those markers to the active edit mode.
+
+Unlike the other helper modes, Shape Markers is an **internal helper**: it has no toolbar button (`uiEnabled` defaults to `false`) and is activated automatically by the edit modes that need it. You normally do not enable it yourself — it is documented here for completeness and because it can be tuned through the control options.
+
+You can still toggle it programmatically with the standard mode API:
+
+```js
+map.gm.enableMode('helper', 'shape_markers');
+map.gm.disableMode('helper', 'shape_markers');
+map.gm.toggleMode('helper', 'shape_markers');
+map.gm.isModeEnabled('helper', 'shape_markers');
+```
+
+### Events for Shape Markers Helper Mode
+
+The following events are available on a map instance:
+
+| Event                                | Params  | Description                                       | Output            |
+|:-------------------------------------| :-------| :------------------------------------------------ | :-----------------|
+| `gm:globalshape_markersmodetoggled`  | `event` | Fired when Shape Markers Helper Mode is toggled.  | `enabled`, `map`  |
+
+Marker-level interactions (capturing, moving and releasing vertex/edge markers) are surfaced through the edit events `gm:edit:marker`, `gm:edit:marker_move` and the feature update events — see [Events](/events).
+
+## Behavior
+
+The shape markers helper:
+1. Builds vertex markers (and, where allowed, midpoint/edge markers) for the feature being edited.
+2. Shares markers between linked features so coincident vertices move together.
+3. Forwards pointer events on markers (`mousedown`, `mousemove`, `mouseup`, `touch*`, `contextmenu`) to the active edit mode.
+4. Integrates with the [Pin](/helper-modes/helper-pin) helper so dragging one shared vertex updates every feature that shares it.
+
+## Default Control Options
+
+| Option       | Default            |
+|:-------------|:-------------------|
+| `title`      | `"Shape markers"`  |
+| `icon`       | `null` (no button) |
+| `uiEnabled`  | `false`            |
+| `active`     | `false`            |
+
+<IntegrationHelpCallout />

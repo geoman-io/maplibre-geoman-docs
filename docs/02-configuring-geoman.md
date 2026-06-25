@@ -13,37 +13,12 @@ The main configuration object follows this structure:
 
 ```typescript
 interface GmOptionsData {
-  settings: {
-    throttlingDelay: number;
-    // When true, events like gm:create and gm:remove wait for MapLibre to commit
-    // data updates before firing, so feature data is accessible via exportGeoJson()
-    // inside event handlers. Set to false for faster async updates. (default: true)
-    awaitDataUpdatesOnEvents: boolean;
-    useDefaultLayers: boolean;
-    useCursorHandlers: boolean;
-    useControlsUi: boolean;
-    controlsPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-    controlsUiEnabledByDefault: boolean;
-    controlsCollapsible: boolean;
-    controlsStyles: {
-      controlGroupClass: string;
-      controlContainerClass: string;
-      controlButtonClass: string;
-    };
-    // Disable selection-requirement gating of controls (add_hole, add_part,
-    // merge_parts). The modes still validate at run time. (default: false)
-    disableSelectionGating?: boolean;
-    // Clear the global selection when the user clicks the empty map background. (default: true)
-    clearSelectionOnBackgroundClick?: boolean;
-    idGenerator: null | ((shapeGeoJson: GeoJsonShapeFeature) => string);
-    // Snapping tolerance in pixels for the snapping helper. (default: 18)
-    snapDistance: number;
-    markerIcons: {
-      default: string;
-      control: string;
-    };
-  };
-  layerStyles: typeof styles;
+  settings: GmSettings;
+  // High-level, per-source style variables (recommended way to recolour/resize
+  // overlays). Deep-merged over the built-in defaults and compiled into layerStyles.
+  styleVariables: SourceStyles;
+  // Low-level raw MapLibre/Mapbox paint layers, applied on top of styleVariables.
+  layerStyles: typeof defaultLayerStyles;
   // Each mode entry is optional, so you only specify the controls you want to override.
   controls: {
     draw: { [key in DrawModeName]?: ControlOptions };
@@ -53,7 +28,7 @@ interface GmOptionsData {
 }
 ```
 
-You can provide a partial configuration using `GmOptionsPartial`, which allows you to specify only the options you want to override.
+You can provide a partial configuration using `GmOptionsPartial`, which allows you to specify only the options you want to override. Every option below has a built-in default, so you only set the fields you want to change.
 
 ## Basic Usage
 
@@ -86,44 +61,106 @@ const gm = new Geoman(map, gmOptions);
 
 ## Settings Configuration
 
-The `settings` object allows you to configure global Geoman settings:
+The `settings` object configures global Geoman behavior. The table below lists **every** setting together with its **default value**.
+
+| Setting | Type | Default | Description |
+|:--------|:-----|:--------|:------------|
+| `throttlingDelay` | `number` | `10` | Delay in milliseconds used to throttle high-frequency events (drag, move). |
+| `awaitDataUpdatesOnEvents` | `boolean` | `true` | When `true`, events like `gm:create` and `gm:remove` wait for MapLibre to commit data updates before firing, so feature data is accessible via `exportGeoJson()` in handlers. Set to `false` for faster async updates. |
+| `useControlsUi` | `boolean` | `true` | Render Geoman's built-in control toolbar. Set to `false` to drive everything through the API. |
+| `controlsPosition` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'top-left'` | Position of the controls on the map. |
+| `controlsUiEnabledByDefault` | `boolean` | `true` | Whether controls appear in the UI by default. Individual controls can override this with their own `uiEnabled`. |
+| `controlsCollapsible` | `boolean` | `false` | Show a button that toggles the visibility of all controls. |
+| `useDefaultLayers` | `boolean` | `true` | Create the default rendering layers for features. Set to `false` to define all layers manually. |
+| `useCursorHandlers` | `boolean` | `true` | Let Geoman manage the map cursor while drawing/editing. |
+| `controlsStyles` | `ControlStyles` | see below | CSS classes applied to the control group/container/button. |
+| `disableSelectionGating` | `boolean` | `false` | When `true`, controls that require a selection (`add_hole`, `add_part`, `merge_parts`) are never shown disabled. The modes still validate at run time. |
+| `clearSelectionOnBackgroundClick` | `boolean` | `true` | Clear the global selection when the user clicks the empty map background. |
+| `renderSelection` | `boolean` | `true` | Render the always-on selection overlay that outlines the globally-selected features in any mode. See [Selection](/selection). |
+| `history` | `HistorySettings` | see below | Undo/redo + transaction history. See [History & Undo/Redo](/history). |
+| `keyboard` | `KeyboardSettings` | see below | Container-scoped keyboard shortcuts. See [Keyboard Shortcuts](/keyboard-shortcuts). |
+| `idGenerator` | `null \| (feature) => string` | `null` | Custom feature-ID generator. When `null`, Geoman auto-generates IDs. See [Feature IDs](/feature-ids). |
+| `snapDistance` | `number` | `18` | Snapping tolerance in pixels for the snapping helper. |
+| `snapping` | `SnappingSettings` | see below | Snap against host-owned map sources/layers. See [Snapping to External Sources](/external-snapping). |
+| `markerIcons` | `{ default: string; control: string }` | built-in SVGs | SVG icons used for markers (used internally). |
 
 ```typescript
 const gmOptions: GmOptionsPartial = {
   settings: {
     // Delay in milliseconds for throttling events
-    throttlingDelay: 100,
+    throttlingDelay: 10,
 
     // When true, events like gm:create wait for MapLibre to commit data updates
     // before firing, so feature data is available via exportGeoJson() in handlers
     awaitDataUpdatesOnEvents: true,
 
-    // Whether to create default layers for rendering features
-    useDefaultLayers: true,
-
-    // Snapping tolerance in pixels for the snapping helper
-    snapDistance: 18,
+    // Render the built-in control toolbar
+    useControlsUi: true,
 
     // Position of the controls on the map
-    controlsPosition: 'top-right', // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    controlsPosition: 'top-left', // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
-    // disable or enable each control by default,
-    // an individual control could be enabled and disabled separately
+    // Enable each control in the UI by default; individual controls can override
     controlsUiEnabledByDefault: true,
 
-    // display the button which toggles all controls visibility
+    // Display the button which toggles all controls visibility
     controlsCollapsible: false,
 
-    // controls styling in case if you want to have custom buttons
+    // Create the default layers for rendering features
+    useDefaultLayers: true,
+
+    // Let Geoman manage the cursor while drawing/editing
+    useCursorHandlers: true,
+
+    // Controls styling in case you want custom buttons
     controlsStyles: {
       controlGroupClass: 'maplibregl-ctrl maplibregl-ctrl-group',
       controlContainerClass: 'gm-control-container',
       controlButtonClass: 'gm-control-button',
     },
 
+    // Never grey-out selection-gated controls (add_hole / add_part / merge_parts)
+    disableSelectionGating: false,
+
+    // Clear the global selection when clicking the empty map background
+    clearSelectionOnBackgroundClick: true,
+
+    // Outline the globally-selected features in every mode
+    renderSelection: true,
+
+    // Undo/redo + transaction history (see the History page)
+    history: {
+      enabled: true,
+      mode: 'internal',
+      limit: 50,
+      trackSelection: true,
+      showControls: true,
+    },
+
+    // Keyboard shortcuts (see the Keyboard Shortcuts page)
+    keyboard: {
+      enabled: true,
+      bindings: {
+        undo: ['mod+z'],
+        redo: ['mod+shift+z', 'mod+y'],
+        deleteSelected: ['Delete', 'Backspace'],
+        cancel: ['Escape'],
+      },
+    },
+
     // Custom ID generator function for features (optional)
     // If null, Geoman will auto-generate IDs like 'feature-1', 'feature-2', etc.
     idGenerator: null,
+
+    // Snapping tolerance in pixels for the snapping helper
+    snapDistance: 18,
+
+    // Snap against host-owned sources/layers (see the External Snapping page)
+    snapping: {
+      targets: [],
+      acquire: 'rendered',
+      maxCandidates: 200,
+    },
 
     // SVG icons for markers (used internally)
     markerIcons: {
@@ -133,6 +170,41 @@ const gmOptions: GmOptionsPartial = {
   }
 };
 ```
+
+### History, Keyboard and Snapping settings
+
+These three settings are sub-objects with their own defaults. They are summarized here and documented in full on their dedicated pages.
+
+```typescript
+// settings.history — defaults
+interface HistorySettings {
+  enabled: boolean;        // default: true — master switch
+  mode: 'internal' | 'controlled'; // default: 'internal'
+  limit: number;           // default: 50 — max ChangeSets on the internal undo stack
+  trackSelection: boolean; // default: true — restore selection on undo
+  showControls: boolean;   // default: true — render built-in Undo/Redo buttons
+}
+
+// settings.keyboard — defaults
+interface KeyboardSettings {
+  enabled: boolean;                       // default: true
+  bindings: Record<KeyboardAction, string[]>;
+  // default bindings:
+  //   undo:           ['mod+z']
+  //   redo:           ['mod+shift+z', 'mod+y']
+  //   deleteSelected: ['Delete', 'Backspace']
+  //   cancel:         ['Escape']
+}
+
+// settings.snapping — defaults
+interface SnappingSettings {
+  targets: SnapTarget[];              // default: [] (external snapping disabled)
+  acquire: 'rendered' | 'source';     // default: 'rendered'
+  maxCandidates: number;              // default: 200
+}
+```
+
+See [History & Undo/Redo](/history), [Keyboard Shortcuts](/keyboard-shortcuts) and [Snapping to External Sources](/external-snapping) for full details.
 
 ## Controls Configuration
 
@@ -230,6 +302,77 @@ const gmOptions: GmOptionsPartial = {
       }
     }
   }
+};
+```
+
+## Style Variables (recommended styling)
+
+`styleVariables` is the high-level, recommended way to recolour and resize Geoman's overlays. You set only the fields you want to change per source — they are deep-merged over the built-in defaults and compiled into `layerStyles`. For full control over the raw paint layers, the lower-level [`layerStyles`](#layer-styles-configuration) option is still available and is applied **on top of** whatever `styleVariables` compiles to.
+
+The variables are configured per source. The most common source is `main` (your persistent features); `temporary` is used while drawing/editing, `internal` for helper geometry, and (Pro) `standby` for parked features.
+
+```typescript
+type StyleVariables = {
+  lineColor: string;
+  lineOpacity: number;
+  lineWidth: number;
+  fillColor: string;
+  fillOpacity: number;
+  circleMarkerRadius: number;
+  holeMarkerColor?: string;
+  // selection / sub-editing highlight channels
+  highlightSelectedColor?: string;
+  highlightSelectedWidth?: number;
+  highlightSelectedFillColor?: string;
+  highlightSelectedFillOpacity?: number;
+  highlightCandidateColor?: string;
+  highlightCandidateWidth?: number;
+  highlightCandidateOpacity?: number;
+  highlightHoverColor?: string;
+  highlightHoverWidth?: number;
+  highlightHoverFillOpacity?: number;
+  highlightSnapColor?: string;
+  highlightSnapWidth?: number;
+};
+
+type SourceStyles = {
+  main: StyleVariables;
+  temporary: StyleVariables;
+  internal: StyleVariables;
+  standby?: StyleVariables; // Pro only
+};
+```
+
+### Default style variables
+
+The defaults applied to each source are:
+
+| Variable | Default |
+|:---------|:--------|
+| `lineColor` | `#1971c2` (`temporary`: `#ff5600`, `standby`: `#787878`) |
+| `lineOpacity` | `0.8` |
+| `lineWidth` | `3` |
+| `fillColor` | `#4fb3ff` (`standby`: `#a5a5a5`) |
+| `fillOpacity` | `0.4` |
+| `circleMarkerRadius` | `10` |
+| `holeMarkerColor` | `#9c36b5` |
+| `highlightSelectedColor` | `#e03131` |
+| `highlightSelectedFillColor` | `#4fb3ff` |
+| `highlightCandidateColor` | `#fab005` |
+| `highlightHoverColor` | `#e8590c` |
+
+### Example
+
+```typescript
+const gmOptions: GmOptionsPartial = {
+  styleVariables: {
+    main: {
+      lineColor: '#278cda',
+      fillColor: '#278cda',
+      fillOpacity: 0.25,
+      lineWidth: 2,
+    },
+  },
 };
 ```
 
@@ -515,6 +658,44 @@ type HiddenActionOption = {
   value: string | boolean | number | undefined;
 };
 ```
+
+### Default Control Options
+
+Every draw, edit and helper mode ships with a default `ControlOptions` entry. Unless noted below, each control defaults to:
+
+```typescript
+{
+  title: '<Human readable title>', // e.g. 'Polygon', 'Rotate', 'Snapping'
+  icon: '<built-in icon>',
+  uiEnabled: true,
+  active: false,
+}
+```
+
+A few controls carry extra default `options`/`settings`, and one helper is hidden by default:
+
+| Mode | Type | Default extras |
+|:-----|:-----|:---------------|
+| `custom_shape` | draw | `options.shape` — a `select` defaulting to `Triangle` (choices: `Triangle`, `Rectangle`). |
+| `change` | edit | `settings: { bodyDragEnabled: false, editSelectedOnly: false }`. |
+| `measurements` | helper | `options.units` — a `hidden` option (auto-detect; set to `'metric'` or `'imperial'`); `settings: { stickyMode: true }`. |
+| `shape_markers` | helper | `icon: null`, `uiEnabled: false` — internal helper, no toolbar button. See [Shape Markers](/helper-modes/helper-shape_markers). |
+
+The full default control title for each mode:
+
+| Mode | Default title |
+|:-----|:--------------|
+| `marker` / `circle_marker` / `text_marker` | `Marker` / `Circle Marker` / `Text Marker` |
+| `circle` / `ellipse` / `line` / `rectangle` / `polygon` | `Circle` / `Ellipse` / `Line` / `Rectangle` / `Polygon` |
+| `freehand` / `custom_shape` | `Freehand` / `Custom shape` |
+| `select` / `drag` / `change` / `rotate` / `scale` | `Select` / `Drag` / `Change` / `Rotate` / `Scale` |
+| `copy` / `cut` / `split` / `union` / `difference` | `Copy` / `Cut` / `Split` / `Union` / `Difference` |
+| `line_simplification` / `lasso` | `Line simplification` / `Lasso select` |
+| `add_hole` / `add_part` / `remove_ring` | `Add hole` / `Add part` / `Remove hole/part` |
+| `explode` / `merge_parts` / `delete` | `Explode multipolygon` / `Merge into multipolygon` / `Delete` |
+| `shape_markers` / `snapping` / `pin` / `snap_guides` | `Shape markers` / `Snapping` / `Pin` / `Snap guides` |
+| `measurements` / `auto_trace` / `geofencing` | `Measurements` / `Auto trace line` / `Geofencing` |
+| `zoom_to_features` / `click_to_edit` | `Zoom to features` / `Click to edit` |
 
 ## Full Configuration Example
 
