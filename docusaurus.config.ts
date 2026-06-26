@@ -1,7 +1,19 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import webpack from 'webpack';
+import * as dotenv from 'dotenv';
 import llmTxtPlugin from './plugins/llm-txt-plugin';
+
+// Load local env files for development/local builds. On Vercel the variables are
+// injected into process.env directly, so these files are simply absent there.
+// dotenv never overrides an already-set variable, so Vercel's values win.
+dotenv.config({path: '.env.local', quiet: true});
+dotenv.config({quiet: true});
+
+// Expose the public Mapbox token (pk.*) to the client bundle. It is required by
+// Mapbox GL JS in the Mapbox demo panes and is safe to ship to the browser.
+const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN ?? '';
 
 const config: Config = {
   title: 'Documentation for MapLibre-Geoman and Mapbox-Geoman',
@@ -50,7 +62,25 @@ const config: Config = {
       defer: true,
     },
   ],
-  plugins: [llmTxtPlugin],
+  plugins: [
+    llmTxtPlugin,
+    // Replace `process.env.MAPBOX_ACCESS_TOKEN` references in client code with the
+    // build-time value, so the Mapbox demo panes can read it in the browser.
+    function mapboxEnvPlugin() {
+      return {
+        name: 'mapbox-env-plugin',
+        configureWebpack() {
+          return {
+            plugins: [
+              new webpack.DefinePlugin({
+                'process.env.MAPBOX_ACCESS_TOKEN': JSON.stringify(mapboxAccessToken),
+              }),
+            ],
+          };
+        },
+      };
+    },
+  ],
 
   presets: [
     [
