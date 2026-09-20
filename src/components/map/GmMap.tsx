@@ -4,7 +4,7 @@ import '@geoman-io/maplibre-geoman-pro/dist/maplibre-geoman.css';
 import { getDisabledByDefaultOptions } from '@site/src/components/map/default-options';
 import mapLibreStyle from '@site/src/components/map/map-libre-style';
 import { merge } from 'lodash-es';
-import ml, { type MapOptions } from 'maplibre-gl';
+import { Map as MapLibreMap, type MapOptions } from 'maplibre-gl';
 import React, { useEffect, useRef } from 'react';
 import type { PartialDeep } from 'type-fest';
 
@@ -19,7 +19,7 @@ const Component: React.FC<ComponentProps> = ({
   features,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<ml.Map & { gm: Geoman } | null>(null);
+  const mapRef = useRef<MapLibreMap & { gm: Geoman } | null>(null);
 
   useEffect(() => {
     if (mapContainerRef.current && !mapRef.current) {
@@ -31,13 +31,13 @@ const Component: React.FC<ComponentProps> = ({
         fadeDuration: 50,
       };
 
-      const map = new ml.Map(mapOptions) as ml.Map & { gm: Geoman };
+      const map = new MapLibreMap(mapOptions) as MapLibreMap & { gm: Geoman };
 
       const gmOptions = getDisabledByDefaultOptions();
       merge(gmOptions, gmOptionsOverride);
 
       const geoman = new Geoman(map, gmOptions);
-      map.on(`gm:loaded`, () => {
+      map.on(`gm:loaded` as never, () => {
         features?.forEach((feature) => {
           geoman.features.addGeoJsonFeature({ shapeGeoJson: feature });
         });

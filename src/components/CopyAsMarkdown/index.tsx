@@ -5,7 +5,7 @@ interface CopyAsMarkdownProps {
   className?: string;
 }
 
-export default function CopyAsMarkdown({ className }: CopyAsMarkdownProps): JSX.Element {
+export default function CopyAsMarkdown({ className }: CopyAsMarkdownProps): React.JSX.Element {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {

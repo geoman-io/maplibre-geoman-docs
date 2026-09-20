@@ -61,6 +61,6 @@ The helper does not hijack the global default source. A host that imports featur
 
 ### Programmatic editing of parked features
 
-Features parked in `gm_standby` are still live and editable by id. The `geoman.edit.*` programmatic operations (for example `geoman.edit.addHole`, `geoman.edit.reshape`) resolve features across both `gm_main` and `gm_standby`, so a host driving the editing API by feature id can edit a parked feature without first clicking it back into the editable source.
+Features parked in `gm_standby` are still live and editable by id. The `geoman.edit.*` programmatic operations (for example `geoman.edit.addHole`, `geoman.edit.repairGeometry`) resolve features across both `gm_main` and `gm_standby`, so a host driving the editing API by feature id can edit a parked feature without first clicking it back into the editable source.
 
 <IntegrationHelpCallout />

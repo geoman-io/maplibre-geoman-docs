@@ -103,7 +103,7 @@ const gmOptions: GmOptionsPartial = {
 
     // Turn off selection-requirement gating of controls. When false (default),
     // controls that declare a `requiresSelection` (such as add_hole, add_part,
-    // merge_parts, reshape) are shown disabled until the current selection
+    // merge_parts) are shown disabled until the current selection
     // satisfies the requirement. Set to true for hosts that manage tool
     // availability themselves — the modes still validate at run time and emit
     // a `gm:operation_rejected` event when an operation cannot be applied.

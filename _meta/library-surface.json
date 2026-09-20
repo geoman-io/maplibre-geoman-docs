@@ -1,5 +1,5 @@
 {
-  "libraryVersion": "0.8.3",
+  "libraryVersion": "0.12.0",
   "modes": {
     "draw": [
       "marker",
@@ -31,7 +31,6 @@
       "remove_ring",
       "explode",
       "merge_parts",
-      "reshape",
       "delete"
     ],
     "helper": [
@@ -51,9 +50,13 @@
       "addHole",
       "addPart",
       "removeRing",
-      "reshape",
       "explode",
-      "merge"
+      "merge",
+      "setGeometry",
+      "repairGeometry",
+      "snapToGrid",
+      "buffer",
+      "setProperties"
     ],
     "layers": [
       "getSourceIds",

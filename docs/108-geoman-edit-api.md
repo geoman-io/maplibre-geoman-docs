@@ -1,6 +1,6 @@
 ---
 title: "Geoman Edit API ⭐"
-description: "Programmatic API for polygon sub-editing — add/remove holes and parts, reshape, explode and merge — by feature id, without the toolbar."
+description: "Programmatic API for geometry and property editing — by feature id, without the toolbar."
 ---
 
 # Geoman Edit API ⭐
@@ -79,13 +79,6 @@ await gm.edit.removeRing(featureId: FeatureId, target: RemovableRingTarget): Pro
 
 When removing the ring leaves nothing valid, the feature is deleted and the result is `{ ok: true }` with no `feature`.
 
-### `reshape`
-Replace a run of the feature's outer boundary with a drawn line (grow or shrink it).
-
-```typescript
-await gm.edit.reshape(featureId: FeatureId, line: Array<Position>): Promise<EditApiResult>;
-```
-
 ### `explode`
 Split a multipolygon into separate single-polygon features. The result's `features` array holds the created features.
 
@@ -102,16 +95,71 @@ const result = await gm.edit.merge(featureIds: Array<FeatureId>); // Promise<Edi
 if (result.ok) console.log(result.feature);
 ```
 
+### `setGeometry`
+Replace a feature's geometry with a host-computed geometry. The geometry must be
+allowed by the layer's configured `geometryTypes`.
+
+```typescript
+await gm.edit.setGeometry(featureId: FeatureId, geometry: BasicGeometry): Promise<EditApiResult>;
+```
+
+The operation is undoable and emits `gm:edit` followed by `gm:editend`.
+
+### `repairGeometry`
+Repair a feature in place by removing duplicate vertices, fixing ring winding,
+and splitting self-intersecting polygons into valid parts. It is a no-op when
+the geometry is already valid.
+
+```typescript
+await gm.edit.repairGeometry(featureId: FeatureId): Promise<EditApiResult>;
+```
+
+### `snapToGrid`
+Snap a feature's vertices to a regular coordinate grid. `size` and `origin` are
+in the map's coordinate units.
+
+```typescript
+await gm.edit.snapToGrid(
+  featureId: FeatureId,
+  size: number,
+  origin?: [number, number],
+): Promise<EditApiResult>;
+```
+
+### `buffer`
+Grow or shrink a polygon in place. Positive distances grow the geometry and
+negative distances shrink it; the default unit is metres.
+
+```typescript
+await gm.edit.buffer(
+  featureId: FeatureId,
+  distance: number,
+  options?: BufferOptions,
+): Promise<EditApiResult>;
+```
+
+### `setProperties`
+Merge new application properties into a feature. This is undoable and emits
+`gm:edit` followed by `gm:editend`.
+
+```typescript
+await gm.edit.setProperties(
+  featureId: FeatureId,
+  properties: Record<string, unknown>,
+): Promise<EditApiResult>;
+```
+
 ## Events
 
 Each operation emits the same events as the interactive modes:
 
 - `gm:create` / `gm:remove` when features are created or removed (e.g. `explode`, `merge`)
-- the per-mode update event (e.g. `gm:add_hole`, `gm:reshape`) on a successful geometry change
+- the per-mode update event (e.g. `gm:add_hole`) on a successful sub-edit
+- `gm:edit` followed by `gm:editend` for the general geometry/property methods
 - `gm:operation_rejected` (`{ mode, reason, feature }`) when an operation is intentionally not applied
 
 See [Events](/events) for payload details.
 
 ## GeoJSON-in / GeoJSON-out helpers
 
-The underlying pure helpers (`addHoleToPolygonGeoJson`, `reshapePolygonGeoJson`, `mergeToMultiPolygon`, `getRemovableRings`, `normalizePolygonWinding`, and the rejection-reason classifiers) are exported for headless GeoJSON transforms without a map.
+The underlying pure helpers (`addHoleToPolygonGeoJson`, `mergeToMultiPolygon`, `getRemovableRings`, `normalizePolygonWinding`, and the geometry repair, grid-snap, and buffer utilities) are exported for headless GeoJSON transforms without a map.

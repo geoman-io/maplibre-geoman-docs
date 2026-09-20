@@ -1,7 +1,7 @@
-import ml from 'maplibre-gl';
+import type { StyleSpecification } from 'maplibre-gl';
 
 
-const mapStyle: ml.StyleSpecification = {
+const mapStyle: StyleSpecification = {
   version: 8,
   glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
   sources: {

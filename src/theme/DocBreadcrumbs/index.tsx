@@ -7,7 +7,7 @@ import styles from './styles.module.css';
 
 type Props = WrapperProps<typeof DocBreadcrumbsType>;
 
-export default function DocBreadcrumbsWrapper(props: Props): JSX.Element {
+export default function DocBreadcrumbsWrapper(props: Props): React.JSX.Element {
   return (
     <div className={styles.breadcrumbsRow}>
       <DocBreadcrumbs {...props} />
