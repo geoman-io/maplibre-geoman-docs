@@ -1,16 +1,16 @@
 ---
 sidebar_position: 0
 title: "Introduction"
-description: "Explore Geoman documentation for both MapLibre and Mapbox integrations, including tutorials, code snippets, and API references."
+description: "Add drawing, editing, snapping, and measurement tools to MapLibre GL JS and Mapbox GL JS maps with Geoman. Get started free or explore Pro features."
 slug: "/"
 ---
 
-# Documentation
+# MapLibre and Mapbox drawing and editing with Geoman
 
 ### For MapLibre-Geoman and Mapbox-Geoman (Free & ⭐ Pro)
 
-A plugin for creating and editing geometry layers in MapLibre and Mapbox.
-Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
+Geoman is a plugin for drawing and editing geometry layers in MapLibre GL JS and Mapbox GL JS.
+Draw, edit, drag, cut, rotate, split, scale, measure, snap, and pin layers with a consistent API.
 
 ![demo](/img/geoman-maplibre-demo.png)
 
@@ -37,3 +37,5 @@ See [Basic Usage and Installation](/basics) for setup instructions for each vari
 - [Installation](/basics)
 - [Events](/events)
 - [Modes](/mode-switching)
+- [Try the MapLibre demo](https://geoman.io/demo/maplibre)
+- [Compare Pro licenses](https://geoman.io/pricing)
