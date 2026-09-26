@@ -1,13 +1,33 @@
 ---
-title: "Draw Circle Marker"
-description: "Add circle markers with a fixed pixel radius to the map."
+title: "MapLibre Circle Markers: Drawing and GeoJSON"
+description: "Draw fixed-size circle markers with MapLibre-Geoman. Compare markers and circles, enable drawing after initialization, and export points as GeoJSON."
 ---
 
 # Draw Circle Marker Mode
 
 Circle Marker Mode allows you to add circle markers to the map. Circle markers are circles with a fixed radius in pixels that maintain their screen size regardless of zoom level.
 
-You can enable Draw Circle Marker Mode like this:
+## Circle marker, marker or circle?
+
+| Shape | Use it for | Behavior when zooming |
+| --- | --- | --- |
+| Circle marker | Point locations with a simple round symbol | Keeps a fixed pixel radius |
+| Marker | Point locations shown with a marker symbol | Keeps a screen-sized symbol |
+| Circle | A geographic area around a center | Its screen size changes with map zoom |
+
+A circle marker represents a point location, not a geographic buffer. Choose [Draw Circle](./03-draw-circle.mdx) when the area on the ground matters.
+
+## Enable circle marker drawing
+
+Create the Geoman instance using the [installation guide](/docs/maplibre/basics) first. Wait for it to finish initializing before activating a tool:
+
+```typescript
+geoman.mapAdapter.once('gm:loaded', () => {
+  geoman.enableDraw('circle_marker');
+});
+```
+
+On an already initialized map, the following methods let your own controls toggle drawing:
 
 ```js
 map.gm.enableDraw("circle_marker");
@@ -36,6 +56,19 @@ Circle marker drawing operates by:
 1. Clicking on the map to place the circle marker center
 2. The circle marker is created with a default radius
 3. The circle marker maintains its pixel size regardless of zoom level
+
+## Export the drawn points
+
+Read the feature collection after a user creates a feature, or from your own save button. Keep the Geoman feature properties when you plan to import the data again.
+
+```typescript
+geoman.mapAdapter.on('gm:create', () => {
+  const data = geoman.features.exportGeoJson();
+  console.log(data);
+});
+```
+
+If no toolbar appears, check that both MapLibre and Geoman CSS are loaded and that the map container has a nonzero height. If drawing is enabled too early, move that call into `gm:loaded` as shown above. See the [event reference](/docs/maplibre/events) for more interactions.
 
 ## Live Draw Circle Marker Example
 
