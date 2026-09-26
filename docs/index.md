@@ -1,44 +1,64 @@
 ---
 sidebar_position: 0
-title: "Introduction"
-description: "Explore Geoman documentation for both MapLibre and Mapbox integrations, including tutorials, code snippets, and API references."
+sidebar_label: "Introduction"
+title: "MapLibre drawing and editing with Geoman"
+description: "Add polygon drawing, geometry editing and GeoJSON import/export to MapLibre GL JS with Geoman. Start with Free, explore Pro tools, or use the Mapbox adapter."
 slug: "/"
 ---
 
-# Documentation
+# MapLibre drawing and editing with Geoman
 
-### For MapLibre-Geoman and Mapbox-Geoman (Free & ⭐ Pro)
+Geoman adds drawing and geometry editing to **MapLibre GL JS**. Let users create polygons, lines and markers, edit vertices, snap to nearby geometry and export their work as GeoJSON.
 
-A plugin for creating and editing geometry layers in MapLibre and Mapbox.
-Draw, Edit, Drag, Cut, Rotate, Split, Scale, Measure, Snap and Pin Layers.
+This documentation also covers **Mapbox-Geoman**, a separate adapter with the same Geoman API for Mapbox GL JS. Choose the package for the renderer your application uses.
 
-![demo](/img/geoman-maplibre-demo.png)
+[Try the MapLibre demo](https://geoman.io/demo/maplibre) · [Install Geoman](/basics) · [Compare Free and Pro](https://geoman.io/pricing)
 
-Supports Markers, CircleMarkers, Polylines, Polygons, Circles, Rectangles, ImageOverlays, LayerGroups, GeoJSON, MultiLineStrings and MultiPolygons
+![Drawing and editing geometry with MapLibre-Geoman](/img/geoman-maplibre-demo.png)
 
-Features _not_ available in the free version are marked with a star (⭐).
+## Install the Free package
 
-## Installation
+For MapLibre, install the drawing plugin and its renderer in your application:
 
-This documentation covers both package families:
+```sh
+npm install maplibre-gl@^6 @geoman-io/maplibre-geoman-free@^0.10
+```
 
-- `@geoman-io/maplibre-geoman-free` and `@geoman-io/maplibre-geoman-pro`
-- `@geoman-io/mapbox-geoman-free` and `@geoman-io/mapbox-geoman-pro`
+Follow [Basic Usage and Installation](/basics) to load the CSS, configure the MapLibre 6 worker and initialize `map` and `geoman`. The guide also covers the Mapbox adapter and Pro packages. Initialize the map after the container mounts when using an SSR framework.
 
-The implementation is maintained as dual-target workspaces:
+## Draw your first polygon, then edit it
 
-- In `maplibre-geoman` (free): `packages/core`, `packages/maplibre`, and `packages/mapbox`
-- In `maplibre-geoman-pro` (pro): `packages/core`, `packages/maplibre`, `packages/mapbox`, `packages/maplibre-pro`, and `packages/mapbox-pro`
+Add these listeners immediately after creating your `geoman` instance in the installation example:
 
-See [Basic Usage and Installation](/basics) for setup instructions for each variant.
+```javascript
+geoman.mapAdapter.once('gm:loaded', async () => {
+  await geoman.enableDraw('polygon');
+});
 
-## **Get Started**
+geoman.mapAdapter.on('gm:create', async () => {
+  await geoman.disableDraw();
+  await geoman.enableGlobalEditMode();
+});
 
-- [Installation](/basics)
-- [Configuring Geoman](/configuring-geoman)
-- [Events](/events)
-- [Modes](/mode-switching)
-- [History & Undo/Redo](/history) ⭐
-- [Keyboard Shortcuts](/keyboard-shortcuts) ⭐
-- [Selection](/selection) ⭐
-- [Snapping to External Sources](/external-snapping) ⭐
+geoman.mapAdapter.on('gm:editend', () => {
+  const geojson = geoman.features.exportGeoJson();
+  console.log('Edited geometry:', geojson);
+});
+```
+
+Click to add vertices and click the first vertex again to close the polygon. The example then enables editing: drag a vertex to change its shape. `exportGeoJson()` returns the current FeatureCollection; your application decides when and where to save it. The toolbar provides drawing and editing controls too.
+
+## Continue with your own data
+
+- [Import an existing GeoJSON collection](/importing-data): load saved features before editing and choose how to handle feature IDs.
+- [Export GeoJSON](/exporting-data): retrieve the current geometry for your own API or file download.
+- [Drawing modes](/draw-modes/draw-polygon) and [editing modes](/edit-modes/edit-change): choose the interactions your editor exposes.
+- [Events](/events): react to completed edits, newly drawn features and removals.
+- [Configuration](/configuring-geoman): adapt the controls and behavior to your application.
+- [Migrate from Mapbox GL Draw](https://geoman.io/blog/maplibre-geoman-vs-mapbox-gl-draw): use a complete Vite example and an API mapping.
+
+## Free and Pro tools
+
+**Free** includes drawing, vertex editing, dragging, rotation, cutting and snapping. **Pro** adds tools such as splitting, scaling, measurements, auto tracing and undo/redo. Features and options that require Pro are marked with a star (⭐) throughout these docs. The interactive demos include Pro capabilities.
+
+The Free packages use the MIT license. Pro uses a commercial license; one MapLibre/Mapbox-Geoman Pro license covers both adapters. Leaflet-Geoman Pro is licensed separately. Review [current plans and support options](https://geoman.io/pricing) for the scope that fits your application.
