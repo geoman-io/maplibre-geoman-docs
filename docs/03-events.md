@@ -280,7 +280,7 @@ const event = {
 ```
 
 
-# Event Types
+## Event Types
 
 Here are some common event payload types:
 

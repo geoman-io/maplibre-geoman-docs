@@ -3,6 +3,7 @@
   "position": 101,
   "collapsible": true,
   "link": {
-    "type": "generated-index"
+    "type": "generated-index",
+    "description": "Create markers, lines, circles and polygons with the MapLibre-Geoman drawing tools."
   }
 }

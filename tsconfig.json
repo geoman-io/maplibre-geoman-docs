@@ -7,5 +7,6 @@
     // it needs for its "@site/*" path mapping. Silence the TS 6 deprecation until
     // the Docusaurus base config drops baseUrl.
     "ignoreDeprecations": "6.0"
-  }
+  },
+  "exclude": ["node_modules", "build", ".docusaurus"]
 }
