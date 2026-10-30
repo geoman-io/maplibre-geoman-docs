@@ -18,8 +18,9 @@ interface SnappingSettings {
   // 'rendered' (default) queries only painted features via queryRenderedFeatures
   //   (respects zoom/visibility/filters; vector-tile geometry is clipped at tile
   //   boundaries). 'source' queries all loaded tiles via querySourceFeatures
-  //   (more candidates, same clipping caveat). For pixel-perfect snapping, load
-  //   the reference data as a GeoJSON source.
+  //   (more candidates, same clipping and tile-precision caveats).
+  //   Both query tiled geometry, including GeoJSON sources, so original
+  //   geographic vertex coordinates are not preserved.
   acquire: 'rendered' | 'source'; // default: 'rendered'
   // cap on external candidate features considered per snap (perf guard)
   maxCandidates: number;          // default: 200
@@ -79,5 +80,7 @@ const gm = new Geoman(map, {
 
 - Vertices are preferred over edges; each candidate is checked against the snap tolerance.
 - `acquire: 'rendered'` respects the layer's zoom range, visibility and filters; vector-tile geometry is clipped at tile boundaries.
-- `acquire: 'source'` considers more candidates but has the same tile-clipping caveat. For pixel-perfect snapping, load the reference data as a GeoJSON source.
+- `acquire: 'source'` considers more candidates but has the same tile-clipping and tile-precision caveats as `'rendered'`.
+- **Layer targets are approximate, including GeoJSON sources.** MapLibre/Mapbox convert GeoJSON sources into tiles internally. Both query methods return tiled geometry, whose vertices may be rounded, simplified, split, or duplicated. Snapping can be visually aligned while the resulting geographic coordinates differ from the original data; switching to `'source'` does not restore the original coordinates.
+- **For exact vertex coordinates**, import reference data as Geoman features with `properties: { __gm_disableEdit: true }`, or pass the original vertex coordinates to the snapping helper's `setCustomSnappingCoordinates(sectionKey, coordinates)` method. These paths use the stored coordinates rather than tile-query geometry. An edge snap is an interpolated position, not necessarily an original vertex.
 - `maxCandidates` bounds how many external features are considered per snap to protect performance on dense datasets.
