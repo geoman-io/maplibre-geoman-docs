@@ -14,7 +14,7 @@ The main configuration object follows this structure:
 ```typescript
 interface GmOptionsData {
   settings: GmSettings;
-  // High-level, per-source style variables (recommended way to recolour/resize
+  // Pro. High-level, per-source style variables (recommended way to recolour/resize
   // overlays). Deep-merged over the built-in defaults and compiled into layerStyles.
   styleVariables: SourceStyles;
   // Low-level raw MapLibre/Mapbox paint layers, applied on top of styleVariables.
@@ -61,7 +61,7 @@ const gm = new Geoman(map, gmOptions);
 
 ## Settings Configuration
 
-The `settings` object configures global Geoman behavior. The table below lists **every** setting together with its **default value**.
+The `settings` object configures global Geoman behavior. The table below lists **every** setting together with its **default value**. Settings marked **Pro** exist on `@geoman-io/maplibre-geoman-pro` and `@geoman-io/mapbox-geoman-pro` only. Free accepts the shared settings, including `beforeChange`, `polygonSelfIntersection`, and `polygonAsPolygon`.
 
 | Setting | Type | Default | Description |
 |:--------|:-----|:--------|:------------|
@@ -74,14 +74,25 @@ The `settings` object configures global Geoman behavior. The table below lists *
 | `useDefaultLayers` | `boolean` | `true` | Create the default rendering layers for features. Set to `false` to define all layers manually. |
 | `useCursorHandlers` | `boolean` | `true` | Let Geoman manage the map cursor while drawing/editing. |
 | `controlsStyles` | `ControlStyles` | see below | CSS classes applied to the control group/container/button. |
-| `disableSelectionGating` | `boolean` | `false` | When `true`, controls that require a selection (`add_hole`, `add_part`, `merge_parts`) are never shown disabled. The modes still validate at run time. |
-| `clearSelectionOnBackgroundClick` | `boolean` | `true` | Clear the global selection when the user clicks the empty map background. |
-| `renderSelection` | `boolean` | `true` | Render the always-on selection overlay that outlines the globally-selected features in any mode. See [Selection](/selection). |
-| `history` | `HistorySettings` | see below | Undo/redo + transaction history. See [History & Undo/Redo](/history). |
-| `keyboard` | `KeyboardSettings` | see below | Container-scoped keyboard shortcuts. See [Keyboard Shortcuts](/keyboard-shortcuts). |
+| `disableSelectionGating` | `boolean` | `false` | **Pro.** When `true`, controls that require a selection (`add_hole`, `add_part`, `merge_parts`) are never shown disabled. The modes still validate at run time. |
+| `clearSelectionOnBackgroundClick` | `boolean` | `true` | **Pro.** Clear the global selection when the user clicks the empty map background. |
+| `renderSelection` | `boolean` | `true` | **Pro.** Render the always-on selection overlay that outlines the globally-selected features in any mode. See [Selection](/selection). |
+| `history` | `HistorySettings` | see below | **Pro.** Undo/redo + transaction history. See [History & Undo/Redo](/history). |
+| `keyboard` | `KeyboardSettings` | see below | **Pro.** Container-scoped keyboard shortcuts. See [Keyboard Shortcuts](/keyboard-shortcuts). |
 | `idGenerator` | `null \| (feature) => string` | `null` | Custom feature-ID generator. When `null`, Geoman auto-generates IDs. See [Feature IDs](/feature-ids). |
 | `snapDistance` | `number` | `18` | Snapping tolerance in pixels for the snapping helper. |
-| `snapping` | `SnappingSettings` | see below | Snap against host-owned map sources/layers. See [Snapping to External Sources](/external-snapping). |
+| `snapping` | `SnappingSettings` | see below | **Pro.** Snap against host-owned map sources/layers. See [Snapping to External Sources](/external-snapping). |
+| `polygonSelfIntersection` | `'split' \| 'reject'` | `'split'` | What to do when a drawn polygon ring crosses itself. `split` unkinks it into a MultiPolygon. `reject` refuses the ring, fires `gm:draw:rejected`, and leaves drawing open. |
+| `polygonAsPolygon` | `boolean` | `false` | Store a single-part finished polygon as a Polygon. `false` keeps the historical one-part MultiPolygon. |
+| `beforeChange` | `(context) => boolean \| Promise<boolean>` | unset | Veto a create, update, or removal before it is written. Return `false`, or throw, to refuse. `featureId` is `null` for a create that has not produced a feature yet. `geometry` is `null` for a removal. Pro also runs this for keyboard delete/nudge and `edit.setGeometry`. |
+| `mergeAttributeStrategy` | `'primary' \| 'union' \| 'none'` | `'primary'` | **Pro.** How `edit:merge_parts` combines attributes. Override per call with `gm.edit.merge(ids, { attributes })`. |
+| `selectionMessageResolver` | `(context) => string \| undefined` | unset | **Pro.** Localise the guidance shown on a control disabled by `requiresSelection`. Return `undefined` to keep the English copy. |
+| `validateSchema` | `boolean` | `false` | **Pro.** Reject create/update when a data-layer feature fails its schema. |
+| `validateGeometry` | `boolean` | `false` | **Pro.** Reject create/update when geometry is invalid (too few vertices, self-intersection, a hole outside or crossing the shell). Repair with `gm.edit.repairGeometry(id)`. |
+| `gridSnap` | `{ size: number; origin?: Position } \| null` | `null` | **Pro.** Snap drawn vertices to a coordinate grid. `size` and `origin` are in degrees. |
+| `announceActions` | `boolean` | `true` | **Pro.** Announce selection changes and rejected operations to screen readers. Set `false` to opt out. |
+| `announcementResolver` | `(context) => string \| undefined` | unset | **Pro.** Localise the `aria-live` announcement. Return `undefined` for the English copy, or `''` to stay silent. |
+| `compoundLineageEvents` | `boolean` | `true` | **Pro.** Also emit `gm:explode`, `gm:merge_parts`, and `gm:split` alongside the granular `gm:create` / `gm:remove` events. Set `false` if the host store already syncs on the granular events. |
 | `markerIcons` | `{ default: string; control: string }` | built-in SVGs | SVG icons used for markers (used internally). |
 
 ```typescript
@@ -145,6 +156,8 @@ const gmOptions: GmOptionsPartial = {
         redo: ['mod+shift+z', 'mod+y'],
         deleteSelected: ['Delete', 'Backspace'],
         cancel: ['Escape'],
+        finishShape: ['Enter'],
+        removeLastVertex: ['Backspace'],
       },
     },
 
@@ -155,7 +168,18 @@ const gmOptions: GmOptionsPartial = {
     // Snapping tolerance in pixels for the snapping helper
     snapDistance: 18,
 
-    // Snap against host-owned sources/layers (see the External Snapping page)
+    // 'split' unkinks a self-crossing ring. 'reject' fires gm:draw:rejected.
+    polygonSelfIntersection: 'split', // 'split' | 'reject'
+
+    // Keep the historical one-part MultiPolygon. Set true to store a Polygon.
+    polygonAsPolygon: false,
+
+    // Refuse a create, update, or removal before it is written
+    beforeChange: ({ operation, featureId }) => {
+      return operation !== 'remove' || featureId !== 'keep-me';
+    },
+
+    // Snap against host-owned sources/layers (Pro; see the External Snapping page)
     snapping: {
       targets: [],
       acquire: 'rendered',
@@ -190,10 +214,13 @@ interface KeyboardSettings {
   enabled: boolean;                       // default: true
   bindings: Record<KeyboardAction, string[]>;
   // default bindings:
-  //   undo:           ['mod+z']
-  //   redo:           ['mod+shift+z', 'mod+y']
-  //   deleteSelected: ['Delete', 'Backspace']
-  //   cancel:         ['Escape']
+  //   undo:             ['mod+z']
+  //   redo:             ['mod+shift+z', 'mod+y']
+  //   deleteSelected:   ['Delete', 'Backspace']
+  //   cancel:           ['Escape']
+  //   finishShape:      ['Enter']
+  //   removeLastVertex: ['Backspace']  // only while a line or polygon is in progress
+  //   nudge:            arrow keys, and the same keys with Shift
 }
 
 // settings.snapping — defaults
@@ -305,9 +332,9 @@ const gmOptions: GmOptionsPartial = {
 };
 ```
 
-## Style Variables (recommended styling)
+## Style Variables (recommended styling, Pro)
 
-`styleVariables` is the high-level, recommended way to recolour and resize Geoman's overlays. You set only the fields you want to change per source — they are deep-merged over the built-in defaults and compiled into `layerStyles`. For full control over the raw paint layers, the lower-level [`layerStyles`](#layer-styles-configuration) option is still available and is applied **on top of** whatever `styleVariables` compiles to.
+`styleVariables` is a Pro option. It is the high-level, recommended way to recolour and resize Geoman's overlays. Free styling uses [`layerStyles`](#layer-styles-configuration). You set only the fields you want to change per source — they are deep-merged over the built-in defaults and compiled into `layerStyles`. For full control over the raw paint layers, the lower-level [`layerStyles`](#layer-styles-configuration) option is still available and is applied **on top of** whatever `styleVariables` compiles to.
 
 The variables are configured per source. The most common source is `main` (your persistent features); `temporary` is used while drawing/editing, `internal` for helper geometry, and (Pro) `standby` for parked features.
 

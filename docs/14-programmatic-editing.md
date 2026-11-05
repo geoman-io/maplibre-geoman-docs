@@ -28,8 +28,8 @@ Import these from `@geoman-io/maplibre-geoman-pro`:
 
 | Utility | Purpose |
 | --- | --- |
-| `validateFeatureGeometry(geometry)` | Report too few vertices and polygon self-intersections |
-| `repairFeatureGeometry(geometry)` | Remove duplicate vertices and split self-intersections into valid parts |
+| `validateFeatureGeometry(geometry)` | Report too few vertices, a non-finite coordinate, polygon self-intersections, and a hole that is outside, crossing, or sharing an edge with the shell |
+| `repairFeatureGeometry(geometry)` | Remove duplicate vertices and split self-intersections into valid parts. A valid hole is left in place |
 | `snapGeometryToGrid(geometry, size, origin?)` | Round geometry coordinates |
 | `snapLngLatToGrid(lngLat, size, origin?)` | Round one coordinate |
 | `bufferGeometry(geometry, distance, options?)` | Produce a Polygon/MultiPolygon area, or null if it collapses |

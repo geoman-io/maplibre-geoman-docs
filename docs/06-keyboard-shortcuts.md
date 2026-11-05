@@ -13,7 +13,14 @@ Handlers are scoped to the map container and ignore events that originate from f
 
 ```typescript
 // Editor keyboard actions that can be bound to key combinations.
-type KeyboardAction = 'undo' | 'redo' | 'deleteSelected' | 'cancel' | 'nudge' | 'finishShape';
+type KeyboardAction =
+  | 'undo'
+  | 'redo'
+  | 'deleteSelected'
+  | 'cancel'
+  | 'nudge'
+  | 'finishShape'
+  | 'removeLastVertex';
 
 interface KeyboardSettings {
   enabled: boolean;                        // default: true
@@ -32,6 +39,7 @@ interface KeyboardSettings {
 | `cancel` | `['Escape']` | Cancel the current draw/edit operation. |
 | `nudge` | Arrow keys, with optional Shift | Move selection 2 pixels; Shift multiplies by 10. |
 | `finishShape` | `['Enter']` | Complete a valid in-progress line/polygon. |
+| `removeLastVertex` | `['Backspace']` | Remove the last placed vertex of the in-progress line or polygon. Applies only while a shape is being drawn, so a shared `Backspace` still deletes the selection otherwise. Also covers cut, split, add-hole, and add-part. |
 
 ## Binding syntax
 
