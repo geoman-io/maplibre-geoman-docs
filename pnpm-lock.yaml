@@ -26,11 +26,11 @@ importers:
         specifier: ^3.10.1
         version: 3.10.1(@docusaurus/plugin-content-docs@3.10.1(@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.7))(postcss@8.5.15)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3))(postcss@8.5.15)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@geoman-io/mapbox-geoman-pro':
-        specifier: 0.11.0
-        version: 0.11.0(mapbox-gl@3.25.0)
+        specifier: 0.13.7
+        version: 0.13.7(mapbox-gl@3.25.0)
       '@geoman-io/maplibre-geoman-pro':
-        specifier: 0.11.0
-        version: 0.11.0(maplibre-gl@6.7.0)
+        specifier: 0.13.7
+        version: 0.13.7(maplibre-gl@6.7.0)
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.2.17)(react@19.2.7)
@@ -1267,13 +1267,13 @@ packages:
     resolution: {integrity: sha512-3ojeJry9xBYdJO6qoyyzqeJFSJBVx2mXhyDzSdjwL2+URFQMf+h25gG38iswGImicK0ELjTd1EL2xzk8hf3QPw==}
     engines: {node: '>=20.0'}
 
-  '@geoman-io/mapbox-geoman-pro@0.11.0':
-    resolution: {integrity: sha256-1kWb+ElG0xbGHPBzCs5hYQWjh3gVue3MKynFD5KRwmg=}
+  '@geoman-io/mapbox-geoman-pro@0.13.7':
+    resolution: {integrity: sha512-2/ADGyEfwPKwsl3B5hQ3PYkKGGevGxJ5hhHdbnbjPQ0reWhQ/01FcATnFH6nI5tdhGTfvOX0N1L6O9fTa08NQQ==}
     peerDependencies:
       mapbox-gl: '>=3.23.0'
 
-  '@geoman-io/maplibre-geoman-pro@0.11.0':
-    resolution: {integrity: sha256-CxUndjtGikn3VwgRVta/tE1ErWA/zVtTddH5lronJa0=}
+  '@geoman-io/maplibre-geoman-pro@0.13.7':
+    resolution: {integrity: sha512-7ZnmnoRPM8W0704S6XpW87TzuoSJTroXAqlh4b+VVFv2IHx+JUjgS6kVDEcpbnozYX2MTnlhJSr0NQXjrtCqTw==}
     peerDependencies:
       maplibre-gl: '>=6.0.0 <7.0.0'
 
@@ -4947,12 +4947,12 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
-  type-fest@5.7.0:
-    resolution: {integrity: sha512-1URUxUqfHFM1c+zfSPsa3gnkO7Aq21qyH75SIduNYz4SzY964rn1X2vCMQaHSHhktiw+0kPa2iyb6PUpXqB6Vg==}
+  type-fest@5.10.0:
+    resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
     engines: {node: '>=20'}
 
-  type-fest@5.9.0:
-    resolution: {integrity: sha512-yANm3Jr3GiJ1qgJlxGAVxTOIcEOk1rhQHamlXtnrCK7EHP4HeM9OGxtMg/W7HFdrVzw/ZWJKGVIJusVH85sLtw==}
+  type-fest@5.7.0:
+    resolution: {integrity: sha512-1URUxUqfHFM1c+zfSPsa3gnkO7Aq21qyH75SIduNYz4SzY964rn1X2vCMQaHSHhktiw+0kPa2iyb6PUpXqB6Vg==}
     engines: {node: '>=20'}
 
   type-is@1.6.18:
@@ -7359,19 +7359,19 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@geoman-io/mapbox-geoman-pro@0.11.0(mapbox-gl@3.25.0)':
+  '@geoman-io/mapbox-geoman-pro@0.13.7(mapbox-gl@3.25.0)':
     dependencies:
       '@types/geojson': 7946.0.16
       lodash-es: 4.18.1
       mapbox-gl: 3.25.0
-      type-fest: 5.9.0
+      type-fest: 5.10.0
 
-  '@geoman-io/maplibre-geoman-pro@0.11.0(maplibre-gl@6.7.0)':
+  '@geoman-io/maplibre-geoman-pro@0.13.7(maplibre-gl@6.7.0)':
     dependencies:
       '@types/geojson': 7946.0.16
       lodash-es: 4.18.1
       maplibre-gl: 6.7.0
-      type-fest: 5.9.0
+      type-fest: 5.10.0
 
   '@hapi/hoek@9.3.0': {}
 
@@ -11717,11 +11717,11 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  type-fest@5.7.0:
+  type-fest@5.10.0:
     dependencies:
       tagged-tag: 1.0.0
 
-  type-fest@5.9.0:
+  type-fest@5.7.0:
     dependencies:
       tagged-tag: 1.0.0
 
