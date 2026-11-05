@@ -27,7 +27,9 @@ const gmOptions: PartialDeep<GmOptionsData> = {
       measurements: {
         options: {
           units: {
-            // "metric", "imperial", undefined (autodetection, default value)
+            // "metric", "imperial", or unset to guess from the browser locale.
+            // An empty locale, or one that uses an underscore (`en_US`), falls back
+            // to metric instead of throwing.
             value: 'imperial'
           }
         }

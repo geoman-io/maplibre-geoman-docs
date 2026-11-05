@@ -21,7 +21,7 @@ This documentation also covers **Mapbox-Geoman**, a separate adapter with the sa
 For MapLibre, install the drawing plugin and its renderer in your application:
 
 ```sh
-npm install maplibre-gl@^6 @geoman-io/maplibre-geoman-free@^0.10
+npm install maplibre-gl@^6 @geoman-io/maplibre-geoman-free@^0.10.7
 ```
 
 Follow [Basic Usage and Installation](/basics) to load the CSS, configure the MapLibre 6 worker and initialize `map` and `geoman`. The guide also covers the Mapbox adapter and Pro packages. Initialize the map after the container mounts when using an SSR framework.

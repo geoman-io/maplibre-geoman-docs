@@ -94,7 +94,25 @@ Events related to drawing features:
 geoman.mapAdapter.on('gm:create', (event: FeatureCreatedFwdEvent) => {
   console.log('Feature created:', event);
 });
+
+// Draft vertex added or removed. Notification only; the feature is not saved yet.
+geoman.mapAdapter.on('gm:drawupdate', (event) => {
+  console.log(event.shape, event.coordinates);
+});
+
+// settings.beforeChange or polygonSelfIntersection: 'reject' refused the ring.
+// Drawing stays open.
+geoman.mapAdapter.on('gm:draw:rejected', (event) => {
+  console.log(event.mode, event.shape, event.reason);
+});
 ```
+
+| Event | When | Payload |
+|:------|:-----|:--------|
+| `gm:create` | A feature is saved. | feature, shape, map |
+| `gm:drawstart` / `gm:drawend` | A draw mode is enabled or disabled. | shape, map |
+| `gm:drawupdate` | A draft vertex is added or removed. | `shape`, `coordinates`, `map` |
+| `gm:draw:rejected` | A create was refused. | `mode`, `shape`, `reason`, `map` |
 
 ### Edit Events
 

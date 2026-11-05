@@ -64,6 +64,26 @@ Checks if drawing mode is enabled for a specific shape.
 gm.drawEnabled(shape: DrawModeName): boolean;
 ```
 
+### Programmatic drawing
+
+`gm.draw` creates a finished marker, circle, or rectangle without enabling a toolbar mode, or inspects the line or polygon currently being drawn. Coordinates are `[longitude, latitude]`. Circle and rectangle dimensions are ground metres.
+
+```typescript
+const created = await gm.draw.create({
+  shape: 'circle',
+  center: [8.5, 47.3],
+  radiusMeters: 500,
+});
+
+const draft = gm.draw.getDraft();
+// { shape: 'polygon', coordinates: [[lng, lat], ...] } or null
+
+const removed = await gm.draw.removeLastVertex();
+const finished = await gm.draw.finish();
+```
+
+`create` returns `{ ok: false, reason: 'active_draw' }` when a draw mode is already on. `finish()` commits the current marker, circle, or rectangle preview and disables drawing. `finish(input)` replaces that preview with a complete input of the same shape. `getDraft()` and `removeLastVertex()` follow the in-progress line or polygon, not cut or other edit modes. `removeLastVertex` returns `false` when no line or polygon is in progress. A refused polygon close fires `gm:draw:rejected` and leaves drawing open.
+
 ### Edit Modes
 
 #### Global Edit Mode

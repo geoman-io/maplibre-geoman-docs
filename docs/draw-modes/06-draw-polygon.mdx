@@ -28,6 +28,24 @@ The following events are available on a map instance:
 | :-------------- | :----- | :----------------------------------------------- |:--------------------------|
 | `gm:drawstart`  | `event`| Fired when polygon drawing starts.               | `map`, `shape`            |
 | `gm:create`     | `event`| Fired when a polygon is created.                 | `map`, `shape`, `feature` |
+| `gm:drawupdate` | `event`| Fired after a draft vertex is added or removed. | `shape`, `coordinates`, `map` |
+| `gm:draw:rejected` | `event`| Fired when the ring is refused. Drawing stays open. | `mode`, `shape`, `reason`, `map` |
+
+## Options
+
+```typescript
+const gm = new Geoman(map, {
+  settings: {
+    // 'split' (default) unkinks a self-crossing ring into a MultiPolygon.
+    // 'reject' fires gm:draw:rejected and leaves drawing open.
+    polygonSelfIntersection: 'reject',
+    // Store a single-part result as a Polygon instead of a one-part MultiPolygon.
+    polygonAsPolygon: true,
+  },
+});
+```
+
+Three exactly collinear clicks do not create a polygon. A thin triangle that is not collinear in longitude/latitude is still accepted. Closing the ring calls `settings.beforeChange` once, with the geometry that would be created.
 
 ## Behavior
 
