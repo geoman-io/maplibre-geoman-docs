@@ -42,6 +42,6 @@ Generates static content into the `build` directory.
 
 ## Geoman Pro 0.11
 
-The written reference covers Free 0.10.7 and Pro 0.13.7. Embedded demos still build against the pinned Geoman Pro 0.11.0 package and MapLibre GL JS 6.7.0.
+The written reference and embedded demos use Geoman Pro 0.13.7 and MapLibre GL JS 6.7.0.
 The prebuild/prestart hook copies both MapLibre module-worker files into
 static assets; worker URLs respect the Docusaurus base URL.
