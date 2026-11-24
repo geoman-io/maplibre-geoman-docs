@@ -1,6 +1,6 @@
 ---
 title: "Basic Usage and Installation"
-description: "Installation guide, basic setup, and initialization for MapLibre-Geoman and Mapbox-Geoman (free and pro)."
+description: "Install MapLibre-Geoman and Mapbox-Geoman (Free and Pro), set up the MapLibre worker, and initialize Mapbox with Vite and VITE_MAPBOX_TOKEN."
 ---
 
 import ProCallout from '@site/src/components/ProCallout';
@@ -183,7 +183,25 @@ geoman.mapAdapter.on('gm:loaded', () => {
 });
 ```
 
-## Mapbox and Geoman initialization
+## Mapbox and Geoman initialization with Vite
+
+The Mapbox packages take the same options and API as the MapLibre ones. With Vite, keep your Mapbox access token in an environment file instead of the source. Vite only exposes variables that start with `VITE_`:
+
+```bash title=".env.local"
+VITE_MAPBOX_TOKEN=pk.your-mapbox-access-token
+```
+
+Add `.env.local` to `.gitignore`, and set the same variable in your hosting provider for production builds. In TypeScript, declare it in `src/vite-env.d.ts` so `import.meta.env.VITE_MAPBOX_TOKEN` is typed:
+
+```typescript title="src/vite-env.d.ts"
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_MAPBOX_TOKEN: string;
+}
+```
+
+Then initialize Mapbox GL JS and Geoman:
 
 ```typescript
 import mapboxgl from 'mapbox-gl';

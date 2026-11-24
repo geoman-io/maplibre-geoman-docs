@@ -1,6 +1,6 @@
 ---
 title: "Importing Geojson"
-description: "Import existing GeoJSON data into the map using importGeoJsonFeature and importGeoJson methods."
+description: "Import GeoJSON features and FeatureCollections into MapLibre or Mapbox with importGeoJson and importGeoJsonFeature, typed with @types/geojson in TypeScript."
 ---
 
 # Importing existing Geojson data
@@ -85,6 +85,30 @@ fc.features.forEach((feature) => {
 // Or add the entire collection at once (recommended)
 gm.features.importGeoJson(fc);
 ```
+
+### Typing GeoJSON in TypeScript
+
+The standard GeoJSON types come from the `@types/geojson` package. Its module name is `geojson`, so import the types from there, not from `@types/geojson`:
+
+```bash
+npm i -D @types/geojson
+```
+
+```ts
+import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
+
+// Geoman reads the `shape` property to pick the draw shape for each feature
+type ParcelProperties = { shape: 'polygon'; name: string };
+
+const response = await fetch('/data/parcels.geojson');
+const parcels: FeatureCollection<Polygon | MultiPolygon, ParcelProperties> =
+  await response.json();
+
+const result = await gm.features.importGeoJson(parcels);
+console.log(`${result.stats.success} of ${result.stats.total} features imported`);
+```
+
+Use `Feature<Polygon, ParcelProperties>` for a single feature passed to `importGeoJsonFeature`.
 
 ### Using the overwrite option
 
